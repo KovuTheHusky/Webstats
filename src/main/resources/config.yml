@@ -1,0 +1,13 @@
+database:
+  driver: 'mysql' # mysql, postgresql, sqlite
+  host: '127.0.0.1'
+  database: 'webstats'
+  user: 'root'
+  pass: '1234'
+advanced:
+  enabled: false
+  driver: 'com.mysql.jdbc.Driver'
+  url: 'jdbc:mysql://127.0.0.1:3306/webstats?user=root&password=1234'
+logging: ''
+developer:
+  debugging: false
