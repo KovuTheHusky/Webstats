@@ -1,34 +1,30 @@
 package com.codeski.webstats;
 
-import java.util.UUID;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+import com.codeski.webstats.databases.Database;
+
 public class BlockListener implements Listener {
+	private final Database database;
+
+	public BlockListener(Database database) {
+		this.database = database;
+	}
+
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
 		if (event.isCancelled())
 			return;
-		UUID uuid = event.getPlayer().getUniqueId();
-		int b = event.getBlock().getTypeId();
-		byte d = event.getBlock().getData();
-		int count = Database.update("UPDATE ws_blocks SET block_broken = block_broken + 1 WHERE block_id = " + b + " AND block_data = " + d + " AND block_player = '" + uuid + "'");
-		if (count < 1)
-			Database.update("INSERT INTO ws_blocks VALUES (" + b + ", " + d + ", 1, 0, 0, '" + uuid + "')");
+		database.blockBroken(event.getPlayer(), event.getBlock().getTypeId(), event.getBlock().getData());
 	}
 
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		if (event.isCancelled())
 			return;
-		UUID uuid = event.getPlayer().getUniqueId();
-		int b = event.getBlock().getTypeId();
-		byte d = event.getBlock().getData();
-		int count = Database.update("UPDATE ws_blocks SET block_placed = block_placed + 1 WHERE block_id = " + b + " AND block_data = " + d + " AND block_player = '" + uuid + "'");
-		if (count < 1)
-			Database.update("INSERT INTO ws_blocks VALUES (" + b + ", " + d + ", 0, 0, 1, '" + uuid + "')");
+		database.blockPlaced(event.getPlayer(), event.getBlock().getTypeId(), event.getBlock().getData());
 	}
 }

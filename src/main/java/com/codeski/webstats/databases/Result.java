@@ -1,4 +1,4 @@
-package com.codeski.webstats;
+package com.codeski.webstats.databases;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
