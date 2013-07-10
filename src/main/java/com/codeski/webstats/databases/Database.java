@@ -18,12 +18,7 @@ public abstract class Database {
 
 	public abstract boolean connect(FileConfiguration configuration);
 
-	public void disconnect() {
-		try {
-			connection.close();
-		} catch (SQLException ignore) {
-		}
-	}
+	public abstract void disconnect();
 
 	public abstract void distanceByBoat(Player player, double distance);
 
@@ -46,6 +41,8 @@ public abstract class Database {
 	public abstract void distanceWalked(Player player, double distance);
 
 	public abstract void playerEggThrown(Player player, int spawn);
+
+	public abstract void playerFish(Player player, boolean caught);
 
 	public abstract void playerJoined(Player player);
 

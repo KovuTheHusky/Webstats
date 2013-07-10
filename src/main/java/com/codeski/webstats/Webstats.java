@@ -11,12 +11,10 @@ import com.codeski.webstats.databases.Database;
 import com.codeski.webstats.databases.MYSQLDatabase;
 
 public class Webstats extends JavaPlugin {
-	// private static BlockListener blockListener;
 	private static FileConfiguration configuration;
 	private static Database database;
 	// private static File directory;
 	private static Logger logger;
-	// private static PlayerListener playerListener;
 	private static Server server;
 
 	public static void broadcast(String msg) {

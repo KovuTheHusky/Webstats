@@ -23,6 +23,8 @@ import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
+import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -95,6 +97,14 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerEggThrow(PlayerEggThrowEvent event) {
 		database.playerEggThrown(event.getPlayer(), event.getNumHatches());
+	}
+
+	@EventHandler
+	public void onPlayerFish(PlayerFishEvent event) {
+		if (event.getState() == State.FISHING)
+			database.playerFish(event.getPlayer(), false);
+		else if (event.getState() == State.CAUGHT_FISH)
+			database.playerFish(event.getPlayer(), true);
 	}
 
 	@EventHandler
