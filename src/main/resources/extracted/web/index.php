@@ -4,9 +4,10 @@ ini_set('display_errors', false);
 ini_set('log_errors', true);
 ini_set('error_log', 'error.log');
 error_reporting(E_ALL);
-include_once($_SERVER['DOCUMENT_ROOT'] . '/assets/includes/functions.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/assets/includes/configuration.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/assets/includes/functions.php');
 
-$mysqli = new mysqli("127.0.0.1", "root", "1234", "webstats", 3306);
+$mysqli = new mysqli($db['host'], $db['user'], $db['pass'], $db['table'], $db['port']);
 if ($mysqli->connect_errno) {
 	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
