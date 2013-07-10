@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import com.codeski.webstats.Webstats;
@@ -13,6 +14,8 @@ public abstract class Database {
 	protected static Connection connection;
 
 	public abstract void blockBroken(Player player, int block, byte data);
+
+	public abstract void blockCrafted(HumanEntity player, int block, byte data, int howMany);
 
 	public abstract void blockPlaced(Player player, int block, byte data);
 

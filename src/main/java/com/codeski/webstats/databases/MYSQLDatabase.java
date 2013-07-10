@@ -8,6 +8,7 @@ import java.util.TimerTask;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import com.codeski.webstats.Webstats;
@@ -31,6 +32,13 @@ public class MYSQLDatabase extends Database {
 		int count = this.update("UPDATE ws_blocks JOIN ws_players ON block_player = player_id SET block_broken = block_broken + 1 WHERE block_id = " + block + " AND block_data = " + data + " AND player_name = '" + player.getName() + "'");
 		if (count < 1)
 			this.update("INSERT INTO ws_blocks (block_id, block_data, block_broken, block_player) VALUES (" + block + ", " + data + ", 1, (SELECT player_id FROM ws_players WHERE player_name = '" + player.getName() + "'))");
+	}
+
+	@Override
+	public void blockCrafted(HumanEntity player, int block, byte data, int howMany) {
+		int count = this.update("UPDATE ws_blocks JOIN ws_players ON block_player = player_id SET block_crafted = block_crafted + " + howMany + " WHERE block_id = " + block + " AND block_data = " + data + " AND player_name = '" + player.getName() + "'");
+		if (count < 1)
+			this.update("INSERT INTO ws_blocks (block_id, block_data, block_crafted, block_player) VALUES (" + block + ", " + data + ", " + howMany + ", (SELECT player_id FROM ws_players WHERE player_name = '" + player.getName() + "'))");
 	}
 
 	@Override
@@ -76,7 +84,6 @@ public class MYSQLDatabase extends Database {
 					try {
 						s.close();
 					} catch (SQLException ignore) {
-					} catch (NullPointerException ignore) {
 					}
 				}
 			}

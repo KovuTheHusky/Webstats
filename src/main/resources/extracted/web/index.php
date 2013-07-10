@@ -45,7 +45,7 @@ if (!$res) {
 }
 $fish = $res->fetch_assoc();
 
-$res = $mysqli->query("SELECT SUM(block_broken) AS broken, SUM(block_placed) AS placed FROM ws_blocks");
+$res = $mysqli->query("SELECT SUM(block_broken) AS broken, SUM(block_placed) AS placed, SUM(block_crafted) AS crafted FROM ws_blocks");
 $blocks = $res->fetch_assoc();
 
 ?>
@@ -98,7 +98,7 @@ $blocks = $res->fetch_assoc();
       <ul>
         <li><?php echo number_format($blocks['broken']); ?> Broken</li>
         <li><?php echo number_format($blocks['placed']); ?> Placed</li>
-        <li>XX Crafted</li>
+        <li><?php echo number_format($blocks['crafted']); ?> Crafted</li>
       </ul>
     </div>
     <div>

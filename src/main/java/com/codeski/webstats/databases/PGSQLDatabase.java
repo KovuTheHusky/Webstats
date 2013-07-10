@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import com.codeski.webstats.Webstats;
@@ -14,6 +15,11 @@ public class PGSQLDatabase extends Database {
 
 	@Override
 	public void blockBroken(Player player, int block, byte data) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void blockCrafted(HumanEntity player, int block, byte data, int howMany) {
 		// TODO Auto-generated method stub
 	}
 
