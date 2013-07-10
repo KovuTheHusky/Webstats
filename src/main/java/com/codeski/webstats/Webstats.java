@@ -26,6 +26,10 @@ public class Webstats extends JavaPlugin {
 			logger.info(msg);
 	}
 
+	public static int getMaxPlayers() {
+		return server.getMaxPlayers();
+	}
+
 	public static void info(String msg) {
 		logger.info(msg);
 	}

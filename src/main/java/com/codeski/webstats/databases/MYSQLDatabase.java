@@ -22,8 +22,9 @@ public class MYSQLDatabase extends Database {
 			// "CREATE TABLE IF NOT EXISTS ws_items (item_id INTEGER, item_broken INTEGER, item_crafted INTEGER, item_dropped INTEGER, item_picked_up INTEGER, item_used INTEGER, item_player BIGINT)",
 			"CREATE TABLE IF NOT EXISTS ws_materials (material_id INTEGER PRIMARY KEY, material_name CHAR(32))",
 			"CREATE TABLE IF NOT EXISTS ws_players (player_id BIGINT PRIMARY KEY AUTO_INCREMENT, player_name CHAR(16) UNIQUE, player_uuid CHAR(36) UNIQUE, player_arrows INTEGER DEFAULT 0, player_beds_entered INTEGER DEFAULT 0, player_beds_left INTEGER DEFAULT 0, player_commands INTEGER DEFAULT 0, player_ender INTEGER, player_first INTEGER, player_joined INTEGER DEFAULT 0, player_jumps INTEGER DEFAULT 0, player_kicks INTEGER DEFAULT 0, player_last INTEGER, player_longest INTEGER DEFAULT 0, player_online INTEGER DEFAULT 0, player_played INTEGER DEFAULT 0, player_portals INTEGER DEFAULT 0, player_quit INTEGER DEFAULT 0, player_words INTEGER DEFAULT 0)",
-			"CREATE TABLE IF NOT EXISTS ws_statistics (statistic_first INTEGER, statistic_startup INTEGER, statistic_shutdown INTEGER, statistic_uptime INTEGER DEFAULT 0)"
+			"CREATE TABLE IF NOT EXISTS ws_statistics (statistic_first INTEGER, statistic_startup INTEGER, statistic_shutdown INTEGER, statistic_uptime INTEGER DEFAULT 0, statistic_players INTEGER)"
 	};
+	private final Timer timer = new Timer();
 
 	@Override
 	public void blockBroken(Player player, int block, byte data) {
@@ -57,10 +58,10 @@ public class MYSQLDatabase extends Database {
 		for (Material m : Material.values())
 			this.update("INSERT INTO ws_materials VALUES (" + m.getId() + ", '" + m + "')");
 		long time = System.currentTimeMillis() / 1000;
-		int count = this.update("UPDATE ws_statistics SET statistic_startup = " + time);
+		int players = Webstats.getMaxPlayers();
+		int count = this.update("UPDATE ws_statistics SET statistic_startup = " + time + ", statistic_players = " + players);
 		if (count < 1)
-			this.update("INSERT INTO ws_statistics (statistic_startup, statistic_first) VALUES (" + time + ", " + time + ")");
-		Timer timer = new Timer();
+			this.update("INSERT INTO ws_statistics (statistic_startup, statistic_first, statistic_players) VALUES (" + time + ", " + time + ", " + players + ")");
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
@@ -85,9 +86,9 @@ public class MYSQLDatabase extends Database {
 
 	@Override
 	public void disconnect() {
+		timer.cancel();
 		long time = System.currentTimeMillis() / 1000;
 		this.update("UPDATE ws_statistics SET statistic_shutdown = " + time);
-		// this.update("UPDATE ws_statistics SET statistic_uptime = statistic_uptime + " + time + " - (SELECT statistic_startup LIMIT 1)");
 		try {
 			connection.close();
 		} catch (SQLException ignore) {

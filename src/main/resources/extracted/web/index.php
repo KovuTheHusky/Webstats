@@ -11,7 +11,7 @@ if ($mysqli->connect_errno) {
 	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
 
-$res = $mysqli->query("SELECT statistic_first AS first, statistic_startup AS startup, statistic_shutdown AS shutdown, statistic_uptime AS uptime FROM ws_statistics");
+$res = $mysqli->query("SELECT statistic_first AS first, statistic_startup AS startup, statistic_shutdown AS shutdown, statistic_uptime AS uptime, statistic_players AS maxplayers FROM ws_statistics");
 $stats = $res->fetch_assoc();
 $uptime = number_format(is_null($stats['shutdown']) ? '100' : $stats['uptime'] / (time() - $stats['first']) * 100, 2);
 
@@ -87,7 +87,7 @@ $blocks = $res->fetch_assoc();
       <ul>
         <li><?php echo number_format($playercount); ?> Online</li>
         <li><?php echo number_format($trackedplayers); ?> Tracked</li>
-        <li>XX Maximum</li>
+        <li><?php echo number_format($stats['maxplayers']); ?> Maximum</li>
       </ul>
     </div>
   </section>
