@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,6 +29,10 @@ public class Webstats extends JavaPlugin {
 
 	public static int getMaxPlayers() {
 		return server.getMaxPlayers();
+	}
+
+	public static Player[] getOnlinePlayers() {
+		return server.getOnlinePlayers();
 	}
 
 	public static void info(String msg) {

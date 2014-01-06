@@ -1,6 +1,6 @@
 <?php
 
-ini_set('display_errors', false);
+ini_set('display_errors', true);
 ini_set('log_errors', true);
 ini_set('error_log', 'error.log');
 error_reporting(E_ALL);
@@ -12,7 +12,7 @@ if ($mysqli->connect_errno) {
 	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
 
-$res = $mysqli->query("SELECT statistic_first AS first, statistic_startup AS startup, statistic_shutdown AS shutdown, statistic_uptime AS uptime, statistic_players AS maxplayers FROM ws_statistics");
+$res = $mysqli->query("SELECT statistic_first AS first, statistic_startup AS startup, statistic_shutdown AS shutdown, statistic_uptime AS uptime, statistic_players AS maxplayers, statistic_peak AS peakplayers FROM ws_statistics");
 $stats = $res->fetch_assoc();
 $uptime = number_format(is_null($stats['shutdown']) ? '100' : $stats['uptime'] / (time() - $stats['first']) * 100, 2);
 
@@ -47,6 +47,9 @@ $fish = $res->fetch_assoc();
 
 $res = $mysqli->query("SELECT SUM(block_broken) AS broken, SUM(block_placed) AS placed, SUM(block_crafted) AS crafted FROM ws_blocks");
 $blocks = $res->fetch_assoc();
+
+$res = $mysqli->query("SELECT SUM(item_broken) AS broken, SUM(item_crafted) AS crafted, SUM(item_dropped) AS dropped, SUM(item_picked_up) AS pickedup, SUM(item_used) AS used FROM ws_items");
+$items = $res->fetch_assoc();
 
 ?>
 <!DOCTYPE html>
@@ -88,6 +91,7 @@ $blocks = $res->fetch_assoc();
       <ul>
         <li><?php echo number_format($playercount); ?> Online</li>
         <li><?php echo number_format($trackedplayers); ?> Tracked</li>
+        <li><?php echo number_format($stats['peakplayers']); ?> Peak</li>
         <li><?php echo number_format($stats['maxplayers']); ?> Maximum</li>
       </ul>
     </div>
@@ -99,6 +103,16 @@ $blocks = $res->fetch_assoc();
         <li><?php echo number_format($blocks['broken']); ?> Broken</li>
         <li><?php echo number_format($blocks['placed']); ?> Placed</li>
         <li><?php echo number_format($blocks['crafted']); ?> Crafted</li>
+      </ul>
+    </div>
+    <div>
+      <h1>Items</h1>
+      <ul>
+        <li><?php echo number_format($items['broken']); ?> Broken</li>
+        <li><?php echo number_format($items['crafted']); ?> Crafted</li>
+        <li><?php echo number_format($items['dropped']); ?> Dropped</li>
+        <li><?php echo number_format($items['pickedup']); ?> Picked Up</li>
+        <li><?php echo number_format($items['used']); ?> Used</li>
       </ul>
     </div>
     <div>
@@ -117,6 +131,8 @@ $blocks = $res->fetch_assoc();
         <li><?php echo morkm($row['by_horse']); ?> By Horse</li>
       </ul>
     </div>
+  </section>
+  <section class="three justified">
     <div>
       <h1>Other</h1>
       <ul>
@@ -130,7 +146,7 @@ $blocks = $res->fetch_assoc();
   </section>
 </article>
 <footer>
-  Data from <a href="http://dev.bukkit.org/bukkit-mods/webstats">Webstats</a> ${version} by <a href="http://codeski.com">Codeski</a> 
+  Data from <a href="http://dev.bukkit.org/bukkit-mods/webstats">Webstats</a> ${project.version} by <a href="http://codeski.com">Codeski</a>
 </footer>
 </body>
 </html>

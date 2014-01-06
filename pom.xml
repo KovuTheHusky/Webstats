@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.codeski</groupId>
   <artifactId>webstats</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <name>Webstats</name>
   <description>Bukkit plugin for collecting and showing statistics.</description>
   <repositories>
@@ -15,7 +15,7 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.6.1-R0.1-SNAPSHOT</version>
+      <version>1.7.2-R0.3-SNAPSHOT</version>
     </dependency>
   </dependencies>
   <url>http://codeski.com/webstats</url>
@@ -24,7 +24,7 @@
     <url>http://codeski.com</url>
   </organization>
   <build>
-    <finalName>Webstats-${version}</finalName>
+    <finalName>Webstats-${project.version}</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

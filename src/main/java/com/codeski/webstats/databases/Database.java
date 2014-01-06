@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
@@ -13,11 +15,11 @@ import com.codeski.webstats.Webstats;
 public abstract class Database {
 	protected static Connection connection;
 
-	public abstract void blockBroken(Player player, int block, byte data);
+	public abstract void blockBroken(Player player, Material type);
 
-	public abstract void blockCrafted(HumanEntity player, int block, byte data, int howMany);
+	public abstract void blockCrafted(HumanEntity player, Material type, int quantity);
 
-	public abstract void blockPlaced(Player player, int block, byte data);
+	public abstract void blockPlaced(Player player, Material type);
 
 	public abstract boolean connect(FileConfiguration configuration);
 
@@ -43,11 +45,27 @@ public abstract class Database {
 
 	public abstract void distanceWalked(Player player, double distance);
 
+	public abstract void itemBroken(Player player, Material type);
+
+	public abstract void itemCrafted(HumanEntity player, Material type, int quantity);
+
+	public abstract void itemDropped(Player player, EntityType type, int quantity);
+
+	public abstract void itemPickedUp(Player player, EntityType type, int quantity);
+
+	public abstract void itemUsed(Player player, Material type);
+
+	public abstract void playerArrowShot(Player player);
+
 	public abstract void playerEggThrown(Player player, int spawn);
+
+	public abstract void playerEnteredBed(Player player);
 
 	public abstract void playerFish(Player player, boolean caught);
 
 	public abstract void playerJoined(Player player);
+
+	public abstract void playerLeftBed(Player player);
 
 	public abstract void playerQuit(Player player);
 

@@ -1,5 +1,6 @@
 package com.codeski.webstats;
 
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -20,14 +21,14 @@ public class BlockListener implements Listener {
 	public void onBlockBreak(BlockBreakEvent event) {
 		if (event.isCancelled())
 			return;
-		database.blockBroken(event.getPlayer(), event.getBlock().getTypeId(), event.getBlock().getData());
+		database.blockBroken(event.getPlayer(), event.getBlock().getType());
 	}
 
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		if (event.isCancelled())
 			return;
-		database.blockPlaced(event.getPlayer(), event.getBlock().getTypeId(), event.getBlock().getData());
+		database.blockPlaced(event.getPlayer(), event.getBlock().getType());
 	}
 
 	@EventHandler
@@ -38,7 +39,7 @@ public class BlockListener implements Listener {
 		int per = crafted.getAmount();
 		int amt = per;
 		if (event.isShiftClick()) {
-			int min = new ItemStack(1).getMaxStackSize();
+			int min = new ItemStack(Material.STONE).getMaxStackSize(); // TODO: Should this be stone or what you make?
 			amt = per * min;
 			for (int i = 1; i < event.getInventory().getSize(); ++i) {
 				ItemStack temp = event.getInventory().getItem(i);
@@ -60,6 +61,8 @@ public class BlockListener implements Listener {
 				amt = spaceFor; // - spaceFor % per;
 		}
 		if (crafted.getType().isBlock())
-			database.blockCrafted(event.getWhoClicked(), crafted.getTypeId(), crafted.getData().getData(), amt);
+			database.blockCrafted(event.getWhoClicked(), crafted.getType(), amt);
+		else
+			database.itemCrafted(event.getWhoClicked(), crafted.getType(), amt);
 	}
 }

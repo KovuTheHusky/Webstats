@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
@@ -14,17 +15,17 @@ public class PGSQLDatabase extends Database {
 	private final String[] tables = {};
 
 	@Override
-	public void blockBroken(Player player, int block, byte data) {
+	public void blockBroken(Player player, Material type) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void blockCrafted(HumanEntity player, int block, byte data, int howMany) {
+	public void blockCrafted(HumanEntity player, Material type, int quantity) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void blockPlaced(Player player, int block, byte data) {
+	public void blockPlaced(Player player, Material type) {
 		// TODO Auto-generated method stub
 	}
 
@@ -44,7 +45,7 @@ public class PGSQLDatabase extends Database {
 			this.update(sql);
 		this.update("TRUNCATE ws_materials");
 		for (Material m : Material.values())
-			this.update("INSERT INTO ws_materials VALUES (" + m.getId() + ", '" + m + "')");
+			this.update("INSERT INTO ws_materials VALUES (NULL, '" + m + "')");
 		return true;
 	}
 
@@ -107,7 +108,42 @@ public class PGSQLDatabase extends Database {
 	}
 
 	@Override
+	public void itemBroken(Player player, Material type) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void itemCrafted(HumanEntity player, Material type, int quantity) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void itemDropped(Player player, EntityType type, int quantity) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void itemPickedUp(Player player, EntityType type, int quantity) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void itemUsed(Player player, Material type) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void playerArrowShot(Player player) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
 	public void playerEggThrown(Player player, int spawn) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void playerEnteredBed(Player player) {
 		// TODO Auto-generated method stub
 	}
 
@@ -118,6 +154,11 @@ public class PGSQLDatabase extends Database {
 
 	@Override
 	public void playerJoined(Player player) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void playerLeftBed(Player player) {
 		// TODO Auto-generated method stub
 	}
 
