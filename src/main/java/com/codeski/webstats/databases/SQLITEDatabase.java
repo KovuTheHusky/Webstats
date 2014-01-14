@@ -8,6 +8,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.codeski.webstats.Webstats;
 
@@ -47,6 +49,76 @@ public class SQLITEDatabase extends Database {
 		for (Material m : Material.values())
 			this.update("INSERT INTO ws_materials VALUES (NULL, '" + m + "')");
 		return true;
+	}
+
+	@Override
+	public void deathByEntity(DamageCause type, EntityType damagee, EntityType damager) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByEntity(DamageCause type, EntityType damagee, EntityType damager, Material hand) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByEntity(DamageCause type, EntityType damagee, EntityType damager, Projectile projectile) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByEntity(DamageCause type, Player damagee, EntityType damager) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByEntity(DamageCause type, Player damagee, EntityType damager, Material hand) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByEntity(DamageCause type, Player damagee, EntityType damager, Projectile projectile) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByEnvironment(DamageCause type, EntityType damagee) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByEnvironment(DamageCause type, Player damagee) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByPlayer(DamageCause type, EntityType damagee, Player damager) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByPlayer(DamageCause type, EntityType damagee, Player damager, Material hand) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByPlayer(DamageCause type, EntityType damagee, Player damager, Projectile projectile) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByPlayer(DamageCause type, Player damagee, Player damager) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByPlayer(DamageCause type, Player damagee, Player damager, Material hand) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByPlayer(DamageCause type, Player damagee, Player damager, Projectile projectile) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override

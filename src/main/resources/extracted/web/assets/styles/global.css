@@ -78,7 +78,7 @@ article img {
 img.offline {
 	opacity: 0.25;
 	-webkit-transition: all .5s ease;
-	-webkit-backface-visibility: hidden;
+	transition: all .5s ease;
 }
 
 img.offline:hover {

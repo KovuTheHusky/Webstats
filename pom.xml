@@ -1,28 +1,26 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  
   <groupId>com.codeski</groupId>
   <artifactId>webstats</artifactId>
   <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  
   <name>Webstats</name>
-  <description>Bukkit plugin for collecting and showing statistics.</description>
+  <description>Logs and displays statistics for all the players on your Minecraft server.</description>
+  
   <repositories>
     <repository>
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public/</url>
     </repository>
   </repositories>
-  <dependencies>
-    <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>1.7.2-R0.3-SNAPSHOT</version>
-    </dependency>
-  </dependencies>
-  <url>http://codeski.com/webstats</url>
-  <organization>
-    <name>Codeski</name>
-    <url>http://codeski.com</url>
-  </organization>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
   <build>
     <finalName>Webstats-${project.version}</finalName>
     <plugins>
@@ -42,4 +40,18 @@
       </resource>
     </resources>
   </build>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.bukkit</groupId>
+      <artifactId>bukkit</artifactId>
+      <version>1.7.2-R0.3-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+  
+  <url>http://codeski.com/webstats</url>
+  <organization>
+    <name>Codeski</name>
+    <url>http://codeski.com</url>
+  </organization>
 </project>

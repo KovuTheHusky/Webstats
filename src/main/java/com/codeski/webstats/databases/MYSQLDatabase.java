@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.codeski.webstats.Webstats;
 
@@ -24,7 +27,8 @@ public class MYSQLDatabase extends Database {
 			"CREATE TABLE IF NOT EXISTS ws_entities (entity_id INTEGER PRIMARY KEY AUTO_INCREMENT, entity_name CHAR(32) UNIQUE)",
 			"CREATE TABLE IF NOT EXISTS ws_fishes (fish_casts INTEGER DEFAULT 0, fish_catches INTEGER DEFAULT 0, fish_player BIGINT PRIMARY KEY)",
 			"CREATE TABLE IF NOT EXISTS ws_items (item_id INTEGER DEFAULT 0, item_broken INTEGER DEFAULT 0, item_crafted INTEGER DEFAULT 0, item_dropped INTEGER DEFAULT 0, item_picked_up INTEGER DEFAULT 0, item_used INTEGER DEFAULT 0, item_player BIGINT)",
-			"CREATE TABLE IF NOT EXISTS ws_kills (kill_id BIGINT PRIMARY KEY AUTO_INCREMENT)",
+			"CREATE TABLE IF NOT EXISTS ws_damages (damage_id INTEGER PRIMARY KEY AUTO_INCREMENT, damage_name CHAR(32) UNIQUE)",
+			"CREATE TABLE IF NOT EXISTS ws_deaths (death_id INTEGER PRIMARY KEY AUTO_INCREMENT, death_count INTEGER DEFAULT 0, death_type INTEGER NOT NULL, death_damagee_type INTEGER NOT NULL, death_damagee_player BIGINT, death_damager_type INTEGER, death_damager_player BIGINT, death_projectile INTEGER, death_hand INTEGER)",
 			"CREATE TABLE IF NOT EXISTS ws_materials (material_id INTEGER PRIMARY KEY AUTO_INCREMENT, material_name CHAR(32) UNIQUE)",
 			"CREATE TABLE IF NOT EXISTS ws_players (player_id BIGINT PRIMARY KEY AUTO_INCREMENT, player_name CHAR(16) UNIQUE, player_uuid CHAR(36) UNIQUE, player_arrows INTEGER DEFAULT 0, player_beds_entered INTEGER DEFAULT 0, player_beds_left INTEGER DEFAULT 0, player_commands INTEGER DEFAULT 0, player_ender INTEGER, player_first INTEGER, player_joined INTEGER DEFAULT 0, player_jumps INTEGER DEFAULT 0, player_kicks INTEGER DEFAULT 0, player_last INTEGER, player_longest INTEGER DEFAULT 0, player_online INTEGER DEFAULT 0, player_played INTEGER DEFAULT 0, player_portals INTEGER DEFAULT 0, player_quit INTEGER DEFAULT 0, player_words INTEGER DEFAULT 0)",
 			"CREATE TABLE IF NOT EXISTS ws_statistics (statistic_first INTEGER, statistic_startup INTEGER, statistic_shutdown INTEGER, statistic_uptime INTEGER DEFAULT 0, statistic_players INTEGER, statistic_peak INTEGER DEFAULT 0)"
@@ -66,6 +70,18 @@ public class MYSQLDatabase extends Database {
 		}
 		for (String sql : tables)
 			this.update(sql);
+		ArrayList<DamageCause> currentDamages = new ArrayList<DamageCause>();
+		Result damages = this.query("SELECT damage_name FROM ws_damages ORDER BY damage_id ASC");
+		try {
+			while (damages.getResult().next())
+				currentDamages.add(DamageCause.valueOf(damages.getResult().getString(1)));
+			damages.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		for (DamageCause d : DamageCause.values())
+			if (!currentDamages.contains(d))
+				this.update("INSERT INTO ws_damages VALUES (NULL, '" + d + "')");
 		ArrayList<EntityType> currentEntities = new ArrayList<EntityType>();
 		Result entities = this.query("SELECT entity_name FROM ws_entities ORDER BY entity_id ASC");
 		try {
@@ -116,6 +132,82 @@ public class MYSQLDatabase extends Database {
 		for (Player p : Webstats.getOnlinePlayers())
 			this.playerJoined(p);
 		return true;
+	}
+
+	@Override
+	public void deathByEntity(DamageCause type, EntityType damagee, EntityType damager) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByEntity(DamageCause type, EntityType damagee, EntityType damager, Material hand) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByEntity(DamageCause type, EntityType damagee, EntityType damager, Projectile projectile) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByEntity(DamageCause type, Player damagee, EntityType damager) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByEntity(DamageCause type, Player damagee, EntityType damager, Material hand) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByEntity(DamageCause type, Player damagee, EntityType damager, Projectile projectile) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByEnvironment(DamageCause type, EntityType damagee) {
+		Bukkit.broadcastMessage(type + " killed " + damagee + ".");
+		int count = this.update("UPDATE ws_deaths JOIN ws_damages ON death_type = damage_id JOIN ws_entities ON death_damagee_type = entity_id SET death_count = death_count + 1 WHERE damage_name = '" + type + "' AND entity_name = '" + damagee + "'");
+		if (count < 1)
+			this.update("INSERT INTO ws_deaths (death_id, death_count, death_type, death_damagee_type) VALUES (NULL, 1, (SELECT damage_id FROM ws_damages WHERE damage_name = '" + type + "'), (SELECT entity_id FROM ws_entities WHERE entity_name = '" + damagee + "'))");
+	}
+
+	@Override
+	public void deathByEnvironment(DamageCause type, Player damagee) {
+		Bukkit.broadcastMessage(type + " killed " + damagee + ".");
+		int count = this.update("UPDATE ws_deaths JOIN ws_damages ON death_type = damage_id JOIN ws_entities ON death_damagee_type = entity_id JOIN ws_players ON death_damagee_player = player_id SET death_count = death_count + 1 WHERE damage_name = '" + type + "' AND entity_name = '" + damagee.getType() + "' AND player_name = '" + damagee.getName() + "'");
+		if (count < 1)
+			this.update("INSERT INTO ws_deaths (death_id, death_count, death_type, death_damagee_type, death_damagee_player) VALUES (NULL, 1, (SELECT damage_id FROM ws_damages WHERE damage_name = '" + type + "'), (SELECT entity_id FROM ws_entities WHERE entity_name = '" + damagee.getType() + "'), (SELECT player_id FROM ws_players WHERE player_name = '" + damagee.getName() + "'))");
+	}
+
+	@Override
+	public void deathByPlayer(DamageCause type, EntityType damagee, Player damager) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByPlayer(DamageCause type, EntityType damagee, Player damager, Material hand) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByPlayer(DamageCause type, EntityType damagee, Player damager, Projectile projectile) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByPlayer(DamageCause type, Player damagee, Player damager) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByPlayer(DamageCause type, Player damagee, Player damager, Material hand) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void deathByPlayer(DamageCause type, Player damagee, Player damager, Projectile projectile) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override

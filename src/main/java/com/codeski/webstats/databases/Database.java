@@ -9,6 +9,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.codeski.webstats.Webstats;
 
@@ -22,6 +24,34 @@ public abstract class Database {
 	public abstract void blockPlaced(Player player, Material type);
 
 	public abstract boolean connect(FileConfiguration configuration);
+
+	public abstract void deathByEntity(DamageCause type, EntityType damagee, EntityType damager);
+
+	public abstract void deathByEntity(DamageCause type, EntityType damagee, EntityType damager, Material hand);
+
+	public abstract void deathByEntity(DamageCause type, EntityType damagee, EntityType damager, Projectile projectile);
+
+	public abstract void deathByEntity(DamageCause type, Player damagee, EntityType damager);
+
+	public abstract void deathByEntity(DamageCause type, Player damagee, EntityType damager, Material hand);
+
+	public abstract void deathByEntity(DamageCause type, Player damagee, EntityType damager, Projectile projectile);
+
+	public abstract void deathByEnvironment(DamageCause type, EntityType damagee);
+
+	public abstract void deathByEnvironment(DamageCause type, Player damagee);
+
+	public abstract void deathByPlayer(DamageCause type, EntityType damagee, Player damager);
+
+	public abstract void deathByPlayer(DamageCause type, EntityType damagee, Player damager, Material hand);
+
+	public abstract void deathByPlayer(DamageCause type, EntityType damagee, Player damager, Projectile projectile);
+
+	public abstract void deathByPlayer(DamageCause type, Player damagee, Player damager);
+
+	public abstract void deathByPlayer(DamageCause type, Player damagee, Player damager, Material hand);
+
+	public abstract void deathByPlayer(DamageCause type, Player damagee, Player damager, Projectile projectile);
 
 	public abstract void disconnect();
 

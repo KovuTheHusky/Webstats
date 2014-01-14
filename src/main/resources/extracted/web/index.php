@@ -51,6 +51,38 @@ $blocks = $res->fetch_assoc();
 $res = $mysqli->query("SELECT SUM(item_broken) AS broken, SUM(item_crafted) AS crafted, SUM(item_dropped) AS dropped, SUM(item_picked_up) AS pickedup, SUM(item_used) AS used FROM ws_items");
 $items = $res->fetch_assoc();
 
+$res = $mysqli->query("SELECT SUM(death_count) AS kills FROM ws_deaths WHERE death_damager_type IS NOT NULL");
+$kills = $res->fetch_assoc();
+$kills = $kills['kills'];
+
+$res = $mysqli->query("SELECT SUM(death_count) AS deaths FROM ws_deaths");
+$deaths = $res->fetch_assoc();
+$deaths = $deaths['deaths'];
+
+$res = $mysqli->query("SELECT SUM(death_count) AS count, entity_name AS entity FROM ws_deaths JOIN ws_entities ON death_damager_type = entity_id WHERE death_damager_type IS NOT NULL GROUP BY death_damager_type");
+$mostkills = 0;
+$winnerkills = '';
+while ($mostk = $res->fetch_assoc()) {
+	if ($mostk['count'] > $mostdeaths) {
+		$mostkills = $mostk['count'];
+		$winnerkills = $mostk['entity'];
+	}
+}
+if (empty($winnerkills))
+	$winnerkills = 'NONE';
+
+$res = $mysqli->query("SELECT SUM(death_count) AS count, entity_name AS entity FROM ws_deaths JOIN ws_entities ON death_damagee_type = entity_id GROUP BY death_damagee_type");
+$mostdeaths = 0;
+$winner = '';
+while ($mostd = $res->fetch_assoc()) {
+	if ($mostd['count'] > $mostdeaths) {
+		$mostdeaths = $mostd['count'];
+		$winner = $mostd['entity'];
+	}
+}
+if (empty($winner))
+	$winner = 'NONE';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,8 +93,7 @@ $items = $res->fetch_assoc();
 <title>Webstats</title>
 </head>
 <body>
-<header class="<?php if ($stats['startup'] > $stats['shutdown']) echo 'green'; else echo 'red'; ?>">
-
+<header class="<?php echo $stats['startup'] > $stats['shutdown'] ? 'green' : 'red'; ?>">
 </header>
 <nav>
   <ul class="box">
@@ -116,6 +147,17 @@ $items = $res->fetch_assoc();
       </ul>
     </div>
     <div>
+      <h1>Deaths</h1>
+      <ul>
+        <li><?php echo number_format($kills); ?> Kills</li>
+        <li><?php echo number_format($deaths); ?> Deaths</li>
+        <li><?php echo $winnerkills; ?> Most Kills</li>
+        <li><?php echo $winner; ?> Most Deaths</li>
+      </ul>
+    </div>
+  </section>
+  <section class="three justified">
+    <div>
       <h1>Distance</h1>
       <ul>
         <li><?php echo morkm($total); ?> Total</li>
@@ -131,8 +173,6 @@ $items = $res->fetch_assoc();
         <li><?php echo morkm($row['by_horse']); ?> By Horse</li>
       </ul>
     </div>
-  </section>
-  <section class="three justified">
     <div>
       <h1>Other</h1>
       <ul>
@@ -142,6 +182,8 @@ $items = $res->fetch_assoc();
         <li><?php echo number_format($fish['casts']); ?> Fishing Rod Casts</li>
         <li><?php echo number_format($fish['catches']); ?> Fish Caught</li>
       </ul>
+    </div>
+    <div style="visibility: hidden;">
     </div>
   </section>
 </article>
