@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS ws_materials (
 CREATE TABLE IF NOT EXISTS ws_material_events (
 	event_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	-- Enum
-	event_name VARCHAR(255) UNIQUE
+	event_name VARCHAR(255) UNIQUE NOT NULL
 );
 
 -- List of materials we are tracking
@@ -45,14 +45,14 @@ CREATE TABLE IF NOT EXISTS ws_worlds (
 CREATE TABLE IF NOT EXISTS ws_world_environments (
 	environment_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	-- Enum
-	environment_name VARCHAR(255) UNIQUE
+	environment_name VARCHAR(255) UNIQUE NOT NULL
 );
 
 -- Whether a world is normal, flat, large biomes, amplified
 CREATE TABLE IF NOT EXISTS ws_world_types (
 	type_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	-- Enum
-	type_name VARCHAR(255) UNIQUE
+	type_name VARCHAR(255) UNIQUE NOT NULL
 );
 
 -- All of the damage events
@@ -82,14 +82,14 @@ CREATE TABLE IF NOT EXISTS ws_damages (
 CREATE TABLE IF NOT EXISTS ws_damage_types (
 	damage_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	-- Enum
-	damage_name VARCHAR(255) UNIQUE
+	damage_name VARCHAR(255) UNIQUE NOT NULL
 );
 
 -- List of entities we are tracking
 CREATE TABLE IF NOT EXISTS ws_entity_types (
 	entity_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	-- Enum
-	entity_name VARCHAR(255) UNIQUE
+	entity_name VARCHAR(255) UNIQUE NOT NULL
 );
 
 -- All of the player move events
@@ -116,16 +116,16 @@ CREATE TABLE IF NOT EXISTS ws_distances (
 CREATE TABLE IF NOT EXISTS ws_distance_types (
 	distance_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	-- Enum
-	distance_name VARCHAR(255) UNIQUE
+	distance_name VARCHAR(255) UNIQUE NOT NULL
 );
 
 -- All of the egg throw events
 CREATE TABLE IF NOT EXISTS ws_eggs (
 	egg_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	-- Who
-	egg_player INT UNSIGNED,
+	egg_player INT UNSIGNED NOT NULL,
 	-- What
-	egg_count TINYINT UNSIGNED,
+	egg_count TINYINT UNSIGNED NOT NULL,
 	-- When
 	egg_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	-- Where
@@ -158,15 +158,15 @@ CREATE TABLE IF NOT EXISTS ws_fishes (
 CREATE TABLE IF NOT EXISTS ws_fish_events (
 	event_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	-- Enum
-	event_name VARCHAR(255) UNIQUE
+	event_name VARCHAR(255) UNIQUE NOT NULL
 );
 
 -- All of the players we are tracking
 CREATE TABLE IF NOT EXISTS ws_players (
 	player_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	-- Data
-	player_name CHAR(16) UNIQUE,
-	player_uuid CHAR(36) UNIQUE
+	player_name CHAR(16) UNIQUE NOT NULL,
+	player_uuid CHAR(36) UNIQUE NOT NULL
 );
 
 -- History of all sessions
@@ -197,6 +197,6 @@ CREATE TABLE IF NOT EXISTS ws_uptimes (
 CREATE TABLE IF NOT EXISTS ws_statistics (
 	statistic_id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	-- Data
-	statistic_key VARCHAR(255) UNIQUE,
+	statistic_key VARCHAR(255) UNIQUE NOT NULL,
 	statistic_value VARCHAR(255)
 );
