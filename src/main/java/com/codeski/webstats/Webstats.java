@@ -2,7 +2,7 @@ package com.codeski.webstats;
 
 import java.util.logging.Logger;
 
-import org.bukkit.Server;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -16,10 +16,9 @@ public class Webstats extends JavaPlugin {
 	private static Database database;
 	// private static File directory;
 	private static Logger logger;
-	private static Server server;
 
 	public static void broadcast(String msg) {
-		server.broadcastMessage(msg);
+		Bukkit.broadcastMessage(msg);
 	}
 
 	public static void debug(String msg) {
@@ -28,11 +27,11 @@ public class Webstats extends JavaPlugin {
 	}
 
 	public static int getMaxPlayers() {
-		return server.getMaxPlayers();
+		return Bukkit.getMaxPlayers();
 	}
 
 	public static Player[] getOnlinePlayers() {
-		return server.getOnlinePlayers();
+		return Bukkit.getOnlinePlayers();
 	}
 
 	public static void info(String msg) {
@@ -54,7 +53,6 @@ public class Webstats extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		server = this.getServer();
 		logger = this.getLogger();
 		this.saveDefaultConfig();
 		configuration = this.getConfig();
