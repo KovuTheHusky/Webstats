@@ -61,7 +61,7 @@ public class PlayerListener implements Listener {
 			return;
 		EntityDamageEvent damage = event.getEntity().getLastDamageCause();
 		if (!(damage instanceof EntityDamageByEntityEvent))
-			database.deathByEnvironment(damage.getCause(), event.getEntityType());
+			Webstats.debug(damage.getCause() + " " + event.getEntityType());
 		else
 		{
 			Entity damager = ((EntityDamageByEntityEvent) damage).getDamager();
@@ -77,48 +77,25 @@ public class PlayerListener implements Listener {
 				hand = ((LivingEntity) damager).getEquipment().getItemInHand().getType();
 			// Insert data at this point...
 			if (damager instanceof Player && projectile != null)
-				database.deathByPlayer(damage.getCause(), event.getEntityType(), (Player) damager, projectile);
+				Webstats.debug(damage.getCause() + " " + event.getEntityType() + " " + damager + " " + projectile);
 			else if (damager instanceof Player && hand != null)
-				database.deathByPlayer(damage.getCause(), event.getEntityType(), (Player) damager, hand);
+				Webstats.debug(damage.getCause() + " " + event.getEntityType() + " " + damager + " " + hand);
 			else if (damager instanceof Player)
-				database.deathByPlayer(damage.getCause(), event.getEntityType(), (Player) damager);
+				Webstats.debug(damage.getCause() + " " + event.getEntityType() + " " + damager);
 			else if (projectile != null)
-				database.deathByEntity(damage.getCause(), event.getEntityType(), damager.getType(), projectile);
+				Webstats.debug(damage.getCause() + " " + event.getEntityType() + " " + damager.getType() + " " + projectile);
 			else if (hand != null)
-				database.deathByEntity(damage.getCause(), event.getEntityType(), damager.getType(), hand);
+				Webstats.debug(damage.getCause() + " " + event.getEntityType() + " " + damager.getType() + " " + hand);
 			else
-				database.deathByEntity(damage.getCause(), event.getEntityType(), damager.getType());
+				Webstats.debug(damage.getCause() + " " + event.getEntityType() + " " + damager.getType());
 		}
-		//
-		// snips and snails
-		//
-		// EntityDamageEvent dmg = event.getEntity().getLastDamageCause();
-		// if (dmg instanceof EntityDamageByEntityEvent) {
-		// Entity killer = ((EntityDamageByEntityEvent) dmg).getDamager();
-		// if (killer.equals(event.getEntity()))
-		// Bukkit.broadcastMessage(ChatColor.GREEN + "" + event.getEntityType() + " died from itself's " + dmg.getCause() + ".");
-		// else if (killer instanceof Player)
-		// Bukkit.broadcastMessage(ChatColor.GREEN + "" + event.getEntityType() + " died from " + ((Player) killer).getName() + "'s " + dmg.getCause() + " using " + ((Player) killer).getItemInHand().getType() + ".");
-		// else if (killer instanceof Projectile) {
-		// Entity projectile = killer;
-		// killer = ((Projectile) killer).getShooter();
-		// if (killer instanceof Player)
-		// Bukkit.broadcastMessage(ChatColor.GREEN + "" + event.getEntityType() + " died from " + ((Player) killer).getName() + "'s " + dmg.getCause() + " using " + projectile.getType() + ".");
-		// else
-		// Bukkit.broadcastMessage(ChatColor.GREEN + "" + event.getEntityType() + " died from " + killer.getType() + "'s " + dmg.getCause() + " using " + projectile.getType() + ".");
-		// }
-		// else
-		// Bukkit.broadcastMessage(ChatColor.GREEN + "" + event.getEntityType() + " died from " + killer.getType() + "'s " + dmg.getCause() + ".");
-		// }
-		// else
-		// Bukkit.broadcastMessage(ChatColor.GREEN + "" + event.getEntityType() + " died from " + dmg.getCause() + ".");
 	}
 
 	@EventHandler
 	public void onEntityShootBow(EntityShootBowEvent event) {
-		if (event.isCancelled() || event.getEntityType() != EntityType.PLAYER)
+		if (event.isCancelled())
 			return;
-		database.playerArrowShot((Player) event.getEntity());
+		Webstats.debug(event.getEntity() + "");
 	}
 
 	@EventHandler
@@ -127,22 +104,22 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onPlayerBedEnterEvent(PlayerBedEnterEvent event) {
-		database.playerEnteredBed(event.getPlayer());
+		Webstats.debug(event.getPlayer() + "");
 	}
 
 	@EventHandler
 	public void onPlayerBedLeaveEvent(PlayerBedLeaveEvent event) {
-		database.playerLeftBed(event.getPlayer());
+		Webstats.debug(event.getPlayer() + "");
 	}
 
 	@EventHandler
 	public void onPlayerBucketEmptyEvent(PlayerBucketEmptyEvent event) {
-		Webstats.info("PlayerBucketEmptyEvent: " + event.getPlayer().getName() + " " + event.getBucket() + " " + event.getBlockClicked().getX() + "," + event.getBlockClicked().getY() + "," + event.getBlockClicked().getZ());
+		Webstats.debug("PlayerBucketEmptyEvent: " + event.getPlayer().getName() + " " + event.getBucket() + " " + event.getBlockClicked().getX() + "," + event.getBlockClicked().getY() + "," + event.getBlockClicked().getZ());
 	}
 
 	@EventHandler
 	public void onPlayerBucketFillEvent(PlayerBucketFillEvent event) {
-		Webstats.info("PlayerBucketFillEvent: " + event.getPlayer().getName() + " " + event.getBlockClicked().getType() + " " + event.getBlockClicked().getX() + "," + event.getBlockClicked().getY() + "," + event.getBlockClicked().getZ());
+		Webstats.debug("PlayerBucketFillEvent: " + event.getPlayer().getName() + " " + event.getBlockClicked().getType() + " " + event.getBlockClicked().getX() + "," + event.getBlockClicked().getY() + "," + event.getBlockClicked().getZ());
 	}
 
 	@EventHandler
@@ -165,7 +142,7 @@ public class PlayerListener implements Listener {
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		EntityDamageEvent damage = event.getEntity().getLastDamageCause();
 		if (!(damage instanceof EntityDamageByEntityEvent))
-			database.deathByEnvironment(damage.getCause(), event.getEntity());
+			Webstats.debug(damage.getCause() + " " + event.getEntity());
 		else
 		{
 			Entity damager = ((EntityDamageByEntityEvent) damage).getDamager();
@@ -181,69 +158,46 @@ public class PlayerListener implements Listener {
 				hand = ((LivingEntity) damager).getEquipment().getItemInHand().getType();
 			// Insert data at this point...
 			if (damager instanceof Player && projectile != null)
-				database.deathByPlayer(damage.getCause(), event.getEntity(), (Player) damager, projectile);
+				Webstats.debug(damage.getCause() + " " + event.getEntity() + " " + damager + " " + projectile);
 			else if (damager instanceof Player && hand != null)
-				database.deathByPlayer(damage.getCause(), event.getEntity(), (Player) damager, hand);
+				Webstats.debug(damage.getCause() + " " + event.getEntity() + " " + damager + " " + hand);
 			else if (damager instanceof Player)
-				database.deathByPlayer(damage.getCause(), event.getEntity(), (Player) damager);
+				Webstats.debug(damage.getCause() + " " + event.getEntity() + " " + damager);
 			else if (projectile != null)
-				database.deathByEntity(damage.getCause(), event.getEntity(), damager.getType(), projectile);
+				Webstats.debug(damage.getCause() + " " + event.getEntity() + " " + damager.getType() + " " + projectile);
 			else if (hand != null)
-				database.deathByEntity(damage.getCause(), event.getEntity(), damager.getType(), hand);
+				Webstats.debug(damage.getCause() + " " + event.getEntity() + " " + damager.getType() + " " + hand);
 			else
-				database.deathByEntity(damage.getCause(), event.getEntity(), damager.getType());
+				Webstats.debug(damage.getCause() + " " + event.getEntity() + " " + damager.getType());
 		}
-		//
-		// snips and snails
-		//
-		// EntityDamageEvent dmg = event.getEntity().getLastDamageCause();
-		// if (dmg instanceof EntityDamageByEntityEvent) {
-		// Entity killer = ((EntityDamageByEntityEvent) dmg).getDamager();
-		// if (killer.equals(event.getEntity()))
-		// Bukkit.broadcastMessage(ChatColor.GREEN + "" + event.getEntity().getName() + " died from itself's " + dmg.getCause() + ".");
-		// else if (killer instanceof Player)
-		// Bukkit.broadcastMessage(ChatColor.GREEN + "" + event.getEntity().getName() + " died from " + ((Player) killer).getName() + "'s " + dmg.getCause() + " using " + ((Player) killer).getItemInHand().getType() + ".");
-		// else if (killer instanceof Projectile) {
-		// Entity projectile = killer;
-		// killer = ((Projectile) killer).getShooter();
-		// if (killer instanceof Player)
-		// Bukkit.broadcastMessage(ChatColor.GREEN + "" + event.getEntity().getName() + " died from " + ((Player) killer).getName() + "'s " + dmg.getCause() + " using " + projectile.getType() + ".");
-		// else
-		// Bukkit.broadcastMessage(ChatColor.GREEN + "" + event.getEntity().getName() + " died from " + killer.getType() + "'s " + dmg.getCause() + " using " + projectile.getType() + ".");
-		// }
-		// else
-		// Bukkit.broadcastMessage(ChatColor.GREEN + "" + event.getEntity().getName() + " died from " + killer.getType() + "'s " + dmg.getCause() + ".");
-		// }
-		// else
-		// Bukkit.broadcastMessage(ChatColor.GREEN + "" + event.getEntity().getName() + " died from " + dmg.getCause() + ".");
 	}
 
 	@EventHandler
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
-		database.itemDropped(event.getPlayer(), event.getItemDrop().getType(), event.getItemDrop().getItemStack().getAmount());
+		Webstats.debug(event.getPlayer() + " " + event.getItemDrop().getType() + " " + event.getItemDrop().getItemStack().getAmount());
 	}
 
 	@EventHandler
 	public void onPlayerEggThrow(PlayerEggThrowEvent event) {
-		database.playerEggThrown(event.getPlayer(), event.getNumHatches());
+		Webstats.debug(event.getPlayer() + " " + event.getNumHatches());
 	}
 
 	@EventHandler
 	public void onPlayerFish(PlayerFishEvent event) {
 		if (event.getState() == State.FISHING)
-			database.playerFish(event.getPlayer(), false);
+			Webstats.debug(event.getPlayer() + " " + false);
 		else if (event.getState() == State.CAUGHT_FISH)
-			database.playerFish(event.getPlayer(), true);
+			Webstats.debug(event.getPlayer() + " " + true);
 	}
 
 	@EventHandler
 	public void onPlayerItemBreak(PlayerItemBreakEvent event) {
-		database.itemBroken(event.getPlayer(), event.getBrokenItem().getType());
+		Webstats.debug(event.getPlayer() + " " + event.getBrokenItem().getType());
 	}
 
 	@EventHandler
 	public void onPlayerItemConsume(PlayerItemConsumeEvent event) {
-		database.itemUsed(event.getPlayer(), event.getItem().getType());
+		Webstats.debug(event.getPlayer() + " " + event.getItem().getType());
 	}
 
 	@EventHandler
@@ -284,40 +238,40 @@ public class PlayerListener implements Listener {
 		if (fall >= 2.0 && fall > fallen.get(name))
 			fallen.put(name, fall);
 		else if (fall == 0.0 && fallen.get(name) > 0.0)
-			database.distanceFallen(uuid, fallen.put(name, 0.0));
+			Webstats.debug(uuid + " " + fallen.put(name, 0.0));
 		// Other distances
 		if (event.getPlayer().isInsideVehicle())
 			switch (vehicle.getType()) {
 				case MINECART:
-					database.distanceByMinecart(uuid, xyz);
+					Webstats.debug(uuid + " " + xyz);
 					break;
 				case BOAT:
-					database.distanceByBoat(uuid, xyz);
+					Webstats.debug(uuid + " " + xyz);
 					break;
 				case PIG:
-					database.distanceByPig(uuid, xyz);
+					Webstats.debug(uuid + " " + xyz);
 					break;
 				case HORSE:
 				case UNKNOWN: // TODO Remove this once horses are fixed
-					database.distanceByHorse(uuid, xyz); // TODO Calculate horse movement if bukkit does not fix
+					Webstats.debug(uuid + " " + xyz); // TODO Calculate horse movement if bukkit does not fix
 					break;
 				default:
 			}
 		else if (event.getPlayer().isFlying())
-			database.distanceFlown(uuid, xyz);
+			Webstats.debug(uuid + " " + xyz);
 		else if (block.isLiquid() && !block.getRelative(BlockFace.UP).isLiquid())
-			database.distanceSwam(uuid, xyz);
+			Webstats.debug(uuid + " " + xyz);
 		else if (block.isLiquid())
-			database.distanceDove(uuid, xyz);
+			Webstats.debug(uuid + " " + xyz);
 		else if (block.getType() == Material.LADDER || block.getType() == Material.VINE)
-			database.distanceClimbed(uuid, y);
+			Webstats.debug(uuid + " " + y);
 		else
-			database.distanceWalked(uuid, xyz);
+			Webstats.debug(uuid + " " + xyz);
 	}
 
 	@EventHandler
 	public void onPlayerPickupItem(PlayerPickupItemEvent event) {
-		database.itemPickedUp(event.getPlayer(), event.getItem().getType(), event.getItem().getItemStack().getAmount());
+		Webstats.debug(event.getPlayer() + " " + event.getItem().getType() + " " + event.getItem().getItemStack().getAmount());
 	}
 
 	@EventHandler
