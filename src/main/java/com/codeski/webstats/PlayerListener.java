@@ -276,6 +276,6 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
-		database.playerQuit(event.getPlayer());
+		database.playerQuit(event.getPlayer().getName());
 	}
 }

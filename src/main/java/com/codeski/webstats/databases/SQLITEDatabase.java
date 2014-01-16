@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 import com.codeski.webstats.Webstats;
 
@@ -51,7 +50,7 @@ public class SQLITEDatabase extends Database {
 	}
 
 	@Override
-	public void playerQuit(Player player) {
+	public void playerQuit(String player) {
 		// TODO Auto-generated method stub
 	}
 }

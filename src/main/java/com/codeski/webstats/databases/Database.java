@@ -9,7 +9,6 @@ import java.util.TimerTask;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 import com.codeski.webstats.Webstats;
 
@@ -35,7 +34,7 @@ public abstract class Database {
 
 	public abstract void playerJoined(String player, String uuid);
 
-	public abstract void playerQuit(Player player);
+	public abstract void playerQuit(String player);
 
 	public Result query(String sql) {
 		++queries;

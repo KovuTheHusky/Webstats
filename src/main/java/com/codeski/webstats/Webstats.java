@@ -18,10 +18,8 @@ import com.codeski.webstats.databases.Database;
 import com.codeski.webstats.databases.MYSQLDatabase;
 
 public class Webstats extends JavaPlugin {
-	public static boolean debugging = true;
 	private static FileConfiguration configuration;
 	private static Database database;
-	// private static File directory;
 	private static Logger logger;
 
 	public static void debug(String msg) {
