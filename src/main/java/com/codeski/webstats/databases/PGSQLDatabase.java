@@ -180,6 +180,11 @@ public class PGSQLDatabase extends Database {
 	}
 
 	@Override
+	public void insertMaterial(String player, String event, String type, String count, String world, String x, String y, String z) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
 	public void itemBroken(Player player, Material type) {
 		// TODO Auto-generated method stub
 	}
@@ -225,7 +230,7 @@ public class PGSQLDatabase extends Database {
 	}
 
 	@Override
-	public void playerJoined(Player player) {
+	public void playerJoined(String player, String uuid) {
 		// TODO Auto-generated method stub
 	}
 

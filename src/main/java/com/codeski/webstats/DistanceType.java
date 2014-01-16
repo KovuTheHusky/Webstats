@@ -1,6 +1,6 @@
 package com.codeski.webstats;
 
-public enum Distance {
+public enum DistanceType {
 	BY_BOAT,
 	BY_HORSE,
 	BY_MINECART,

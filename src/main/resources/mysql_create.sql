@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS ws_materials (
 	-- What
 	material_event SMALLINT UNSIGNED NOT NULL,
 	material_type SMALLINT UNSIGNED NOT NULL,
-	material_count SMALLINT UNSIGNED,
+	material_count SMALLINT UNSIGNED NOT NULL,
 	-- When
 	material_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	-- Where
@@ -80,16 +80,16 @@ CREATE TABLE IF NOT EXISTS ws_damages (
 
 -- List of damage causes we are tracking
 CREATE TABLE IF NOT EXISTS ws_damage_types (
-	damage_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	type_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	-- Enum
-	damage_name VARCHAR(255) UNIQUE NOT NULL
+	type_name VARCHAR(255) UNIQUE NOT NULL
 );
 
 -- List of entities we are tracking
 CREATE TABLE IF NOT EXISTS ws_entity_types (
-	entity_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	type_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	-- Enum
-	entity_name VARCHAR(255) UNIQUE NOT NULL
+	type_name VARCHAR(255) UNIQUE NOT NULL
 );
 
 -- All of the player move events
@@ -114,9 +114,9 @@ CREATE TABLE IF NOT EXISTS ws_distances (
 
 -- Distance types being tracked by us
 CREATE TABLE IF NOT EXISTS ws_distance_types (
-	distance_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	type_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	-- Enum
-	distance_name VARCHAR(255) UNIQUE NOT NULL
+	type_name VARCHAR(255) UNIQUE NOT NULL
 );
 
 -- All of the egg throw events

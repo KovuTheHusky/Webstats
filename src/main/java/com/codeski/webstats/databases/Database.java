@@ -3,7 +3,11 @@ package com.codeski.webstats.databases;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
@@ -15,6 +19,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import com.codeski.webstats.Webstats;
 
 public abstract class Database {
+	private static int queries = 0, updates = 0, interval = 60;
 	protected static Connection connection;
 
 	public abstract void blockBroken(Player player, Material type);
@@ -53,6 +58,16 @@ public abstract class Database {
 
 	public abstract void deathByPlayer(DamageCause type, Player damagee, Player damager, Projectile projectile);
 
+	public void debugTimer() {
+		new Timer().scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				Bukkit.broadcastMessage(ChatColor.GREEN + "" + queries + " queries and " + updates + " updates in last " + interval + " seconds.");
+				queries = updates = 0;
+			}
+		}, interval * 1000, interval * 1000);
+	}
+
 	public abstract void disconnect();
 
 	public abstract void distanceByBoat(Player player, double distance);
@@ -75,6 +90,8 @@ public abstract class Database {
 
 	public abstract void distanceWalked(Player player, double distance);
 
+	public abstract void insertMaterial(String player, String event, String type, String count, String world, String x, String y, String z);
+
 	public abstract void itemBroken(Player player, Material type);
 
 	public abstract void itemCrafted(HumanEntity player, Material type, int quantity);
@@ -93,13 +110,14 @@ public abstract class Database {
 
 	public abstract void playerFish(Player player, boolean caught);
 
-	public abstract void playerJoined(Player player);
+	public abstract void playerJoined(String player, String uuid);
 
 	public abstract void playerLeftBed(Player player);
 
 	public abstract void playerQuit(Player player);
 
 	public Result query(String sql) {
+		++queries;
 		Webstats.debug(sql);
 		try {
 			Statement s = connection.createStatement();
@@ -111,6 +129,7 @@ public abstract class Database {
 	}
 
 	public int update(String sql) {
+		++updates;
 		Webstats.debug(sql);
 		int ret = -1;
 		Statement s = null;
@@ -126,5 +145,10 @@ public abstract class Database {
 			}
 		}
 		return ret;
+	}
+
+	public int update_old(String sql) {
+		Webstats.broadcast("OLD: " + sql);
+		return 0;
 	}
 }

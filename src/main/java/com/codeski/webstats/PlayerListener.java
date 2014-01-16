@@ -248,7 +248,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		database.playerJoined(event.getPlayer());
+		database.playerJoined(event.getPlayer().getName(), event.getPlayer().getUniqueId() + "");
 	}
 
 	@EventHandler
