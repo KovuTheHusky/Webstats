@@ -40,7 +40,7 @@ public class PGSQLDatabase extends Database {
 	}
 
 	@Override
-	public void materialEvent(String player, String event, String type, String count, String world, String x, String y, String z) {
+	public void addMaterial(String player, String event, String type, String count, String world, String x, String y, String z) {
 		// TODO Auto-generated method stub
 	}
 

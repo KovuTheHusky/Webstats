@@ -39,54 +39,54 @@ public class BlockListener implements Listener {
 	public void onBlockBreak(BlockBreakEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(event.getPlayer().getName(), MaterialEvent.BLOCK_BREAK + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(event.getPlayer().getName(), MaterialEvent.BLOCK_BREAK + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onBlockBurn(BlockBurnEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(null, MaterialEvent.BLOCK_BURN + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.BLOCK_BURN + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onBlockDamage(BlockDamageEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(event.getPlayer().getName(), MaterialEvent.BLOCK_DAMAGE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(event.getPlayer().getName(), MaterialEvent.BLOCK_DAMAGE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onBlockDispense(BlockDispenseEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(null, MaterialEvent.BLOCK_DISPENSE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.BLOCK_DISPENSE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onBlockExp(BlockExpEvent event) {
-		database.materialEvent(null, MaterialEvent.BLOCK_EXP + "", event.getBlock().getType() + "", event.getExpToDrop() + "", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.BLOCK_EXP + "", event.getBlock().getType() + "", event.getExpToDrop() + "", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onBlockFade(BlockFadeEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(null, MaterialEvent.BLOCK_FADE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.BLOCK_FADE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onBlockFromTo(BlockFromToEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(null, MaterialEvent.BLOCK_FROM_TO + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.BLOCK_FROM_TO + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onBlockGrow(BlockGrowEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(null, MaterialEvent.BLOCK_GROW + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.BLOCK_GROW + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
@@ -94,49 +94,49 @@ public class BlockListener implements Listener {
 		if (event.isCancelled())
 			return;
 		if (event.getPlayer() != null)
-			database.materialEvent(event.getPlayer().getName(), MaterialEvent.BLOCK_IGNITE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+			database.addMaterial(event.getPlayer().getName(), MaterialEvent.BLOCK_IGNITE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 		else
-			database.materialEvent(null, MaterialEvent.BLOCK_IGNITE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+			database.addMaterial(null, MaterialEvent.BLOCK_IGNITE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onBlockPhysics(BlockPhysicsEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(null, MaterialEvent.BLOCK_PHYSICS + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.BLOCK_PHYSICS + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onBlockPistonExtend(BlockPistonExtendEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(null, MaterialEvent.BLOCK_PISTON_EXTEND + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.BLOCK_PISTON_EXTEND + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onBlockPistonRetract(BlockPistonRetractEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(null, MaterialEvent.BLOCK_PISTON_RETRACT + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.BLOCK_PISTON_RETRACT + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(event.getPlayer().getName(), MaterialEvent.BLOCK_PLACE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(event.getPlayer().getName(), MaterialEvent.BLOCK_PLACE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onBlockRedstone(BlockRedstoneEvent event) {
-		database.materialEvent(null, MaterialEvent.BLOCK_REDSTONE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.BLOCK_REDSTONE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onBrew(BrewEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(null, MaterialEvent.BREW + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.BREW + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
@@ -168,41 +168,41 @@ public class BlockListener implements Listener {
 			if (spaceFor < amt)
 				amt = spaceFor; // - spaceFor % per;
 		}
-		database.materialEvent(event.getWhoClicked().getName(), MaterialEvent.ITEM_CRAFT + "", crafted.getType() + "", amt + "", event.getWhoClicked().getWorld().getName(), event.getWhoClicked().getLocation().getBlockX() + "", event.getWhoClicked().getLocation().getBlockY() + "", event.getWhoClicked().getLocation().getBlockZ() + "");
+		database.addMaterial(event.getWhoClicked().getName(), MaterialEvent.ITEM_CRAFT + "", crafted.getType() + "", amt + "", event.getWhoClicked().getWorld().getName(), event.getWhoClicked().getLocation().getBlockX() + "", event.getWhoClicked().getLocation().getBlockY() + "", event.getWhoClicked().getLocation().getBlockZ() + "");
 	}
 
 	@EventHandler
 	public void onFurnaceBurn(FurnaceBurnEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(null, MaterialEvent.FURNACE_BURN + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.FURNACE_BURN + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onFurnaceSmelt(FurnaceSmeltEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(null, MaterialEvent.FURNACE_SMELT + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.FURNACE_SMELT + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onLeavesDecay(LeavesDecayEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(null, MaterialEvent.LEAVES_DECAY + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.LEAVES_DECAY + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onNotePlay(NotePlayEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(null, MaterialEvent.NOTE_PLAY + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(null, MaterialEvent.NOTE_PLAY + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 
 	@EventHandler
 	public void onSignChange(SignChangeEvent event) {
 		if (event.isCancelled())
 			return;
-		database.materialEvent(event.getPlayer().getName(), MaterialEvent.SIGN_CHANGE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+		database.addMaterial(event.getPlayer().getName(), MaterialEvent.SIGN_CHANGE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 	}
 }
