@@ -10,9 +10,9 @@ body {
 	width: 100%;
 }
 
-a:link, a:active, a:visited {
+a:link,a:active,a:visited {
 	color: inherit;
-	text-decoration: none;	
+	text-decoration: none;
 }
 
 h1 {
@@ -22,10 +22,7 @@ h1 {
 	margin: 0 0 10px 0;
 }
 
-header, footer {
-}
-
-nav, article {
+nav,article {
 	display: inline-block;
 	margin: 0 5px;
 	vertical-align: top;
@@ -53,7 +50,7 @@ article {
 	padding: 0;
 }
 
-article > div {
+article>div {
 	margin: 10px 0;
 	padding: 0;
 	border-top: 1px dashed pink;
@@ -74,13 +71,9 @@ footer {
 	border-top: 1px dashed pink;
 }
 
-footer a:link, footer a:active, footer a:visited {
+footer a:link,footer a:active,footer a:visited {
 	font-weight: bold;
 }
-
-/* article img {
-	border-radius: 1px;
-} */
 
 img.offline {
 	opacity: 0.25;
@@ -130,17 +123,17 @@ img.offline:hover {
 }
 
 .justified.three div {
-  width: 221px;
+	width: 221px;
 }
 
 .justified.four div {
-  width: 158px;
+	width: 158px;
 }
 
 .justified:after {
-  content: '';
-  width: 100%;
-  display: inline-block;
+	content: '';
+	width: 100%;
+	display: inline-block;
 }
 
 .justified div ul li {

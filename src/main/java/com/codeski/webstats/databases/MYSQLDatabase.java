@@ -61,6 +61,8 @@ public class MYSQLDatabase extends Database {
 		// Create the tables
 		for (String sql : tables)
 			this.update(sql);
+		// The server is up now
+		this.update("INSERT INTO ws_uptimes VALUES (DEFAULT, DEFAULT, DEFAULT, NULL)");
 		// Damage types
 		List<String> dl = this.getEnums("ws_damage_types", "type_name");
 		for (DamageCause d : DamageCause.values())
@@ -104,6 +106,7 @@ public class MYSQLDatabase extends Database {
 		for (World w : Bukkit.getWorlds())
 			if (!currentWorlds.contains(w))
 				this.update("INSERT INTO ws_worlds VALUES (DEFAULT, '" + w.getName() + "', '" + w.getUID() + "', (SELECT type_id FROM ws_world_types WHERE type_name = '" + w.getWorldType() + "'), (SELECT environment_id FROM ws_world_environments WHERE environment_name = '" + w.getEnvironment() + "'))");
+		// Mark each online player as having joined
 		for (Player p : Bukkit.getOnlinePlayers())
 			this.playerJoined(p.getName(), p.getUniqueId() + "");
 		return true;
@@ -111,6 +114,9 @@ public class MYSQLDatabase extends Database {
 
 	@Override
 	public void disconnect() {
+		// The server is down now
+		this.update("UPDATE ws_uptimes SET uptime_expired = 1 WHERE uptime_expired = 0");
+		// Mark each online player as having quit
 		for (Player p : Bukkit.getOnlinePlayers())
 			this.playerQuit(p.getName());
 		try {
@@ -137,12 +143,10 @@ public class MYSQLDatabase extends Database {
 		this.update("INSERT IGNORE INTO ws_players (player_name, player_uuid) VALUES ('" + player + "', '" + uuid + "')");
 		this.update("INSERT INTO ws_sessions VALUES (DEFAULT, (SELECT player_id FROM ws_players WHERE player_name = '" + player + "'), DEFAULT, DEFAULT, NULL)");
 		this.update("INSERT INTO ws_statistics VALUES (DEFAULT, 'peak', " + Bukkit.getOnlinePlayers().length + ") ON DUPLICATE KEY UPDATE statistic_value = IF(" + Bukkit.getOnlinePlayers().length + " > statistic_value, " + Bukkit.getOnlinePlayers().length + ", statistic_value)");
-		this.update("INSERT INTO ws_uptimes VALUES (DEFAULT, DEFAULT, DEFAULT, NULL)");
 	}
 
 	@Override
 	public void playerQuit(String player) {
 		this.update("UPDATE ws_sessions SET session_expired = 1 WHERE session_expired = 0 AND session_player = (SELECT player_id FROM ws_players WHERE player_name = '" + player + "')");
-		this.update("UPDATE ws_uptimes SET uptime_expired = 1 WHERE uptime_expired = 0");
 	}
 }
