@@ -1,7 +1,7 @@
 database:
   driver: 'mysql' # mysql, postgresql, sqlite
   host: '127.0.0.1'
-  database: 'webstats_test'
+  database: 'webstats'
   user: 'root'
   pass: '1234'
 events:

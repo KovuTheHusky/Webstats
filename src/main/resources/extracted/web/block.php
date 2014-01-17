@@ -2,7 +2,7 @@
 
 $block = strtolower($_GET['b']);
 
-$mysqli = new mysqli('127.0.0.1', 'root', '1234', 'webstats_test', 3306);
+$mysqli = new mysqli('127.0.0.1', 'root', '1234', 'webstats', 3306);
 if ($mysqli->connect_errno) {
 	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
@@ -25,12 +25,6 @@ foreach ($event_raw as $e) {
 		$over_time[date('G', (new DateTime($row['t']))->getTimestamp())][$e] = $row['c'];
 	}
 }
-
-// echo '<pre>';
-// print_r($over_time);
-// exit();
-
-
 
 ?>
 <!DOCTYPE html>
