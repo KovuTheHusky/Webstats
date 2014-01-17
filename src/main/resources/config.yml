@@ -4,6 +4,27 @@ database:
   database: 'webstats_test'
   user: 'root'
   pass: '1234'
+events:
+  block:
+    break: true
+    burn: true
+    damage: false
+    dispense: false
+    experience: false
+    fade: false
+    fromto: false
+    grow: false
+    ignite: false
+    physics: false
+    piston: false
+    place: true
+    redstone: false
+    brew: false
+    craft: true
+    furnace: false
+    decay: true
+    notes: false
+    signs: false
 advanced:
   enabled: false
   driver: 'com.mysql.jdbc.Driver'
