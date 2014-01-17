@@ -3,4 +3,5 @@ Options +Indexes +SymLinksIfOwnerMatch -MultiViews
 RewriteEngine on
 RewriteBase /
 RewriteRule ^block/(.+)/?$ block.php?b=$1
+RewriteRule ^error/(.+)/?$ error.php?e=$1
 RewriteRule ^player/(.+)/?$ player.php?p=$1
