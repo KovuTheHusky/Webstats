@@ -1,9 +1,5 @@
 <?php
 
-ini_set('display_errors', true);
-ini_set('log_errors', true);
-ini_set('error_log', 'error.log');
-error_reporting(E_ALL);
 require_once($_SERVER['DOCUMENT_ROOT'] . '/assets/includes/configuration.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/assets/includes/functions.php');
 

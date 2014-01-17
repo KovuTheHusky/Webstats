@@ -7,7 +7,7 @@ body {
 	text-align: center;
 	margin: 0;
 	padding: 0;
-	min-width: 1110px;
+	width: 100%;
 }
 
 a:link, a:active, a:visited {
@@ -26,20 +26,18 @@ header, footer {
 }
 
 nav, article {
-	/*border: 1px dashed pink;*/
 	display: inline-block;
 	margin: 0 5px;
 	vertical-align: top;
 }
 
 header {
-	margin-bottom: 10px;
 	color: white;
 	height: 10px;
+	border-bottom: 1px dashed pink;
 }
 
 nav {
-	width: 250px;
 	display: none;
 }
 
@@ -50,7 +48,16 @@ ul {
 }
 
 article {
-	width: 750px;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+article > div {
+	margin: 10px 0;
+	padding: 0;
+	border-top: 1px dashed pink;
+	border-bottom: 1px dashed pink;
 }
 
 section {
@@ -63,17 +70,17 @@ section:last-child {
 
 footer {
 	padding: 2px;
-	margin-top: 10px;
 	color: #000000;
+	border-top: 1px dashed pink;
 }
 
 footer a:link, footer a:active, footer a:visited {
 	font-weight: bold;
 }
 
-article img {
+/* article img {
 	border-radius: 1px;
-}
+} */
 
 img.offline {
 	opacity: 0.25;
@@ -110,7 +117,7 @@ img.offline:hover {
 	display: inline-block;
 	min-height: 100px;
 	font-size: 14px;
-	padding: 10px;
+	/*padding: 10px;*/
 	vertical-align: top;
 }
 
@@ -140,9 +147,11 @@ img.offline:hover {
 	margin: 4px 0;
 }
 
-nav ul, article div {
-	background-color: #f5f5f5;
-	border: 1px solid #e3e3e3;
-	border-radius: 1px;
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+.block {
+	height: 150px;
+}
+
+.chart {
+	width: 100%;
+	height: 500px;
 }
