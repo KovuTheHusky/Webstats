@@ -12,6 +12,16 @@ public class PGSQLDatabase extends Database {
 	private final String[] tables = {};
 
 	@Override
+	public void addDistance(String player, String type, String count, String world, String fromX, String fromY, String fromZ, String toX, String toY, String toZ) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void addMaterial(String player, String event, String type, String count, String world, String x, String y, String z) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
 	public boolean connect(FileConfiguration configuration) {
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -37,11 +47,6 @@ public class PGSQLDatabase extends Database {
 			connection.close();
 		} catch (SQLException ignore) {
 		}
-	}
-
-	@Override
-	public void addMaterial(String player, String event, String type, String count, String world, String x, String y, String z) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

@@ -2,6 +2,7 @@ Options +Indexes +SymLinksIfOwnerMatch -MultiViews
 
 RewriteEngine on
 RewriteBase /
-RewriteRule ^block/(.+)/?$ block.php?b=$1
-RewriteRule ^error/(.+)/?$ error.php?e=$1
-RewriteRule ^player/(.+)/?$ player.php?p=$1
+RewriteRule ^block/(.+)/?$ block.php?block=$1
+RewriteRule ^distances/?$ distances.php
+RewriteRule ^error/(.+)/?$ error.php?error=$1
+RewriteRule ^player/(.+)/?$ player.php?player=$1

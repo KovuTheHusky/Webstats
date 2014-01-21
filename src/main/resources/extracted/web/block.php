@@ -1,6 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
-$block = strtolower($_GET['b']);
+$block = strtolower($_GET['block']);
 
 if (!$mysqli->query("SELECT COUNT(0) FROM ws_material_types WHERE type_name = '{$block}'")->fetch_row()[0])
 	exit(header('Location: http' . (!empty($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/error/100'));

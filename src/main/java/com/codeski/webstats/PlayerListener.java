@@ -2,6 +2,7 @@ package com.codeski.webstats;
 
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -218,7 +219,6 @@ public class PlayerListener implements Listener {
 		double sy = to.getY() - from.getY();
 		double y = Math.abs(sy);
 		double fall = event.getPlayer().getFallDistance();
-		Player uuid = event.getPlayer();
 		String name = event.getPlayer().getName();
 		Block block = event.getPlayer().getLocation().getBlock();
 		Block below = block.getRelative(BlockFace.DOWN);
@@ -238,35 +238,35 @@ public class PlayerListener implements Listener {
 		if (fall >= 2.0 && fall > fallen.get(name))
 			fallen.put(name, fall);
 		else if (fall == 0.0 && fallen.get(name) > 0.0)
-			Webstats.debug(uuid + " " + fallen.put(name, 0.0));
+			database.addDistance(name, DistanceType.FALLEN + "", fallen.put(name, 0.0) + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 		// Other distances
 		if (event.getPlayer().isInsideVehicle())
 			switch (vehicle.getType()) {
 				case MINECART:
-					Webstats.debug(uuid + " " + xyz);
+					database.addDistance(name, DistanceType.BY_MINECART + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 					break;
 				case BOAT:
-					Webstats.debug(uuid + " " + xyz);
+					database.addDistance(name, DistanceType.BY_BOAT + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 					break;
 				case PIG:
-					Webstats.debug(uuid + " " + xyz);
+					database.addDistance(name, DistanceType.BY_PIG + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 					break;
 				case HORSE:
-				case UNKNOWN: // TODO Remove this once horses are fixed
-					Webstats.debug(uuid + " " + xyz); // TODO Calculate horse movement if bukkit does not fix
+					database.addDistance(name, DistanceType.BY_HORSE + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 					break;
 				default:
+					Bukkit.getLogger().warning(vehicle.getType() + " is currently unsupported. Do you have the latest version of Webstats?");
 			}
 		else if (event.getPlayer().isFlying())
-			Webstats.debug(uuid + " " + xyz);
+			database.addDistance(name, DistanceType.FLOWN + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 		else if (block.isLiquid() && !block.getRelative(BlockFace.UP).isLiquid())
-			Webstats.debug(uuid + " " + xyz);
+			database.addDistance(name, DistanceType.SWAM + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 		else if (block.isLiquid())
-			Webstats.debug(uuid + " " + xyz);
+			database.addDistance(name, DistanceType.DOVE + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 		else if (block.getType() == Material.LADDER || block.getType() == Material.VINE)
-			Webstats.debug(uuid + " " + y);
+			database.addDistance(name, DistanceType.CLIMBED + "", y + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 		else
-			Webstats.debug(uuid + " " + xyz);
+			database.addDistance(name, DistanceType.WALKED + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 	}
 
 	@EventHandler

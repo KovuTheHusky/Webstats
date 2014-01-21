@@ -1,8 +1,8 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
 
-$e = $_GET['e'];
-switch ($e) {
+$error = $_GET['error'];
+switch ($error) {
 	case '100':
 		$str = 'That block does not exist.';
 }
@@ -24,7 +24,7 @@ switch ($e) {
   </nav>
   <article>
     <span style="font-size: 32px;">
-      <?php echo $e; ?>: <?php echo $str; ?>
+      <?php echo $error; ?>: <?php echo $str; ?>
     </span>
   </article>
   <footer>

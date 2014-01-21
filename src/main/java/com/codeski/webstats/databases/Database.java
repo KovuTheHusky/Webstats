@@ -11,6 +11,8 @@ import com.codeski.webstats.Webstats;
 public abstract class Database {
 	protected static Connection connection;
 
+	public abstract void addDistance(String player, String type, String count, String world, String fromX, String fromY, String fromZ, String toX, String toY, String toZ);
+
 	public abstract void addMaterial(String player, String event, String type, String count, String world, String x, String y, String z);
 
 	public abstract boolean connect(FileConfiguration configuration);

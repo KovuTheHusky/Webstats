@@ -144,6 +144,10 @@ img.offline:hover {
 	height: 150px;
 }
 
+.face {
+	height: 128px;
+}
+
 .chart {
 	width: 100%;
 	height: 500px;

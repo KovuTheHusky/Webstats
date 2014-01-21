@@ -14,7 +14,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.player.PlayerFishEvent;
 
+import com.codeski.webstats.DistanceType;
 import com.codeski.webstats.MaterialEvent;
 import com.codeski.webstats.Webstats;
 
@@ -39,6 +41,11 @@ public class MYSQLDatabase extends Database {
 			"CREATE TABLE IF NOT EXISTS ws_world_environments (environment_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, environment_name VARCHAR(255) UNIQUE NOT NULL)",
 			"CREATE TABLE IF NOT EXISTS ws_world_types (type_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, type_name VARCHAR(255) UNIQUE NOT NULL)"
 	};
+
+	@Override
+	public void addDistance(String player, String type, String count, String world, String fromX, String fromY, String fromZ, String toX, String toY, String toZ) {
+		this.update("INSERT INTO ws_distances VALUES (DEFAULT, (SELECT player_id FROM ws_players WHERE player_name = '" + player + "'), (SELECT type_id FROM ws_distance_types WHERE type_name = '" + type + "'), " + count + ", DEFAULT, (SELECT world_id FROM ws_worlds WHERE world_name = '" + world + "'), " + fromX + ", " + fromY + ", " + fromZ + ", " + toX + ", " + toY + ", " + toZ + ")");
+	}
 
 	@Override
 	public void addMaterial(String player, String event, String type, String count, String world, String x, String y, String z) {
@@ -68,11 +75,21 @@ public class MYSQLDatabase extends Database {
 		for (DamageCause d : DamageCause.values())
 			if (!dl.contains(d.toString()))
 				this.update("INSERT INTO ws_damage_types VALUES (DEFAULT, '" + d + "')");
+		// Distance types
+		List<String> dtl = this.getEnums("ws_distance_types", "type_name");
+		for (DistanceType d : DistanceType.values())
+			if (!dtl.contains(d.toString()))
+				this.update("INSERT INTO ws_distance_types VALUES (DEFAULT, '" + d + "')");
 		// Entity types
 		List<String> el = this.getEnums("ws_entity_types", "type_name");
 		for (EntityType e : EntityType.values())
 			if (!el.contains(e.toString()))
 				this.update("INSERT INTO ws_entity_types VALUES (DEFAULT, '" + e + "')");
+		// Fish events
+		List<String> fl = this.getEnums("ws_fish_events", "event_name");
+		for (PlayerFishEvent.State f : PlayerFishEvent.State.values())
+			if (!fl.contains(f.toString()))
+				this.update("INSERT INTO ws_fish_events VALUES (DEFAULT, '" + f + "')");
 		// Material types
 		List<String> ml = this.getEnums("ws_material_types", "type_name");
 		for (Material m : Material.values())
