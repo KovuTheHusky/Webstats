@@ -3,7 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
 $player = strtolower($_GET['player']);
 
 if (!$mysqli->query("SELECT COUNT(0) FROM ws_players WHERE player_name = '{$player}'")->fetch_row()[0])
-	exit(header('Location: http' . (!empty($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/error/102'));
+	exit(header('Location: http' . (!empty($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/error/101'));
 
 $player = $mysqli->query("SELECT player_name FROM ws_players WHERE player_name = '{$player}'")->fetch_row()[0];
 playerHead($player);

@@ -5,6 +5,8 @@ $error = $_GET['error'];
 switch ($error) {
 	case '100':
 		$str = 'That block does not exist.';
+	case '101':
+		$str = 'That player does not exist.';
 }
 ?>
 <!DOCTYPE html>
