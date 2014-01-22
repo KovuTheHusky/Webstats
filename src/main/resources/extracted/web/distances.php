@@ -38,11 +38,10 @@ if (!empty($event_raw)) {
 <?php } ?>
 		]);
 		var options = {
-				title: 'Events In Total',
 				legend: { position: 'right', alignment: 'center' },
 				pieHole: 0.5
 		};
-		var chart = new google.visualization.PieChart(document.getElementById('events'));
+		var chart = new google.visualization.PieChart(document.getElementById('donut'));
 		chart.draw(data, options);
 	}
 </script>
@@ -57,10 +56,9 @@ if (!empty($event_raw)) {
 <?php } ?>
         ]);
 		var options = {
-				title: 'Events Over Time',
 				legend: { position: 'bottom', alignment: 'center' }
 		};
-		var chart = new google.visualization.LineChart(document.getElementById('overtime'));
+		var chart = new google.visualization.LineChart(document.getElementById('line'));
 		chart.draw(data, options);
 	}
 </script>
@@ -73,8 +71,8 @@ if (!empty($event_raw)) {
     </ul>
   </nav>
   <article>
-    <div id="events" class="chart"></div>
-    <div id="overtime" class="chart"></div>
+    <div id="donut" class="chart"></div>
+    <div id="line" class="chart"></div>
   </article>
   <footer>
     Data from <a href="http://dev.bukkit.org/bukkit-mods/webstats">Webstats</a> ${project.version} by <a href="http://codeski.com">Codeski</a>
