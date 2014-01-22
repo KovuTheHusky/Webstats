@@ -78,7 +78,7 @@ if (!empty($event_raw)) {
   </nav>
   <article>
     <div class="block">
-      <img src="/assets/images/<?php echo $block; ?>.png" alt="<?php echo ucwords($block); ?>" />
+      <img src="/assets/images/materials/<?php echo $block; ?>.png" alt="<?php echo ucwords($block); ?>" />
     </div>
     <div id="events" class="chart"></div>
     <div id="overtime" class="chart"></div>
