@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerFishEvent;
 
 import com.codeski.webstats.DistanceType;
 import com.codeski.webstats.Material;
-import com.codeski.webstats.MaterialEvent;
 import com.codeski.webstats.Webstats;
 
 public class MYSQLDatabase extends Database {
@@ -97,7 +96,7 @@ public class MYSQLDatabase extends Database {
 				this.update("INSERT INTO ws_material_types VALUES (DEFAULT, '" + m + "', 0)");
 		// Material events
 		List<String> mel = this.getEnums("ws_material_events", "event_name");
-		for (MaterialEvent m : MaterialEvent.values())
+		for (Material.Event m : Material.Event.values())
 			if (!mel.contains(m.toString()))
 				this.update("INSERT INTO ws_material_events VALUES (DEFAULT, '" + m + "')");
 		// World types

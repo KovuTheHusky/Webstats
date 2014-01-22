@@ -314,6 +314,34 @@ public enum Material {
 	YELLOW_WOOL,
 	ZOMBIE_HEAD;
 	//
+	public enum Event {
+		BLOCK_BREAK,
+		BLOCK_BURN,
+		BLOCK_DAMAGE,
+		BLOCK_DISPENSE,
+		BLOCK_EXP,
+		BLOCK_FADE,
+		BLOCK_FROM_TO,
+		BLOCK_GROW,
+		BLOCK_IGNITE,
+		BLOCK_PHYSICS,
+		BLOCK_PISTON_EXTEND,
+		BLOCK_PISTON_RETRACT,
+		BLOCK_PLACE,
+		BLOCK_REDSTONE,
+		BREW,
+		FURNACE_BURN,
+		FURNACE_SMELT,
+		ITEM_BREAK,
+		ITEM_CRAFT,
+		ITEM_DROP,
+		ITEM_PICK_UP,
+		ITEM_USE,
+		LEAVES_DECAY,
+		NOTE_PLAY,
+		SIGN_CHANGE
+	}
+
 	public static Material getMaterial(Block block) {
 		if (block.getType() == org.bukkit.Material.DOUBLE_PLANT && block.getRelative(BlockFace.DOWN).getType() == org.bukkit.Material.DOUBLE_PLANT)
 			block = block.getRelative(BlockFace.DOWN);
