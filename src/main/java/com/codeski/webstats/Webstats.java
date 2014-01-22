@@ -1,16 +1,19 @@
 package com.codeski.webstats;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.util.Enumeration;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.bukkit.Material;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -78,42 +81,7 @@ public class Webstats extends JavaPlugin {
 		configuration.options().copyDefaults(true);
 		this.saveConfig();
 		// Update extracted files if needed
-		// TODO: Check version.txt beforehand
-		File df = this.getDataFolder();
-		if (!df.exists())
-			df.mkdirs();
-		try {
-			ZipFile zf = new ZipFile(new File(Webstats.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()));
-			FileOutputStream fos = null;
-			InputStream ins = null;
-			byte[] buf = new byte[2048];
-			File f;
-			String n;
-			Enumeration<? extends ZipEntry> e = zf.entries();
-			while (e.hasMoreElements()) {
-				ZipEntry ze = e.nextElement();
-				n = ze.getName();
-				if (!n.startsWith("extracted/"))
-					continue;
-				n = n.substring("extracted/".length());
-				f = new File(df, n);
-				if (ze.isDirectory())
-					f.mkdirs();
-				else {
-					f.getParentFile().mkdirs();
-					fos = new FileOutputStream(f);
-					ins = zf.getInputStream(ze);
-					int len;
-					while ((len = ins.read(buf)) >= 0)
-						fos.write(buf, 0, len);
-					ins.close();
-					fos.close();
-				}
-			}
-			zf.close();
-		} catch (IOException | URISyntaxException e) {
-			e.printStackTrace();
-		}
+		this.extractResources();
 		// Get the database going
 		if (!configuration.getBoolean("advanced.enabled")) {
 			String d = configuration.getString("database.driver");
@@ -134,6 +102,8 @@ public class Webstats extends JavaPlugin {
 			pm.registerEvents(new Listener() {
 				@EventHandler
 				public void onBlockBreak(BlockBreakEvent event) {
+					Material m = Material.getMaterial(event.getBlock());
+					Bukkit.broadcastMessage("Break: " + m);
 					if (event.isCancelled())
 						return;
 					database.addMaterial(event.getPlayer().getName(), MaterialEvent.BLOCK_BREAK + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
@@ -241,6 +211,8 @@ public class Webstats extends JavaPlugin {
 			pm.registerEvents(new Listener() {
 				@EventHandler
 				public void onBlockPlace(BlockPlaceEvent event) {
+					Material m = Material.getMaterial(event.getBlock());
+					Bukkit.broadcastMessage("Place: " + m);
 					if (event.isCancelled())
 						return;
 					database.addMaterial(event.getPlayer().getName(), MaterialEvent.BLOCK_PLACE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
@@ -272,7 +244,7 @@ public class Webstats extends JavaPlugin {
 					int per = crafted.getAmount();
 					int amt = per;
 					if (event.isShiftClick()) {
-						int min = new ItemStack(Material.STONE).getMaxStackSize(); // TODO: Should this be stone or what you make?
+						int min = new ItemStack(org.bukkit.Material.STONE).getMaxStackSize();
 						amt = per * min;
 						for (int i = 1; i < event.getInventory().getSize(); ++i) {
 							ItemStack temp = event.getInventory().getItem(i);
@@ -339,5 +311,70 @@ public class Webstats extends JavaPlugin {
 					database.addMaterial(event.getPlayer().getName(), MaterialEvent.SIGN_CHANGE + "", event.getBlock().getType() + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 				}
 			}, this);
+	}
+
+	private void extractResources() {
+		boolean needsUpdate = false;
+		File df = this.getDataFolder();
+		if (!df.exists())
+			df.mkdirs();
+		File ver = new File(df, "version.txt");
+		if (ver.exists()) {
+			String current = null, previous = null;
+			// Get current
+			try {
+				BufferedReader cr = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/extracted/version.txt")));
+				current = cr.readLine();
+				cr.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			// Get previous
+			try {
+				BufferedReader pr = new BufferedReader(new FileReader(ver));
+				previous = pr.readLine();
+				if (!previous.equals(current))
+					needsUpdate = true;
+				pr.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else
+			needsUpdate = true;
+		if (!needsUpdate)
+			return;
+		try {
+			ZipFile zf = new ZipFile(new File(Webstats.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()));
+			FileOutputStream fos = null;
+			InputStream ins = null;
+			byte[] buf = new byte[2048];
+			File f;
+			String n;
+			Enumeration<? extends ZipEntry> e = zf.entries();
+			while (e.hasMoreElements()) {
+				ZipEntry ze = e.nextElement();
+				n = ze.getName();
+				if (!n.startsWith("extracted/"))
+					continue;
+				n = n.substring("extracted/".length());
+				f = new File(df, n);
+				if (ze.isDirectory())
+					f.mkdirs();
+				else {
+					f.getParentFile().mkdirs();
+					fos = new FileOutputStream(f);
+					ins = zf.getInputStream(ze);
+					int len;
+					while ((len = ins.read(buf)) >= 0)
+						fos.write(buf, 0, len);
+					ins.close();
+					fos.close();
+				}
+			}
+			zf.close();
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
 	}
 }
