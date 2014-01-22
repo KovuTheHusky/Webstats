@@ -245,27 +245,26 @@ public class Webstats extends JavaPlugin {
 					int amt = per;
 					if (event.isShiftClick()) {
 						int min = new ItemStack(org.bukkit.Material.STONE).getMaxStackSize();
-						amt = per * min;
 						for (int i = 1; i < event.getInventory().getSize(); ++i) {
 							ItemStack temp = event.getInventory().getItem(i);
 							if (temp == null)
 								continue;
 							int size = temp.getAmount();
-							Webstats.info(i + ": " + size + " " + temp.getType());
 							if (size < min)
 								min = size;
 						}
+						amt = per * min;
 						ItemStack[] inv = event.getWhoClicked().getInventory().getContents();
 						int spaceFor = 0;
 						for (ItemStack element : inv)
 							if (element == null)
 								spaceFor += crafted.getMaxStackSize();
-							else if (element.getType() == crafted.getType())
+							else if (element.getType() == crafted.getType()) // TODO: Make sure this works for subtypes of types like different wood types.
 								spaceFor += crafted.getMaxStackSize() - element.getAmount();
 						if (spaceFor < amt)
-							amt = spaceFor; // - spaceFor % per;
+							amt = spaceFor;
 					}
-					database.addMaterial(event.getWhoClicked().getName(), MaterialEvent.ITEM_CRAFT + "", crafted.getType() + "", amt + "", event.getWhoClicked().getWorld().getName(), event.getWhoClicked().getLocation().getBlockX() + "", event.getWhoClicked().getLocation().getBlockY() + "", event.getWhoClicked().getLocation().getBlockZ() + "");
+					database.addMaterial(event.getWhoClicked().getName(), MaterialEvent.ITEM_CRAFT + "", Material.getMaterial(crafted) + "", amt + "", event.getWhoClicked().getWorld().getName(), event.getWhoClicked().getLocation().getBlockX() + "", event.getWhoClicked().getLocation().getBlockY() + "", event.getWhoClicked().getLocation().getBlockZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.block.furnace"))

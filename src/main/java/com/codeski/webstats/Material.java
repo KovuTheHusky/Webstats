@@ -66,7 +66,7 @@ public enum Material {
 	CACTUS,
 	CAKE,
 	CARPET,
-	CARROTS,
+	CARROT,
 	CAULDRON,
 	CHEST,
 	CHISELED_QUARTZ_BLOCK,
@@ -227,7 +227,7 @@ public enum Material {
 	PISTON,
 	PODZOL,
 	POPPY,
-	POTATOES,
+	POTATO,
 	POWERED_RAIL,
 	PUMPKIN,
 	PUMPKIN_STEM,
@@ -663,6 +663,12 @@ public enum Material {
 					case 1:
 						return MOSSY_COBLESTONE_WALL;
 				}
+			case CARROT:
+			case CARROT_ITEM:
+				return CARROT;
+			case POTATO:
+			case POTATO_ITEM:
+				return POTATO;
 			case SKULL:
 				switch (duckBukkit) { // Bukkit deprecated a method with no alternative, brilliant!
 					case 0:
