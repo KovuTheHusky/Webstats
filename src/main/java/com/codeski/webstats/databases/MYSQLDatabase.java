@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldType;
@@ -17,6 +16,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerFishEvent;
 
 import com.codeski.webstats.DistanceType;
+import com.codeski.webstats.Material;
 import com.codeski.webstats.MaterialEvent;
 import com.codeski.webstats.Webstats;
 
@@ -94,7 +94,7 @@ public class MYSQLDatabase extends Database {
 		List<String> ml = this.getEnums("ws_material_types", "type_name");
 		for (Material m : Material.values())
 			if (!ml.contains(m.toString()))
-				this.update("INSERT INTO ws_material_types VALUES (DEFAULT, '" + m + "', " + m.isBlock() + ")");
+				this.update("INSERT INTO ws_material_types VALUES (DEFAULT, '" + m + "', 0)");
 		// Material events
 		List<String> mel = this.getEnums("ws_material_events", "event_name");
 		for (MaterialEvent m : MaterialEvent.values())
