@@ -1,23 +1,84 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
 
-$res = $mysqli->query("SELECT type_name AS e, SUM(distance_count) AS c FROM ws_distances JOIN ws_distance_types ON type_id = distance_type GROUP BY distance_type ORDER BY c DESC");
-while ($row = $res->fetch_assoc()) {
-	$event_raw[] = $row['e'];
-	$event[] = ucwords(strtolower(str_replace('_', ' ', $row['e'])));
-	$count[] = (int)$row['c'];
+$time = 'day';
+if (isset($_GET['time']))
+	$time = $_GET['time'];
+switch ($time) {
+	case 'day':
+		$where = 'distance_time > \'' . date('Y-m-d H:i:s', time() - 3600 * 24) . '\'';
+		$group = 'HOUR(t)';
+		$entries = 24;
+		$label = 'ga';
+		$key_format = 'Y-m-d H:00:00';
+		$key_constant = 3600;
+		break;
+	case 'week':
+		$where = 'distance_time > \'' . date('Y-m-d 00:00:00', time() - 3600 * 24 * 6) . '\'';
+		$group = 'DAY(t)';
+		$entries = 7;
+		$label = 'F j';
+		$key_format = 'Y-m-d';
+		$key_constant = 3600 * 24;
+		break;
+	case 'month':
+		$where = 'distance_time > \'' . date('Y-m-d H:i:s', time() - 3600 * 24 * 30) . '\'';
+		$group = 'DAY(t)';
+		$entries = 30;
+		$label = 'F j';
+		$key_format = 'Y-m-d';
+		$key_constant = 3600 * 24;
+		break;
+	case 'year':
+		$where = 'distance_time > \'' . date('Y-m-d H:i:s', time() - 3600 * 24 * 365) . '\'';
+		$group = 'MONTH(t)';
+		$entries = 12;
+		$label = 'F';
+		$key_format = 'Y-m-01';
+		$key_constant = 3600 * 24 * 30; // TODO: This won't work on edge cases, do months manually?
+		break;
+	case 'all':
+		$where = '1';
+		$group = 'MONTH(t)';
+		$entries = 24;
+		$label = 'F Y';
+		$key_format = 'Y-m-01';
+		$key_constant = 3600 * 24 * 30; // TODO: This won't work on edge cases, do months manually?
+		break;
+	default:
+		exit('error');
 }
-if (!empty($event_raw)) {
-	for ($i = 0; $i < 24; ++$i)
-	foreach ($event_raw as $e)
-		$over_time[$i][$e] = 0;
-	foreach ($event_raw as $e) {
-		$res = $mysqli->query("SELECT SUM(distance_count) as c, distance_time as t FROM ws_distances JOIN ws_distance_types ON distance_type = type_id WHERE type_name = '{$e}' GROUP BY HOUR(t)");
+
+$res = $mysqli->query("SELECT type_name AS e, SUM(distance_count) AS c FROM ws_distances JOIN ws_distance_types ON type_id = distance_type WHERE {$where} GROUP BY distance_type ORDER BY c DESC");
+for ($i = 0; $row = $res->fetch_assoc(); ++$i) {
+	$donut[$i]['event'] = $row['e'];
+	$donut[$i]['count'] = (int)$row['c'];
+	$event[] = strtolower($row['e']); // temp
+}
+
+if (!empty($donut)) {
+
+	for ($i = 0; $i < $entries; ++$i) {
+		$key = date($key_format, time() - $key_constant * $i);
+		$line[$key]['time'] = new DateTime($key);
+		foreach ($event as $e)
+			$line[$key][$e] = 0;
+	}
+	foreach ($event as $e) {
+		$res = $mysqli->query("SELECT SUM(distance_count) as c, distance_time as t FROM ws_distances JOIN ws_distance_types ON distance_type = type_id WHERE type_name = '{$e}' AND {$where} GROUP BY {$group} ORDER BY t ASC");
 		while ($row = $res->fetch_assoc()) {
-			$over_time[date('G', (new DateTime($row['t']))->getTimestamp())][$e] = (int)$row['c'];
+			$line[date($key_format, (new DateTime($row['t']))->getTimestamp())][$e] = (int)$row['c'];
 		}
 	}
 }
+
+$line = array_values(array_reverse($line));
+
+// echo '<pre>';
+// print_r($line);
+// echo '</pre>';
+// exit();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,8 +94,8 @@ if (!empty($event_raw)) {
 	function drawChart() {
 		var data = google.visualization.arrayToDataTable([
 				['Event', 'Count']
-<?php for ($i = 0; $i < count($event); ++$i) { ?>
-				,['<?php echo $event[$i]; ?>', <?php echo $count[$i]; ?>]
+<?php for ($i = 0; $i < count($donut); ++$i) { ?>
+				,['<?php echo ucwords(strtolower(str_replace('_', ' ', $donut[$i]['event']))); ?>', <?php echo $donut[$i]['count']; ?>]
 <?php } ?>
 		]);
 		var options = {
@@ -50,9 +111,9 @@ if (!empty($event_raw)) {
 	google.setOnLoadCallback(drawChart);
 	function drawChart() {
 		var data = google.visualization.arrayToDataTable([
-				['Time'<?php foreach ($event as $e) { ?>, '<?php echo $e; ?>'<?php } ?>]
-<?php for ($i = 0; $i < 24; ++$i) { ?>
-				,['<?php echo $i; ?>:00'<?php foreach ($event_raw as $e) { ?>, <?php echo $over_time[$i][$e]; ?><?php } ?>]
+				['Time'<?php foreach ($event as $e) { ?>, '<?php echo ucwords(str_replace('_', ' ', $e)); ?>'<?php } ?>]
+<?php for ($i = 0; $i < count($line); ++$i) { ?>
+				,['<?php echo date($label, $line[$i]['time']->getTimestamp()); ?>'<?php foreach ($event as $e) { ?>, <?php echo $line[$i][$e]; ?><?php } ?>]
 <?php } ?>
         ]);
 		var options = {
@@ -66,8 +127,12 @@ if (!empty($event_raw)) {
 <body>
   <header class="<?php echo $online ? 'green' : 'red'; ?>"></header>
   <nav>
-    <ul class="box">
-      <li>Text</li>
+    <ul>
+      <li><a href="/distances/day">Day</a></li>
+      <li><a href="/distances/week">Week</a></li>
+      <li><a href="/distances/month">Month</a></li>
+      <li><a href="/distances/year">Year</a></li>
+      <li><a href="/distances/all">All</a></li>
     </ul>
   </nav>
   <article>

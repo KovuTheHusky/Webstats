@@ -5,5 +5,6 @@ RewriteBase /
 RewriteRule ^materials/?$ materials.php
 RewriteRule ^material/(.+)/?$ material.php?material=$1
 RewriteRule ^distances/?$ distances.php
+RewriteRule ^distances/(.+)/?$ distances.php?time=$1
 RewriteRule ^error/(.+)/?$ error.php?error=$1
 RewriteRule ^player/(.+)/?$ player.php?player=$1
