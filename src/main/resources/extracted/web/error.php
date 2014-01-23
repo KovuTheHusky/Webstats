@@ -18,7 +18,7 @@ switch ($error) {
 <title>Error | Webstats</title>
 </head>
 <body>
-  <header class="<?php echo $online ? 'green' : 'red'; ?>"> </header>
+  <header class="<?php echo $online ? 'green' : 'red'; ?>"></header>
   <nav>
     <ul class="box">
       <li>Text</li>

@@ -68,7 +68,7 @@ if (!empty($event_raw)) {
 </script>
 </head>
 <body>
-  <header class="<?php echo $online ? 'green' : 'red'; ?>"> </header>
+  <header class="<?php echo $online ? 'green' : 'red'; ?>"></header>
   <nav>
     <ul class="box">
       <li>Text</li>

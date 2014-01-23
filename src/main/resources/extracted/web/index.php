@@ -10,7 +10,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
 <title>Webstats</title>
 </head>
 <body>
-  <header class="<?php echo $online ? 'green' : 'red'; ?>"> </header>
+  <header class="<?php echo $online ? 'green' : 'red'; ?>"></header>
   <nav>
     <ul class="box">
       <li>Text</li>
