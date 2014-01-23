@@ -12,7 +12,7 @@ while ($row = $res->fetch_assoc()) {
 <meta charset="utf-8">
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="stylesheet" href="/assets/styles/global.css" type="text/css" />
-<title>Blocks | Webstats</title>
+<title>Materials | Webstats</title>
 </head>
 <body>
   <header class="<?php echo $online ? 'green' : 'red'; ?>"> </header>
@@ -25,9 +25,9 @@ while ($row = $res->fetch_assoc()) {
 <?php foreach ($material as $m) { ?>
     <div style="width: 150px; height: 150px; display: inline-block; border: none; vertical-align: top; padding: 0; margin-bottom: 0; line-height: 150px;">
 <?php if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/assets/images/materials/' . strtolower($m) . '.png')) { ?>
-      <a href="/block/<?php echo strtolower($m); ?>" style="display: block; width: 150px; height: 150px;"><?php echo ucwords(strtolower(str_replace('_', ' ', $m))); ?></a>
+      <a href="/material/<?php echo strtolower($m); ?>" style="display: block; width: 150px; height: 150px;"><?php echo ucwords(strtolower(str_replace('_', ' ', $m))); ?></a>
 <?php } else { ?>
-      <a href="/block/<?php echo strtolower($m); ?>" style="display: block; width: 150px; height: 150px;"><img src="/assets/images/materials/<?php echo strtolower($m); ?>.png" alt="<?php echo ucwords(strtolower(str_replace('_', ' ', $m))); ?>" style="max-width: 150px; max-height: 150px; vertical-align: middle; margin: auto;" /></a>
+      <a href="/material/<?php echo strtolower($m); ?>" style="display: block; width: 150px; height: 150px;"><img src="/assets/images/materials/<?php echo strtolower($m); ?>.png" alt="<?php echo ucwords(strtolower(str_replace('_', ' ', $m))); ?>" style="max-width: 150px; max-height: 150px; vertical-align: middle; margin: auto;" /></a>
 <?php } ?>
     </div>
 <?php } ?>
