@@ -125,7 +125,7 @@ $line = array_values(array_reverse($line));
 </script>
 </head>
 <body>
-  <header class="<?php echo $online ? 'green' : 'red'; ?>"></header>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/page_header.php'; ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/navigation.php'; ?>
   <nav class="small">
     <ul>
@@ -141,8 +141,6 @@ $line = array_values(array_reverse($line));
     <div id="donut" class="chart"></div>
     <div id="line" class="chart"></div>
   </article>
-  <footer>
-    Data from <a href="http://dev.bukkit.org/bukkit-mods/webstats">Webstats</a> ${project.version} by <a href="http://codeski.com">Codeski</a>
-  </footer>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/page_footer.php'; ?>
 </body>
 </html>

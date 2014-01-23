@@ -15,7 +15,7 @@ while ($row = $res->fetch_assoc()) {
 <title>Materials | Webstats</title>
 </head>
 <body>
-  <header class="<?php echo $online ? 'green' : 'red'; ?>"></header>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/page_header.php'; ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/navigation.php'; ?>
   <article>
 <?php foreach ($material as $m) { ?>
@@ -28,8 +28,6 @@ while ($row = $res->fetch_assoc()) {
     </div>
 <?php } ?>
   </article>
-  <footer style="margin-top: 10px;">
-    Data from <a href="http://dev.bukkit.org/bukkit-mods/webstats">Webstats</a> ${project.version} by <a href="http://codeski.com">Codeski</a>
-  </footer>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/page_footer.php'; ?>
 </body>
 </html>

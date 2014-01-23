@@ -6,7 +6,8 @@ if (!$mysqli->query("SELECT COUNT(0) FROM ws_players WHERE player_name = '{$play
 	exit(header('Location: http' . (!empty($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/error/100'));
 
 $player = $mysqli->query("SELECT player_name FROM ws_players WHERE player_name = '{$player}'")->fetch_row()[0];
-playerHead($player);
+if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/players/' . $player . '.png') || filemtime($_SERVER['DOCUMENT_ROOT'] . '/players/' . $player . '.png') < time() - 300)
+	playerHead($player);
 
 $res = $mysqli->query("SELECT type_name AS e, SUM(distance_count) AS c FROM ws_distances JOIN ws_distance_types ON type_id = distance_type JOIN ws_players ON player_id = distance_player WHERE player_name = '{$player}' GROUP BY distance_type ORDER BY c DESC");
 while ($row = $res->fetch_assoc()) {
@@ -73,7 +74,7 @@ if (!empty($event_raw)) {
 </script>
 </head>
 <body>
-  <header class="<?php echo $online ? 'green' : 'red'; ?>"></header>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/page_header.php'; ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/navigation.php'; ?>
   <article>
     <div class="face">
@@ -82,8 +83,6 @@ if (!empty($event_raw)) {
     <div id="events" class="chart"></div>
     <div id="overtime" class="chart"></div>
   </article>
-  <footer>
-    Data from <a href="http://dev.bukkit.org/bukkit-mods/webstats">Webstats</a> ${project.version} by <a href="http://codeski.com">Codeski</a>
-  </footer>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/page_footer.php'; ?>
 </body>
 </html>
