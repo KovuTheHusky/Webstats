@@ -2,9 +2,11 @@ Options +Indexes +SymLinksIfOwnerMatch -MultiViews
 
 RewriteEngine on
 RewriteBase /
-RewriteRule ^materials/?$ materials.php
-RewriteRule ^material/(.+)/?$ material.php?material=$1
+RewriteRule ^damages/?$ damages.php
 RewriteRule ^distances/?$ distances.php
 RewriteRule ^distances/(.+)/?$ distances.php?time=$1
 RewriteRule ^error/(.+)/?$ error.php?error=$1
+RewriteRule ^materials/?$ materials.php
+RewriteRule ^material/(.+)/?$ material.php?material=$1
+RewriteRule ^players/?$ players.php
 RewriteRule ^player/(.+)/?$ player.php?player=$1

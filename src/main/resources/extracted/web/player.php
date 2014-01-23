@@ -6,7 +6,7 @@ if (!$mysqli->query("SELECT COUNT(0) FROM ws_players WHERE player_name = '{$play
 	exit(header('Location: http' . (!empty($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/error/100'));
 
 $player = $mysqli->query("SELECT player_name FROM ws_players WHERE player_name = '{$player}'")->fetch_row()[0];
-if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/players/' . $player . '.png') || filemtime($_SERVER['DOCUMENT_ROOT'] . '/players/' . $player . '.png') < time() - 300)
+if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $player . '.png') || filemtime($_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $player . '.png') < time() - 300)
 	playerHead($player);
 
 $res = $mysqli->query("SELECT type_name AS e, SUM(distance_count) AS c FROM ws_distances JOIN ws_distance_types ON type_id = distance_type JOIN ws_players ON player_id = distance_player WHERE player_name = '{$player}' GROUP BY distance_type ORDER BY c DESC");
@@ -33,7 +33,7 @@ if (!empty($event_raw)) {
 <meta charset="utf-8">
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="stylesheet" href="/assets/styles/global.css" type="text/css" />
-<title>Distances | Webstats</title>
+<title><?php echo $player; ?> | Player | Webstats</title>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
 	google.load("visualization", "1", {packages:["corechart"]});
@@ -78,7 +78,7 @@ if (!empty($event_raw)) {
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/navigation.php'; ?>
   <article>
     <div class="face">
-      <img src="/players/<?php echo $player; ?>.png" alt="<?php echo $player; ?>" />
+      <img src="/uploads/<?php echo $player; ?>.png" alt="<?php echo $player; ?>" />
     </div>
     <div id="events" class="chart"></div>
     <div id="overtime" class="chart"></div>

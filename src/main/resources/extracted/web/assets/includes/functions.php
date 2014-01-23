@@ -3,7 +3,7 @@
 function playerHead($name) {
 	$source = imagecreatefrompng('http://s3.amazonaws.com/MinecraftSkins/' . $name . '.png');
 	if (!$source) {
-		copy($_SERVER['DOCUMENT_ROOT'] . '/assets/images/head.png', $_SERVER['DOCUMENT_ROOT'] . '/players/' . $name . '.png');
+		copy($_SERVER['DOCUMENT_ROOT'] . '/assets/images/head.png', $_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $name . '.png');
 	} else {
 		// New width and height
 		$width = $height = 128;
@@ -21,7 +21,7 @@ function playerHead($name) {
 		imagecopyresized($head2, $source, 0, 0, 40, 8, $width, $height, 8, 8);
 		// Merge the images and save to disk
 		imagecopy($head, $head2, 0, 0, 0, 0, $width, $height);
-		imagepng($head, $_SERVER['DOCUMENT_ROOT'] . '/players/' . $name . '.png');
+		imagepng($head, $_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $name . '.png');
 	}
 }
 
