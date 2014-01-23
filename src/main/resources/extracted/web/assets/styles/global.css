@@ -101,6 +101,25 @@ article>div {
 	border-bottom: 1px dashed #e0e0e0;
 }
 
+article>div.face_roll {
+	height: 128px;
+}
+
+article>div.face_roll ul {
+	display: inline-block;
+	margin: 0 auto;
+}
+
+article>div.face_roll ul li {
+	display: block;
+	margin-right: 10px;
+	float: left;
+}
+
+article>div.face_roll ul li:last-of-type {
+	margin-right: 0;
+}
+
 section {
 	margin: 0 0 10px 0;
 }

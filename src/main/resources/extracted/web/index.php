@@ -1,5 +1,13 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
+
+$res = $mysqli->query("SELECT player_name FROM ws_players");
+while ($row = $res->fetch_assoc()) {
+	$player[] = $row['player_name'];
+	if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/players/' . $row['player_name'] . '.png') || filemtime($_SERVER['DOCUMENT_ROOT'] . '/players/' . $row['player_name'] . '.png') < time() - 300)
+		playerHead($row['player_name']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,15 +21,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/page_header.php'; ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/navigation.php'; ?>
   <article>
-    <section class="justified">
+    <div class="face_roll">
       <ul>
-        <li><img src="/players/KovuTheHusky.png" alt="KovuTheHusky" class="" /></li>
-        <li><img src="/players/NightWolf1298.png" alt="NightWolf1298" class="" /></li>
-        <li><img src="/players/kuperfox.png" alt="kuperfox" class="" /></li>
-        <li><img src="/players/Cujo27.png" alt="Cujo27" class="" /></li>
-        <li><img src="/players/Prince_of_Wars.png" alt="Prince_of_Wars" class="" /></li>
+<?php foreach ($player as $p) { ?>
+        <li><a href="/player/<?php echo strtolower($p); ?>"><img src="/players/<?php echo strtolower($p); ?>.png" alt="<?php echo $p; ?>" class="" /></a></li>
+<?php } ?>
       </ul>
-    </section>
+    </div>
     <section class="two justified">
       <div>
         <h1>Server</h1>
