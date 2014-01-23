@@ -4,9 +4,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
 $error = $_GET['error'];
 switch ($error) {
 	case '100':
-		$str = 'That block does not exist.';
-	case '101':
 		$str = 'That player does not exist.';
+		break;
+	case '101':
+		$str = 'That material does not exist.';
+		break;
 }
 ?>
 <!DOCTYPE html>
@@ -19,11 +21,7 @@ switch ($error) {
 </head>
 <body>
   <header class="<?php echo $online ? 'green' : 'red'; ?>"></header>
-  <nav>
-    <ul class="box">
-      <li>Text</li>
-    </ul>
-  </nav>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/navigation.php'; ?>
   <article>
     <span style="font-size: 32px;">
       <?php echo $error; ?>: <?php echo $str; ?>

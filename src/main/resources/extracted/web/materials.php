@@ -16,11 +16,7 @@ while ($row = $res->fetch_assoc()) {
 </head>
 <body>
   <header class="<?php echo $online ? 'green' : 'red'; ?>"></header>
-  <nav>
-    <ul class="box">
-      <li>Text</li>
-    </ul>
-  </nav>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/navigation.php'; ?>
   <article>
 <?php foreach ($material as $m) { ?>
     <div style="width: 150px; height: 150px; display: inline-block; border: none; vertical-align: top; padding: 0; margin-bottom: 0; line-height: 150px;">

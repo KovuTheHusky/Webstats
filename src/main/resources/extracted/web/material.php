@@ -3,7 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
 $material = strtolower($_GET['material']);
 
 if (!$mysqli->query("SELECT COUNT(0) FROM ws_material_types WHERE type_name = '{$material}'")->fetch_row()[0])
-	exit(header('Location: http' . (!empty($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/error/100'));
+	exit(header('Location: http' . (!empty($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/error/101'));
 
 $res = $mysqli->query("SELECT event_name AS e, COUNT(0) AS c FROM ws_materials JOIN ws_material_events ON event_id = material_event JOIN ws_material_types ON type_id = material_type WHERE type_name = '{$material}' AND event_name != 'BLOCK_PHYSICS' GROUP BY material_event ORDER BY c DESC");
 while ($row = $res->fetch_assoc()) {
@@ -69,11 +69,7 @@ if (!empty($event_raw)) {
 </head>
 <body>
   <header class="<?php echo $online ? 'green' : 'red'; ?>"></header>
-  <nav>
-    <ul class="box">
-      <li>Text</li>
-    </ul>
-  </nav>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/navigation.php'; ?>
   <article>
     <div class="material">
       <img src="/assets/images/materials/<?php echo $material; ?>.png" alt="<?php echo ucwords(strtolower(str_replace('_', ' ', $material))); ?>" />

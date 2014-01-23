@@ -9,7 +9,7 @@ switch ($time) {
 		$where = 'distance_time > \'' . date('Y-m-d H:i:s', time() - 3600 * 24) . '\'';
 		$group = 'HOUR(t)';
 		$entries = 24;
-		$label = 'ga';
+		$label = 'F d, Y G:i:s';
 		$key_format = 'Y-m-d H:00:00';
 		$key_constant = 3600;
 		break;
@@ -17,7 +17,7 @@ switch ($time) {
 		$where = 'distance_time > \'' . date('Y-m-d 00:00:00', time() - 3600 * 24 * 6) . '\'';
 		$group = 'DAY(t)';
 		$entries = 7;
-		$label = 'F j';
+		$label = 'F d, Y';
 		$key_format = 'Y-m-d';
 		$key_constant = 3600 * 24;
 		break;
@@ -25,7 +25,7 @@ switch ($time) {
 		$where = 'distance_time > \'' . date('Y-m-d H:i:s', time() - 3600 * 24 * 30) . '\'';
 		$group = 'DAY(t)';
 		$entries = 30;
-		$label = 'F j';
+		$label = 'F d, Y';
 		$key_format = 'Y-m-d';
 		$key_constant = 3600 * 24;
 		break;
@@ -33,7 +33,7 @@ switch ($time) {
 		$where = 'distance_time > \'' . date('Y-m-d H:i:s', time() - 3600 * 24 * 365) . '\'';
 		$group = 'MONTH(t)';
 		$entries = 12;
-		$label = 'F';
+		$label = 'F d, Y';
 		$key_format = 'Y-m-01';
 		$key_constant = 3600 * 24 * 30; // TODO: This won't work on edge cases, do months manually?
 		break;
@@ -41,7 +41,7 @@ switch ($time) {
 		$where = '1';
 		$group = 'MONTH(t)';
 		$entries = 24;
-		$label = 'F Y';
+		$label = 'F d, Y';
 		$key_format = 'Y-m-01';
 		$key_constant = 3600 * 24 * 30; // TODO: This won't work on edge cases, do months manually?
 		break;
@@ -113,7 +113,7 @@ $line = array_values(array_reverse($line));
 		var data = google.visualization.arrayToDataTable([
 				['Time'<?php foreach ($event as $e) { ?>, '<?php echo ucwords(str_replace('_', ' ', $e)); ?>'<?php } ?>]
 <?php for ($i = 0; $i < count($line); ++$i) { ?>
-				,['<?php echo date($label, $line[$i]['time']->getTimestamp()); ?>'<?php foreach ($event as $e) { ?>, <?php echo $line[$i][$e]; ?><?php } ?>]
+				,[new Date('<?php echo date($label, $line[$i]['time']->getTimestamp()); ?>')<?php foreach ($event as $e) { ?>, <?php echo $line[$i][$e]; ?><?php } ?>]
 <?php } ?>
         ]);
 		var options = {
@@ -126,13 +126,15 @@ $line = array_values(array_reverse($line));
 </head>
 <body>
   <header class="<?php echo $online ? 'green' : 'red'; ?>"></header>
-  <nav>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/navigation.php'; ?>
+  <nav class="small">
     <ul>
-      <li><a href="/distances/day">Day</a></li>
-      <li><a href="/distances/week">Week</a></li>
-      <li><a href="/distances/month">Month</a></li>
-      <li><a href="/distances/year">Year</a></li>
-      <li><a href="/distances/all">All</a></li>
+      <li>View data from last:</li>
+      <li<?php if ($time == 'day') echo ' class="selected"'; ?>><a href="/distances/day">Day</a></li>
+      <li<?php if ($time == 'week') echo ' class="selected"'; ?>><a href="/distances/week">Week</a></li>
+      <li<?php if ($time == 'month') echo ' class="selected"'; ?>><a href="/distances/month">Month</a></li>
+      <li<?php if ($time == 'year') echo ' class="selected"'; ?>><a href="/distances/year">Year</a></li>
+      <li<?php if ($time == 'all') echo ' class="selected"'; ?>><a href="/distances/all">All</a></li>
     </ul>
   </nav>
   <article>

@@ -18,7 +18,7 @@ a:link,a:active,a:visited {
 h1 {
 	font-size: 32px;
 	font-weight: 200;
-	text-shadow: 0 1px 0 #fff;
+	text-shadow: 0 1px 0 #ffffff;
 	margin: 0 0 10px 0;
 }
 
@@ -31,7 +31,6 @@ nav,article {
 header {
 	color: white;
 	height: 10px;
-	border-bottom: 1px dashed pink;
 }
 
 nav {
@@ -41,17 +40,28 @@ nav {
 	height: 32px;
 }
 
+nav.small ul li {
+	min-width: 64px;
+}
+
+nav.small ul li:first-of-type {
+	border: none;
+}
+
+nav.large ul li {
+	min-width: 128px;
+}
+
 nav ul {
 	display: inline-block;
 }
 
 nav ul li {
 	float: left;
-	height: 32px;
+	height: 31px;
 	border-top: 1px solid #c5c5c5;
 	border-right: 1px solid #c5c5c5;
 	border-left: 1px solid #c5c5c5;
-	min-width: 64px;
 	margin: 0 10px 0 0;
 	padding: 0;
 	line-height: 32px;
@@ -59,6 +69,11 @@ nav ul li {
 
 nav ul li:last-of-type {
 	margin-right: 0;
+}
+
+nav ul li.selected {
+	font-weight: bold;
+	border-bottom: 1px solid #ffffff;
 }
 
 nav ul li a {
@@ -82,8 +97,8 @@ article {
 article>div {
 	margin: 10px 0;
 	padding: 0;
-	border-top: 1px dashed pink;
-	border-bottom: 1px dashed pink;
+	border-top: 1px dashed #e0e0e0;
+	border-bottom: 1px dashed #e0e0e0;
 }
 
 section {
@@ -97,7 +112,7 @@ section:last-child {
 footer {
 	padding: 2px;
 	color: #000000;
-	border-top: 1px dashed pink;
+	border-top: 1px dashed #e0e0e0;
 }
 
 footer a:link,footer a:active,footer a:visited {
@@ -186,4 +201,6 @@ img.offline:hover {
 .chart {
 	width: 100%;
 	height: 500px;
+	overflow: hidden;
+	padding: -100px 0;
 }

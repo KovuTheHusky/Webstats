@@ -11,11 +11,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
 </head>
 <body>
   <header class="<?php echo $online ? 'green' : 'red'; ?>"></header>
-  <nav>
-    <ul class="box">
-      <li>Text</li>
-    </ul>
-  </nav>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/navigation.php'; ?>
   <article>
     <section class="justified">
       <ul>
