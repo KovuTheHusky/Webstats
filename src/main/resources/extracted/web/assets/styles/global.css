@@ -142,6 +142,12 @@ img.offline:hover {
 
 .block {
 	height: 150px;
+	line-height: 150px;
+}
+
+.block img {
+	max-height: 150px;
+	vertical-align: middle;
 }
 
 .face {

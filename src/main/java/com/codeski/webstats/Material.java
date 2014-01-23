@@ -62,7 +62,6 @@ public enum Material {
 	BROWN_STAINED_GLASS,
 	BROWN_STAINED_GLASS_PANE,
 	BROWN_WOOL,
-	BURNING_FURNACE,
 	CACTUS,
 	CAKE,
 	CARPET,
@@ -73,6 +72,7 @@ public enum Material {
 	CHISELED_SANDSTONE,
 	CHISELED_STONE_BRICKS,
 	CLAY,
+	COAL_ORE,
 	COBBLESTONE,
 	COBBLESTONE_SLAB,
 	COBBLESTONE_STAIRS,
@@ -101,9 +101,7 @@ public enum Material {
 	DIAMOND_ORE,
 	DIRT,
 	DISPENSER,
-	DOUBLE_STONE_SLAB,
 	DOUBLE_TALLGRASS,
-	DOUBLE_WOODEN_SLAB,
 	DRAGON_EGG,
 	DROPPER,
 	EMERALD_ORE,
@@ -121,7 +119,6 @@ public enum Material {
 	FURNACE,
 	GLASS,
 	GLASS_PANE,
-	GLOWING_REDSTONE_ORE,
 	GLOWSTONE,
 	GOLD_ORE,
 	GRASS,
@@ -160,7 +157,6 @@ public enum Material {
 	LAPIS_LAZULI_ORE,
 	LARGE_FERN,
 	LAVA,
-	LEAVES,
 	LEVER,
 	LIGHT_BLUE_CARPET,
 	LIGHT_BLUE_STAINED_CLAY,
@@ -189,7 +185,7 @@ public enum Material {
 	MONSTER_EGG,
 	MONSTER_SPAWNER,
 	MOSS_STONE,
-	MOSSY_COBLESTONE_WALL,
+	MOSSY_COBBLESTONE_WALL,
 	MOSSY_STONE_BRICKS,
 	MYCELIUM,
 	NETHER_BRICK,
@@ -574,6 +570,9 @@ public enum Material {
 				return WHEAT;
 			case SOIL:
 				return FARMLAND;
+			case FURNACE:
+			case BURNING_FURNACE:
+				return FURNACE;
 			case WOOD_DOOR:
 				return WOODEN_DOOR;
 			case RAILS:
@@ -584,6 +583,9 @@ public enum Material {
 				return IRON_DOOR;
 			case WOOD_PLATE:
 				return WOODEN_PRESSURE_PLATE;
+			case REDSTONE_ORE:
+			case GLOWING_REDSTONE_ORE:
+				return REDSTONE_ORE;
 			case REDSTONE_TORCH_OFF:
 			case REDSTONE_TORCH_ON:
 				return REDSTONE_TORCH;
@@ -689,7 +691,7 @@ public enum Material {
 					case 0:
 						return COBBLESTONE_WALL;
 					case 1:
-						return MOSSY_COBLESTONE_WALL;
+						return MOSSY_COBBLESTONE_WALL;
 				}
 			case CARROT:
 			case CARROT_ITEM:
