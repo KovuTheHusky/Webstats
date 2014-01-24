@@ -56,6 +56,14 @@ nav ul {
 	display: inline-block;
 }
 
+nav ul {
+	margin-left: 20px;
+}
+
+nav ul:first-of-type {
+	margin-left: 0;
+}
+
 nav ul li {
 	float: left;
 	height: 31px;

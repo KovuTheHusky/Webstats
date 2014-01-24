@@ -4,7 +4,8 @@ RewriteEngine on
 RewriteBase /
 RewriteRule ^damages/?$ damages.php
 RewriteRule ^distances/?$ distances.php
-RewriteRule ^distances/(.+)/?$ distances.php?time=$1
+RewriteRule ^distances/(day|week|month|year|all)/?$ distances.php?time=$1
+RewriteRule ^distances/(day|week|month|year|all)/(donut|line|all)/?$ distances.php?time=$1&chart=$2
 RewriteRule ^error/(.+)/?$ error.php?error=$1
 RewriteRule ^materials/?$ materials.php
 RewriteRule ^material/(.+)/?$ material.php?material=$1

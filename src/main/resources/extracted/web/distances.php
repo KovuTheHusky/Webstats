@@ -49,6 +49,10 @@ switch ($time) {
 		exit('error');
 }
 
+$chart = 'all';
+if (isset($_GET['chart']))
+	$chart = $_GET['chart'];
+
 $res = $mysqli->query("SELECT type_name AS e, SUM(distance_count) AS c FROM ws_distances JOIN ws_distance_types ON type_id = distance_type WHERE {$where} GROUP BY distance_type ORDER BY c DESC");
 for ($i = 0; $row = $res->fetch_assoc(); ++$i) {
 	$donut[$i]['event'] = $row['e'];
@@ -130,16 +134,26 @@ $line = array_values(array_reverse($line));
   <nav class="small">
     <ul>
       <li>View data from last:</li>
-      <li<?php if ($time == 'day') echo ' class="selected"'; ?>><a href="/distances/day">Day</a></li>
-      <li<?php if ($time == 'week') echo ' class="selected"'; ?>><a href="/distances/week">Week</a></li>
-      <li<?php if ($time == 'month') echo ' class="selected"'; ?>><a href="/distances/month">Month</a></li>
-      <li<?php if ($time == 'year') echo ' class="selected"'; ?>><a href="/distances/year">Year</a></li>
-      <li<?php if ($time == 'all') echo ' class="selected"'; ?>><a href="/distances/all">All</a></li>
+      <li<?php if ($time == 'day') echo ' class="selected"'; ?>><a href="/distances/day/<?php echo $chart; ?>">Day</a></li>
+      <li<?php if ($time == 'week') echo ' class="selected"'; ?>><a href="/distances/week/<?php echo $chart; ?>">Week</a></li>
+      <li<?php if ($time == 'month') echo ' class="selected"'; ?>><a href="/distances/month/<?php echo $chart; ?>">Month</a></li>
+      <li<?php if ($time == 'year') echo ' class="selected"'; ?>><a href="/distances/year/<?php echo $chart; ?>">Year</a></li>
+      <li<?php if ($time == 'all') echo ' class="selected"'; ?>><a href="/distances/all/<?php echo $chart; ?>">All</a></li>
+    </ul>
+    <ul>
+      <li>Chart type:</li>
+      <li<?php if ($chart == 'donut') echo ' class="selected"'; ?>><a href="/distances/<?php echo $time; ?>/donut">Donut</a></li>
+      <li<?php if ($chart == 'line') echo ' class="selected"'; ?>><a href="/distances/<?php echo $time; ?>/line">Line</a></li>
+      <li<?php if ($chart == 'all') echo ' class="selected"'; ?>><a href="/distances/<?php echo $time; ?>/all">All</a></li>
     </ul>
   </nav>
   <article>
+<?php if ($chart == 'donut' || $chart == 'all') { ?>
     <div id="donut" class="chart"></div>
+<?php } ?>
+<?php if ($chart == 'line' || $chart == 'all') { ?>
     <div id="line" class="chart"></div>
+<?php } ?>
   </article>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/page_footer.php'; ?>
 </body>
