@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerFishEvent;
 
-import com.codeski.webstats.DistanceType;
+import com.codeski.webstats.Distance;
 import com.codeski.webstats.Material;
 import com.codeski.webstats.Webstats;
 
@@ -76,7 +76,7 @@ public class MYSQLDatabase extends Database {
 				this.update("INSERT INTO ws_damage_types VALUES (DEFAULT, '" + d + "')");
 		// Distance types
 		List<String> dtl = this.getEnums("ws_distance_types", "type_name");
-		for (DistanceType d : DistanceType.values())
+		for (Distance d : Distance.values())
 			if (!dtl.contains(d.toString()))
 				this.update("INSERT INTO ws_distance_types VALUES (DEFAULT, '" + d + "')");
 		// Entity types

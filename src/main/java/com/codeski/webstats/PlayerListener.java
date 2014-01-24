@@ -238,35 +238,35 @@ public class PlayerListener implements Listener {
 		if (fall >= 2.0 && fall > fallen.get(name))
 			fallen.put(name, fall);
 		else if (fall == 0.0 && fallen.get(name) > 0.0)
-			database.addDistance(name, DistanceType.FALLEN + "", fallen.put(name, 0.0) + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+			database.addDistance(name, Distance.FALLEN + "", fallen.put(name, 0.0) + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 		// Other distances
 		if (event.getPlayer().isInsideVehicle())
 			switch (vehicle.getType()) {
 				case MINECART:
-					database.addDistance(name, DistanceType.BY_MINECART + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+					database.addDistance(name, Distance.BY_MINECART + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 					break;
 				case BOAT:
-					database.addDistance(name, DistanceType.BY_BOAT + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+					database.addDistance(name, Distance.BY_BOAT + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 					break;
 				case PIG:
-					database.addDistance(name, DistanceType.BY_PIG + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+					database.addDistance(name, Distance.BY_PIG + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 					break;
 				case HORSE:
-					database.addDistance(name, DistanceType.BY_HORSE + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+					database.addDistance(name, Distance.BY_HORSE + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 					break;
 				default:
 					Bukkit.getLogger().warning(vehicle.getType() + " is currently unsupported. Do you have the latest version of Webstats?");
 			}
 		else if (event.getPlayer().isFlying())
-			database.addDistance(name, DistanceType.FLOWN + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+			database.addDistance(name, Distance.FLOWN + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 		else if (block.isLiquid() && !block.getRelative(BlockFace.UP).isLiquid())
-			database.addDistance(name, DistanceType.SWAM + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+			database.addDistance(name, Distance.SWAM + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 		else if (block.isLiquid())
-			database.addDistance(name, DistanceType.DOVE + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+			database.addDistance(name, Distance.DOVE + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 		else if (block.getType() == Material.LADDER || block.getType() == Material.VINE)
-			database.addDistance(name, DistanceType.CLIMBED + "", y + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+			database.addDistance(name, Distance.CLIMBED + "", y + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 		else
-			database.addDistance(name, DistanceType.WALKED + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+			database.addDistance(name, Distance.WALKED + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 	}
 
 	@EventHandler
