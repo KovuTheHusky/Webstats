@@ -103,6 +103,8 @@ article>div {
 
 article>div.face_roll {
 	height: 128px;
+	text-align: center;
+	overflow: hidden;
 }
 
 article>div.face_roll ul {
@@ -111,13 +113,12 @@ article>div.face_roll ul {
 }
 
 article>div.face_roll ul li {
-	display: block;
-	margin-right: 10px;
-	float: left;
+	display: inline-block;
+	margin-left: 10px;
 }
 
-article>div.face_roll ul li:last-of-type {
-	margin-right: 0;
+article>div.face_roll ul li:first-of-type {
+	margin-left: 0;
 }
 
 section {
