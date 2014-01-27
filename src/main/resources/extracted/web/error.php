@@ -1,13 +1,16 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
 
-$error = $_GET['error'];
+$error = (int)$_GET['error'];
 switch ($error) {
-	case '100':
+	case 100:
 		$str = 'That player does not exist.';
 		break;
-	case '101':
+	case 101:
 		$str = 'That material does not exist.';
+		break;
+	case 102:
+		$str = 'There is no data for that time period.';
 		break;
 }
 ?>

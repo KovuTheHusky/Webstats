@@ -32,4 +32,12 @@ function morkm($meters) {
 		return number_format($meters, 0) . 'm';
 }
 
+function ws_error($num) {
+	ws_redirect("/error/{$num}");
+}
+
+function ws_redirect($str) {
+	exit(header('Location: http' . (!empty($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $str));
+}
+
 ?>
