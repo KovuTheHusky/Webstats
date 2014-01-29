@@ -46,6 +46,8 @@ nav.small ul li {
 
 nav.small ul li:first-of-type {
 	border: none;
+	height: 32px;
+	min-width: 0;
 }
 
 nav.large ul li {
@@ -105,14 +107,20 @@ article {
 article>div {
 	margin: 10px 0;
 	padding: 0;
-	border-top: 1px dashed #e0e0e0;
-	border-bottom: 1px dashed #e0e0e0;
+	/* border-top: 1px dashed #e0e0e0;
+	border-bottom: 1px dashed #e0e0e0; */
 }
 
 article>div.face_roll {
 	height: 128px;
 	text-align: center;
 	overflow: hidden;
+	vertical-align: middle;
+}
+
+article>div.face_roll.small {
+	height: 32px;
+	line-height: 32px;
 }
 
 article>div.face_roll ul {
@@ -129,6 +137,31 @@ article>div.face_roll ul li:first-of-type {
 	margin-left: 0;
 }
 
+article>div.face_roll.small ul {
+	height: 32px;
+}
+
+article>div.face_roll.small ul li {
+	float: left;
+}
+
+article>div.face_roll.small ul li.text {
+	border: 1px solid #c5c5c5;
+	display: block;
+	width: 30px;
+	height: 30px;
+}
+
+article>div.face_roll ul li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+article>div.face_roll.small img {
+	height: 32px;
+}
+
 section {
 	margin: 0 0 10px 0;
 }
@@ -140,7 +173,7 @@ section:last-child {
 footer {
 	padding: 2px;
 	color: #000000;
-	border-top: 1px dashed #e0e0e0;
+	/* border-top: 1px dashed #e0e0e0; */
 }
 
 footer a:link,footer a:active,footer a:visited {

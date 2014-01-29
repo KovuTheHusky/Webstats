@@ -25,19 +25,20 @@ function playerHead($name) {
 	}
 }
 
-function morkm($meters) {
-	if ($meters >= 100)
-		return number_format($meters / 1000, 2) . 'km';
-	else
-		return number_format($meters, 0) . 'm';
-}
-
 function ws_error($num) {
 	ws_redirect("/error/{$num}");
 }
 
 function ws_redirect($str) {
 	exit(header('Location: http' . (!empty($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $str));
+}
+
+function ws_enum_encode($str) {
+	return strtoupper(str_replace(' ', '_', $str));
+}
+
+function ws_enum_decode($str) {
+	return ucwords(strtolower(str_replace('_', ' ', $str)));
 }
 
 ?>
