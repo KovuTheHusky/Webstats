@@ -69,7 +69,7 @@ public class PlayerListener implements Listener {
 			Projectile projectile = null;
 			if (damager instanceof Projectile) {
 				projectile = (Projectile) damager;
-				damager = projectile.getShooter();
+				damager = (Entity) projectile.getShooter();
 			}
 			Material hand = null;
 			if (damager instanceof Player && damage.getCause() == DamageCause.ENTITY_ATTACK)
@@ -150,7 +150,7 @@ public class PlayerListener implements Listener {
 			Projectile projectile = null;
 			if (damager instanceof Projectile) {
 				projectile = (Projectile) damager;
-				damager = projectile.getShooter();
+				damager = (Entity) projectile.getShooter();
 			}
 			Material hand = null;
 			if (damager instanceof Player && damage.getCause() == DamageCause.ENTITY_ATTACK)

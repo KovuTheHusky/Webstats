@@ -1,10 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
-
-$res = $mysqli->query("SELECT type_name FROM ws_material_types ORDER BY type_name ASC");
-while ($row = $res->fetch_assoc()) {
-	$material[] = $row['type_name'];
-}
+$materials = array_map('array_shift', $mysqli->query("SELECT type_name FROM ws_material_types ORDER BY type_name ASC")->fetch_all());
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,13 +14,9 @@ while ($row = $res->fetch_assoc()) {
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/page_header.php'; ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/navigation.php'; ?>
   <article>
-<?php foreach ($material as $m) { ?>
-    <div style="width: 150px; height: 150px; display: inline-block; border: none; vertical-align: top; padding: 0; margin-bottom: 0; line-height: 150px;">
-<?php if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/assets/images/materials/' . strtolower($m) . '.png')) { ?>
-      <a href="/material/<?php echo strtolower($m); ?>" style="display: block; width: 150px; height: 150px;"><?php echo ucwords(strtolower(str_replace('_', ' ', $m))); ?></a>
-<?php } else { ?>
-      <a href="/material/<?php echo strtolower($m); ?>" style="display: block; width: 150px; height: 150px;"><img src="/assets/images/materials/<?php echo strtolower($m); ?>.png" alt="<?php echo ucwords(strtolower(str_replace('_', ' ', $m))); ?>" style="max-width: 150px; max-height: 150px; vertical-align: middle; margin: auto;" /></a>
-<?php } ?>
+<?php foreach ($materials as $m) { ?>
+    <div class="material">
+      <a href="/material/<?php echo strtolower($m); ?>"><img src="/assets/images/materials/<?php echo strtolower($m); ?>.png" alt="<?php echo ws_enum_decode($m); ?>" /></a>
     </div>
 <?php } ?>
   </article>

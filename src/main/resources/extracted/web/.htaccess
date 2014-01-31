@@ -5,7 +5,7 @@ RewriteBase /
 RewriteRule ^damages/?$ damages.php
 RewriteRule ^distances/?$ distances.php
 RewriteRule ^distances/(day|week|month|year|all)/?$ distances.php?time=$1
-RewriteRule ^distances/(day|week|month|year|all)/(donut|line|column|all)/?$ distances.php?time=$1&chart=$2
+RewriteRule ^distances/(day|week|month|year|all)/(event|player|type)/?$ distances.php?time=$1&by=$2
 RewriteRule ^error/(.+)/?$ error.php?error=$1
 RewriteRule ^materials/?$ materials.php
 RewriteRule ^material/(.+)/?$ material.php?material=$1
