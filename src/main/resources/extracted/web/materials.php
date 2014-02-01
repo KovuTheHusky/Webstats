@@ -16,7 +16,7 @@ $materials = array_map('array_shift', $mysqli->query("SELECT type_name FROM ws_m
   <article>
 <?php foreach ($materials as $m) { ?>
     <div class="material">
-      <a href="/material/<?php echo strtolower($m); ?>"><img src="/assets/images/materials/<?php echo strtolower($m); ?>.png" alt="<?php echo ws_enum_decode($m); ?>" /></a>
+      <a href="/material/<?php echo strtolower($m); ?>" title="<?php echo ws_enum_decode($m); ?>"><img src="/assets/images/materials/<?php echo strtolower($m); ?>.png" alt="<?php echo ws_enum_decode($m); ?>" /></a>
     </div>
 <?php } ?>
   </article>

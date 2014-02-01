@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -107,11 +106,9 @@ public class Webstats extends JavaPlugin {
 			pm.registerEvents(new Listener() {
 				@EventHandler
 				public void onBlockBreak(BlockBreakEvent event) {
-					Material m = Material.getMaterial(event.getBlock());
-					Bukkit.broadcastMessage("Break: " + m);
 					if (event.isCancelled())
 						return;
-					database.addMaterial(event.getPlayer().getName(), Material.Event.BLOCK_BREAK + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+					database.addMaterial(event.getPlayer().getName(), Material.Event.BROKEN + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.block.burn"))
@@ -120,7 +117,7 @@ public class Webstats extends JavaPlugin {
 				public void onBlockBurn(BlockBurnEvent event) {
 					if (event.isCancelled())
 						return;
-					database.addMaterial(null, Material.Event.BLOCK_BURN + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+					database.addMaterial(null, Material.Event.BURNED + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.block.damage"))
@@ -129,7 +126,7 @@ public class Webstats extends JavaPlugin {
 				public void onBlockDamage(BlockDamageEvent event) {
 					if (event.isCancelled())
 						return;
-					database.addMaterial(event.getPlayer().getName(), Material.Event.BLOCK_DAMAGE + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+					database.addMaterial(event.getPlayer().getName(), Material.Event.DAMAGED + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.block.dispense"))
@@ -138,7 +135,7 @@ public class Webstats extends JavaPlugin {
 				public void onBlockDispense(BlockDispenseEvent event) {
 					if (event.isCancelled())
 						return;
-					database.addMaterial(null, Material.Event.BLOCK_DISPENSE + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+					database.addMaterial(null, Material.Event.DISPENSED + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.block.experience"))
@@ -154,7 +151,7 @@ public class Webstats extends JavaPlugin {
 				public void onBlockFade(BlockFadeEvent event) {
 					if (event.isCancelled())
 						return;
-					database.addMaterial(null, Material.Event.BLOCK_FADE + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+					database.addMaterial(null, Material.Event.FADED + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.block.fromto"))
@@ -172,7 +169,7 @@ public class Webstats extends JavaPlugin {
 				public void onBlockGrow(BlockGrowEvent event) {
 					if (event.isCancelled())
 						return;
-					database.addMaterial(null, Material.Event.BLOCK_GROW + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+					database.addMaterial(null, Material.Event.GROWN + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.block.ignite"))
@@ -182,9 +179,9 @@ public class Webstats extends JavaPlugin {
 					if (event.isCancelled())
 						return;
 					if (event.getPlayer() != null)
-						database.addMaterial(event.getPlayer().getName(), Material.Event.BLOCK_IGNITE + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+						database.addMaterial(event.getPlayer().getName(), Material.Event.IGNITED + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 					else
-						database.addMaterial(null, Material.Event.BLOCK_IGNITE + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+						database.addMaterial(null, Material.Event.IGNITED + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.block.physics"))
@@ -216,11 +213,9 @@ public class Webstats extends JavaPlugin {
 			pm.registerEvents(new Listener() {
 				@EventHandler
 				public void onBlockPlace(BlockPlaceEvent event) {
-					Material m = Material.getMaterial(event.getBlock());
-					Bukkit.broadcastMessage("Place: " + m);
 					if (event.isCancelled())
 						return;
-					database.addMaterial(event.getPlayer().getName(), Material.Event.BLOCK_PLACE + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+					database.addMaterial(event.getPlayer().getName(), Material.Event.PLACED + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.block.redstone"))
@@ -261,7 +256,7 @@ public class Webstats extends JavaPlugin {
 				public void onLeavesDecay(LeavesDecayEvent event) {
 					if (event.isCancelled())
 						return;
-					database.addMaterial(null, Material.Event.LEAVES_DECAY + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+					database.addMaterial(null, Material.Event.DECAYED + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.block.notes"))
@@ -287,7 +282,7 @@ public class Webstats extends JavaPlugin {
 			pm.registerEvents(new Listener() {
 				@EventHandler
 				public void onPlayerItemBreak(PlayerItemBreakEvent event) {
-					database.addMaterial(event.getPlayer().getName(), Material.Event.ITEM_BREAK + "", Material.getMaterial(event.getBrokenItem()) + "", "1", event.getPlayer().getWorld().getName(), event.getPlayer().getLocation().getBlockX() + "", event.getPlayer().getLocation().getBlockY() + "", event.getPlayer().getLocation().getBlockZ() + "");
+					database.addMaterial(event.getPlayer().getName(), Material.Event.DEPLETED + "", Material.getMaterial(event.getBrokenItem()) + "", "1", event.getPlayer().getWorld().getName(), event.getPlayer().getLocation().getBlockX() + "", event.getPlayer().getLocation().getBlockY() + "", event.getPlayer().getLocation().getBlockZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.item.craft"))
@@ -315,12 +310,12 @@ public class Webstats extends JavaPlugin {
 						for (ItemStack element : inv)
 							if (element == null)
 								spaceFor += crafted.getMaxStackSize();
-							else if (element.getType() == crafted.getType()) // TODO: Make sure this works for subtypes of types like different wood types.
+							else if (element.getType() == crafted.getType() && element.getData().getData() == crafted.getData().getData())
 								spaceFor += crafted.getMaxStackSize() - element.getAmount();
 						if (spaceFor < amt)
 							amt = spaceFor;
 					}
-					database.addMaterial(event.getWhoClicked().getName(), Material.Event.ITEM_CRAFT + "", Material.getMaterial(crafted) + "", amt + "", event.getWhoClicked().getWorld().getName(), event.getWhoClicked().getLocation().getBlockX() + "", event.getWhoClicked().getLocation().getBlockY() + "", event.getWhoClicked().getLocation().getBlockZ() + "");
+					database.addMaterial(event.getWhoClicked().getName(), Material.Event.CRAFTED + "", Material.getMaterial(crafted) + "", amt + "", event.getWhoClicked().getWorld().getName(), event.getWhoClicked().getLocation().getBlockX() + "", event.getWhoClicked().getLocation().getBlockY() + "", event.getWhoClicked().getLocation().getBlockZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.item.drop"))
@@ -329,7 +324,7 @@ public class Webstats extends JavaPlugin {
 				public void onPlayerDropItem(PlayerDropItemEvent event) {
 					if (event.isCancelled())
 						return;
-					database.addMaterial(event.getPlayer().getName(), Material.Event.ITEM_DROP + "", Material.getMaterial(event.getItemDrop()) + "", event.getItemDrop().getItemStack().getAmount() + "", event.getPlayer().getWorld().getName(), event.getPlayer().getLocation().getBlockX() + "", event.getPlayer().getLocation().getBlockY() + "", event.getPlayer().getLocation().getBlockZ() + "");
+					database.addMaterial(event.getPlayer().getName(), Material.Event.DROPPED + "", Material.getMaterial(event.getItemDrop()) + "", event.getItemDrop().getItemStack().getAmount() + "", event.getPlayer().getWorld().getName(), event.getPlayer().getLocation().getBlockX() + "", event.getPlayer().getLocation().getBlockY() + "", event.getPlayer().getLocation().getBlockZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.item.pickup"))
@@ -338,7 +333,7 @@ public class Webstats extends JavaPlugin {
 				public void onPlayerPickupItem(PlayerPickupItemEvent event) {
 					if (event.isCancelled())
 						return;
-					database.addMaterial(event.getPlayer().getName(), Material.Event.ITEM_PICK_UP + "", Material.getMaterial(event.getItem()) + "", event.getItem().getItemStack().getAmount() + "", event.getPlayer().getWorld().getName(), event.getPlayer().getLocation().getBlockX() + "", event.getPlayer().getLocation().getBlockY() + "", event.getPlayer().getLocation().getBlockZ() + "");
+					database.addMaterial(event.getPlayer().getName(), Material.Event.PICKED_UP + "", Material.getMaterial(event.getItem()) + "", event.getItem().getItemStack().getAmount() + "", event.getPlayer().getWorld().getName(), event.getPlayer().getLocation().getBlockX() + "", event.getPlayer().getLocation().getBlockY() + "", event.getPlayer().getLocation().getBlockZ() + "");
 				}
 			}, this);
 		if (configuration.getBoolean("events.item.use"))
@@ -347,7 +342,7 @@ public class Webstats extends JavaPlugin {
 				public void onPlayerItemConsume(PlayerItemConsumeEvent event) {
 					if (event.isCancelled())
 						return;
-					database.addMaterial(event.getPlayer().getName(), Material.Event.ITEM_USE + "", Material.getMaterial(event.getItem()) + "", "1", event.getPlayer().getWorld().getName(), event.getPlayer().getLocation().getBlockX() + "", event.getPlayer().getLocation().getBlockY() + "", event.getPlayer().getLocation().getBlockZ() + "");
+					database.addMaterial(event.getPlayer().getName(), Material.Event.USED + "", Material.getMaterial(event.getItem()) + "", "1", event.getPlayer().getWorld().getName(), event.getPlayer().getLocation().getBlockX() + "", event.getPlayer().getLocation().getBlockY() + "", event.getPlayer().getLocation().getBlockZ() + "");
 				}
 			}, this);
 	}

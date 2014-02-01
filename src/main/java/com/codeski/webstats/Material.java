@@ -11,6 +11,8 @@ import org.bukkit.material.Sandstone;
 import org.bukkit.material.Tree;
 import org.bukkit.material.WoodenStep;
 import org.bukkit.material.Wool;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionType;
 
 public enum Material {
 	ACACIA_LEAVES,
@@ -359,7 +361,18 @@ public enum Material {
 	POISONOUS_POTATO,
 	POPPY,
 	POTATO,
-	POTION,
+	POTION_OF_FIRE_RESISTANCE,
+	POTION_OF_HARMING,
+	POTION_OF_HEALING,
+	POTION_OF_INVISIBILITY,
+	POTION_OF_NIGHT_VISION,
+	POTION_OF_POISON,
+	POTION_OF_REGENERATION,
+	POTION_OF_SLOWNESS,
+	POTION_OF_STRENGTH,
+	POTION_OF_SWIFTNESS,
+	POTION_OF_WATER_BREATHING,
+	POTION_OF_WEAKNESS,
 	POWERED_RAIL,
 	PUFFERFISH,
 	PUMPKIN,
@@ -442,6 +455,18 @@ public enum Material {
 	SPAWN_ZOMBIE,
 	SPAWN_ZOMBIE_PIGMAN,
 	SPIDER_EYE,
+	SPLASH_POTION_OF_FIRE_RESISTANCE,
+	SPLASH_POTION_OF_HARMING,
+	SPLASH_POTION_OF_HEALING,
+	SPLASH_POTION_OF_INVISIBILITY,
+	SPLASH_POTION_OF_NIGHT_VISION,
+	SPLASH_POTION_OF_POISON,
+	SPLASH_POTION_OF_REGENERATION,
+	SPLASH_POTION_OF_SLOWNESS,
+	SPLASH_POTION_OF_STRENGTH,
+	SPLASH_POTION_OF_SWIFTNESS,
+	SPLASH_POTION_OF_WATER_BREATHING,
+	SPLASH_POTION_OF_WEAKNESS,
 	SPONGE,
 	SPRUCE_LEAVES,
 	SPRUCE_LOG,
@@ -484,6 +509,7 @@ public enum Material {
 	WALL_SIGN,
 	WARD_DISC,
 	WATER,
+	WATER_BOTTLE,
 	WATER_BUCKET,
 	WEIGHTED_PRESSURE_PLATE_HEAVY,
 	WEIGHTED_PRESSURE_PLATE_LIGHT,
@@ -512,31 +538,31 @@ public enum Material {
 	ZOMBIE_HEAD;
 	//
 	public enum Event {
-		BLOCK_BREAK,
-		BLOCK_BURN,
-		BLOCK_DAMAGE,
-		BLOCK_DISPENSE,
-		BLOCK_EXP,
-		BLOCK_FADE,
-		BLOCK_FROM_TO,
-		BLOCK_GROW,
-		BLOCK_IGNITE,
-		BLOCK_PHYSICS,
-		BLOCK_PISTON_EXTEND,
-		BLOCK_PISTON_RETRACT,
-		BLOCK_PLACE,
-		BLOCK_REDSTONE,
-		BREW,
-		FURNACE_BURN,
-		FURNACE_SMELT,
-		ITEM_BREAK,
-		ITEM_CRAFT,
-		ITEM_DROP,
-		ITEM_PICK_UP,
-		ITEM_USE,
-		LEAVES_DECAY,
-		NOTE_PLAY,
-		SIGN_CHANGE
+		BLOCK_EXP, // Make this and the following names prettier:
+		BLOCK_FROM_TO, // !
+		BLOCK_PHYSICS, // !
+		BLOCK_PISTON_EXTEND, // !
+		BLOCK_PISTON_RETRACT, // !
+		BLOCK_REDSTONE, // !
+		BREW, // !
+		BROKEN,
+		BURNED,
+		CRAFTED,
+		DAMAGED,
+		DECAYED,
+		DEPLETED,
+		DISPENSED,
+		DROPPED,
+		FADED,
+		FURNACE_BURN, // !
+		FURNACE_SMELT, // !
+		GROWN,
+		IGNITED,
+		NOTE_PLAY, // !
+		PICKED_UP,
+		PLACED,
+		SIGN_CHANGE, // !
+		USED
 	}
 
 	public static Material getMaterial(Block block) {
@@ -550,6 +576,48 @@ public enum Material {
 	}
 
 	public static Material getMaterial(ItemStack item) {
+		if (item.getType() == org.bukkit.Material.POTION)
+			try {
+				Potion potion = Potion.fromItemStack(item);
+				PotionType potionType = potion.getType();
+				switch (potionType) {
+					case WATER:
+						return WATER_BOTTLE;
+					case REGEN:
+						return potion.isSplash() ? SPLASH_POTION_OF_REGENERATION : POTION_OF_REGENERATION;
+					case SPEED:
+						return potion.isSplash() ? SPLASH_POTION_OF_SWIFTNESS : POTION_OF_SWIFTNESS;
+					case FIRE_RESISTANCE:
+						return potion.isSplash() ? SPLASH_POTION_OF_FIRE_RESISTANCE : POTION_OF_FIRE_RESISTANCE;
+					case POISON:
+						return potion.isSplash() ? SPLASH_POTION_OF_POISON : POTION_OF_POISON;
+					case INSTANT_HEAL:
+						return potion.isSplash() ? SPLASH_POTION_OF_HEALING : POTION_OF_HEALING;
+					case NIGHT_VISION:
+						return potion.isSplash() ? SPLASH_POTION_OF_NIGHT_VISION : POTION_OF_NIGHT_VISION;
+					case WEAKNESS:
+						return potion.isSplash() ? SPLASH_POTION_OF_WEAKNESS : POTION_OF_WEAKNESS;
+					case STRENGTH:
+						return potion.isSplash() ? SPLASH_POTION_OF_STRENGTH : POTION_OF_STRENGTH;
+					case SLOWNESS:
+						return potion.isSplash() ? SPLASH_POTION_OF_SLOWNESS : POTION_OF_SLOWNESS;
+					case INSTANT_DAMAGE:
+						return potion.isSplash() ? SPLASH_POTION_OF_HARMING : POTION_OF_HARMING;
+					case WATER_BREATHING:
+						return potion.isSplash() ? SPLASH_POTION_OF_WATER_BREATHING : POTION_OF_WATER_BREATHING;
+					case INVISIBILITY:
+						return potion.isSplash() ? SPLASH_POTION_OF_INVISIBILITY : POTION_OF_INVISIBILITY;
+				}
+			} catch (IllegalArgumentException e) {
+				int potionType = item.getDurability() & 0x000F;
+				boolean splash = (item.getDurability() >> 14 & 0x0001) == 1;
+				switch (potionType) {
+					case 5:
+						return splash ? SPLASH_POTION_OF_HEALING : POTION_OF_HEALING;
+					case 12:
+						return splash ? SPLASH_POTION_OF_HARMING : POTION_OF_HARMING;
+				}
+			}
 		return Material.getMaterial(item.getType(), item.getData(), item.getData().getData());
 	}
 
@@ -838,7 +906,7 @@ public enum Material {
 			case TRAP_DOOR:
 				return TRAPDOOR;
 			case MONSTER_EGGS:
-				return MONSTER_EGG; // TODO: Decide on Monster Egg or Silverfish Block. Also, split into subtypes?
+				return MONSTER_EGG;
 			case SMOOTH_BRICK:
 				switch (duckBukkit) { // Bukkit deprecated a method with no alternative, brilliant!
 					case 0:
@@ -1214,8 +1282,6 @@ public enum Material {
 			case NETHER_STALK:
 			case NETHER_WARTS:
 				return NETHER_WART;
-			case POTION: // TODO: Track the different types of potions.
-				return POTION;
 			case BREWING_STAND_ITEM:
 				return BREWING_STAND;
 			case CAULDRON_ITEM:
