@@ -23,7 +23,11 @@ public enum Material {
 	AIR,
 	ALLIUM,
 	ANVIL,
+	APPLE,
+	ARROW,
 	AZURE_BLUET,
+	BAKED_POTATO,
+	BARRIER,
 	BEACON,
 	BED,
 	BEDROCK,
@@ -38,6 +42,8 @@ public enum Material {
 	BLACK_STAINED_GLASS,
 	BLACK_STAINED_GLASS_PANE,
 	BLACK_WOOL,
+	BLAZE_POWDER,
+	BLAZE_ROD,
 	BLOCK_OF_COAL,
 	BLOCK_OF_DIAMOND,
 	BLOCK_OF_EMERALD,
@@ -45,14 +51,25 @@ public enum Material {
 	BLOCK_OF_IRON,
 	BLOCK_OF_QUARTZ,
 	BLOCK_OF_REDSTONE,
+	BLOCKS_DISC,
 	BLUE_CARPET,
 	BLUE_ORCHID,
 	BLUE_STAINED_CLAY,
 	BLUE_STAINED_GLASS,
 	BLUE_STAINED_GLASS_PANE,
 	BLUE_WOOL,
+	BOAT,
+	BONE,
+	BONE_MEAL,
+	BOOK,
+	BOOK_AND_QUILL,
 	BOOKSHELF,
+	BOTTLE_O_ENCHANTING,
+	BOW,
+	BOWL,
+	BREAD,
 	BREWING_STAND,
+	BRICK,
 	BRICK_SLAB,
 	BRICK_STAIRS,
 	BRICKS,
@@ -62,16 +79,30 @@ public enum Material {
 	BROWN_STAINED_GLASS,
 	BROWN_STAINED_GLASS_PANE,
 	BROWN_WOOL,
+	BUCKET,
 	CACTUS,
+	CACTUS_GREEN,
 	CAKE,
 	CARPET,
 	CARROT,
+	CARROT_ON_A_STICK,
+	CAT_DISC,
 	CAULDRON,
+	CHAIN_BOOTS,
+	CHAIN_CHESTPLATE,
+	CHAIN_HELMET,
+	CHAIN_LEGGINGS,
+	CHARCOAL,
 	CHEST,
+	CHIRP_DISC,
 	CHISELED_QUARTZ_BLOCK,
 	CHISELED_SANDSTONE,
 	CHISELED_STONE_BRICKS,
 	CLAY,
+	CLAY_BLOCK,
+	CLOCK,
+	CLOWNFISH,
+	COAL,
 	COAL_ORE,
 	COBBLESTONE,
 	COBBLESTONE_SLAB,
@@ -79,16 +110,25 @@ public enum Material {
 	COBBLESTONE_WALL,
 	COBWEB,
 	COCOA,
+	COCOA_BEANS,
 	COMMAND_BLOCK,
+	COMPASS,
+	COOKED_CHICKEN,
+	COOKED_FISH,
+	COOKED_PORKCHOP,
+	COOKED_SALMON,
+	COOKIE,
 	CRACKED_STONE_BRICKS,
 	CRAFTING_TABLE,
 	CREEPER_HEAD,
 	CYAN_CARPET,
+	CYAN_DYE,
 	CYAN_STAINED_CLAY,
 	CYAN_STAINED_GLASS,
 	CYAN_STAINED_GLASS_PANE,
 	CYAN_WOOL,
 	DANDELION,
+	DANDELION_YELLOW,
 	DARK_OAK_LEAVES,
 	DARK_OAK_LOG,
 	DARK_OAK_SAPLING,
@@ -98,33 +138,79 @@ public enum Material {
 	DAYLIGHT_SENSOR,
 	DEAD_BUSH,
 	DETECTOR_RAIL,
+	DIAMOND,
+	DIAMOND_AXE,
+	DIAMOND_BOOTS,
+	DIAMOND_CHESTPLATE,
+	DIAMOND_HELMET,
+	DIAMOND_HOE,
+	DIAMOND_HORSE_ARMOR,
+	DIAMOND_LEGGINGS,
 	DIAMOND_ORE,
+	DIAMOND_PICKAXE,
+	DIAMOND_SHOVEL,
+	DIAMOND_SWORD,
 	DIRT,
 	DISPENSER,
 	DOUBLE_TALLGRASS,
 	DRAGON_EGG,
 	DROPPER,
+	EGG,
+	ELEVEN_DISC,
+	EMERALD,
 	EMERALD_ORE,
+	ENCHANTED_BOOK,
+	ENCHANTED_GOLDEN_APPLE,
 	ENCHANTMENT_TABLE,
 	END_PORTAL,
 	END_PORTAL_BLOCK,
 	END_STONE,
 	ENDER_CHEST,
+	ENDER_PEARL,
+	EYE_OF_ENDER,
+	FAR_DISC,
 	FARMLAND,
+	FEATHER,
 	FENCE,
 	FENCE_GATE,
+	FERMENTED_SPIDER_EYE,
 	FERN,
 	FIRE,
+	FIRE_CHARGE,
+	FIREWORK_ROCKET,
+	FIREWORK_STAR,
+	FISHING_ROD,
+	FLINT,
+	FLINT_AND_STEEL,
 	FLOWER_POT,
 	FURNACE,
+	GHAST_TEAR,
 	GLASS,
+	GLASS_BOTTLE,
 	GLASS_PANE,
+	GLISTERING_MELON,
 	GLOWSTONE,
+	GLOWSTONE_DUST,
+	GOLD_HORSE_ARMOR,
+	GOLD_INGOT,
+	GOLD_NUGGET,
 	GOLD_ORE,
+	GOLDEN_APPLE,
+	GOLDEN_AXE,
+	GOLDEN_BOOTS,
+	GOLDEN_CARROT,
+	GOLDEN_CHESTPLATE,
+	GOLDEN_HELMET,
+	GOLDEN_HOE,
+	GOLDEN_LEGGINGS,
+	GOLDEN_PICKAXE,
+	GOLDEN_SHOVEL,
+	GOLDEN_SWORD,
 	GRASS,
 	GRASS_BLOCK,
 	GRAVEL,
 	GRAY_CARPET,
+	GRAY_DYE,
 	GRAY_STAINED_CLAY,
 	GRAY_STAINED_GLASS,
 	GRAY_STAINED_GLASS_PANE,
@@ -134,6 +220,7 @@ public enum Material {
 	GREEN_STAINED_GLASS,
 	GREEN_STAINED_GLASS_PANE,
 	GREEN_WOOL,
+	GUNPOWDER,
 	HARDENED_CLAY,
 	HAY_BLOCK,
 	HEAD,
@@ -141,9 +228,22 @@ public enum Material {
 	HUGE_BROWN_MUSHROOM,
 	HUGE_RED_MUSHROOM,
 	ICE,
+	INK_SAC,
+	IRON_AXE,
 	IRON_BARS,
+	IRON_BOOTS,
+	IRON_CHESTPLATE,
 	IRON_DOOR,
+	IRON_HELMET,
+	IRON_HOE,
+	IRON_HORSE_ARMOR,
+	IRON_INGOT,
+	IRON_LEGGINGS,
 	IRON_ORE,
+	IRON_PICKAXE,
+	IRON_SHOVEL,
+	IRON_SWORD,
+	ITEM_FRAME,
 	JACK_O_LANTERN,
 	JUKEBOX,
 	JUNGLE_LEAVES,
@@ -153,17 +253,27 @@ public enum Material {
 	JUNGLE_WOOD_SLAB,
 	JUNGLE_WOOD_STAIRS,
 	LADDER,
+	LAPIS_LAZULI,
 	LAPIS_LAZULI_BLOCK,
 	LAPIS_LAZULI_ORE,
 	LARGE_FERN,
 	LAVA,
+	LAVA_BUCKET,
+	LEAD,
+	LEATHER,
+	LEATHER_BOOTS,
+	LEATHER_CAP,
+	LEATHER_PANTS,
+	LEATHER_TUNIC,
 	LEVER,
 	LIGHT_BLUE_CARPET,
+	LIGHT_BLUE_DYE,
 	LIGHT_BLUE_STAINED_CLAY,
 	LIGHT_BLUE_STAINED_GLASS,
 	LIGHT_BLUE_STAINED_GLASS_PANE,
 	LIGHT_BLUE_WOOL,
 	LIGHT_GRAY_CARPET,
+	LIGHT_GRAY_DYE,
 	LIGHT_GRAY_STAINED_CLAY,
 	LIGHT_GRAY_STAINED_GLASS,
 	LIGHT_GRAY_STAINED_GLASS_PANE,
@@ -171,29 +281,49 @@ public enum Material {
 	LILAC,
 	LILY_PAD,
 	LIME_CARPET,
+	LIME_DYE,
 	LIME_STAINED_CLAY,
 	LIME_STAINED_GLASS,
 	LIME_STAINED_GLASS_PANE,
 	LIME_WOOL,
 	MAGENTA_CARPET,
+	MAGENTA_DYE,
 	MAGENTA_STAINED_CLAY,
 	MAGENTA_STAINED_GLASS,
 	MAGENTA_STAINED_GLASS_PANE,
 	MAGENTA_WOOL,
+	MAGMA_CREAM,
+	MALL_DISC,
+	MAP,
+	MELLOHI_DISC,
+	MELON,
 	MELON_BLOCK,
+	MELON_SEEDS,
 	MELON_STEM,
+	MILK,
+	MINECART,
+	MINECART_WITH_CHEST,
+	MINECART_WITH_COMMAND_BLOCK,
+	MINECART_WITH_FURNACE,
+	MINECART_WITH_HOPPER,
+	MINECART_WITH_TNT,
 	MONSTER_EGG,
 	MONSTER_SPAWNER,
 	MOSS_STONE,
 	MOSSY_COBBLESTONE_WALL,
 	MOSSY_STONE_BRICKS,
+	MUSHROOM_STEW,
 	MYCELIUM,
+	NAME_TAG,
 	NETHER_BRICK,
 	NETHER_BRICK_FENCE,
 	NETHER_BRICK_SLAB,
 	NETHER_BRICK_STAIRS,
+	NETHER_BRICKS,
 	NETHER_PORTAL,
+	NETHER_QUARTZ,
 	NETHER_QUARTZ_ORE,
+	NETHER_STAR,
 	NETHER_WART,
 	NETHERRACK,
 	NOTE_BLOCK,
@@ -205,6 +335,7 @@ public enum Material {
 	OAK_WOOD_STAIRS,
 	OBSIDIAN,
 	ORANGE_CARPET,
+	ORANGE_DYE,
 	ORANGE_STAINED_CLAY,
 	ORANGE_STAINED_GLASS,
 	ORANGE_STAINED_GLASS_PANE,
@@ -212,9 +343,12 @@ public enum Material {
 	ORANGE_WOOL,
 	OXEYE_DAISY,
 	PACKED_ICE,
+	PAINTING,
+	PAPER,
 	PEONY,
 	PILLAR_QUARTZ_BLOCK,
 	PINK_CARPET,
+	PINK_DYE,
 	PINK_STAINED_CLAY,
 	PINK_STAINED_GLASS,
 	PINK_STAINED_GLASS_PANE,
@@ -222,12 +356,18 @@ public enum Material {
 	PINK_WOOL,
 	PISTON,
 	PODZOL,
+	POISONOUS_POTATO,
 	POPPY,
 	POTATO,
+	POTION,
 	POWERED_RAIL,
+	PUFFERFISH,
 	PUMPKIN,
+	PUMPKIN_PIE,
+	PUMPKIN_SEEDS,
 	PUMPKIN_STEM,
 	PURPLE_CARPET,
+	PURPLE_DYE,
 	PURPLE_STAINED_CLAY,
 	PURPLE_STAINED_GLASS,
 	PURPLE_STAINED_GLASS_PANE,
@@ -235,6 +375,11 @@ public enum Material {
 	QUARTZ_SLAB,
 	QUARTZ_STAIRS,
 	RAIL,
+	RAW_BEEF,
+	RAW_CHICKEN,
+	RAW_FISH,
+	RAW_PORKCHOP,
+	RAW_SALMON,
 	RED_CARPET,
 	RED_MUSHROOM,
 	RED_SAND,
@@ -243,6 +388,7 @@ public enum Material {
 	RED_STAINED_GLASS_PANE,
 	RED_TULIP,
 	RED_WOOL,
+	REDSTONE,
 	REDSTONE_COMPARATOR,
 	REDSTONE_LAMP,
 	REDSTONE_ORE,
@@ -250,18 +396,52 @@ public enum Material {
 	REDSTONE_TORCH,
 	REDSTONE_WIRE,
 	ROSE_BUSH,
+	ROSE_RED,
+	ROTTEN_FLESH,
+	SADDLE,
 	SAND,
 	SANDSTONE,
 	SANDSTONE_SLAB,
 	SANDSTONE_STAIRS,
+	SEEDS,
+	SHEARS,
 	SHRUB,
+	SIGN,
 	SIGN_POST,
 	SKELETON_SKULL,
 	SLIME_BLOCK,
+	SLIMEBALL,
 	SMOOTH_SANDSTONE,
 	SNOW,
 	SNOW_BLOCK,
+	SNOWBALL,
 	SOUL_SAND,
+	SPAWN_BAT,
+	SPAWN_BLAZE,
+	SPAWN_CAVE_SPIDER,
+	SPAWN_CHICKEN,
+	SPAWN_COW,
+	SPAWN_CREEPER,
+	SPAWN_EGG,
+	SPAWN_ENDERMAN,
+	SPAWN_GHAST,
+	SPAWN_HORSE,
+	SPAWN_MAGMA_CUBE,
+	SPAWN_MOOSHROOM,
+	SPAWN_OCELOT,
+	SPAWN_PIG,
+	SPAWN_SHEEP,
+	SPAWN_SILVERFISH,
+	SPAWN_SKELETON,
+	SPAWN_SLIME,
+	SPAWN_SPIDER,
+	SPAWN_SQUID,
+	SPAWN_VILLAGER,
+	SPAWN_WITCH,
+	SPAWN_WOLF,
+	SPAWN_ZOMBIE,
+	SPAWN_ZOMBIE_PIGMAN,
+	SPIDER_EYE,
 	SPONGE,
 	SPRUCE_LEAVES,
 	SPRUCE_LOG,
@@ -269,18 +449,31 @@ public enum Material {
 	SPRUCE_WOOD_PLANKS,
 	SPRUCE_WOOD_SLAB,
 	SPRUCE_WOOD_STAIRS,
+	STAL_DISC,
 	STATIONARY_LAVA,
 	STATIONARY_WATER,
+	STEAK,
+	STICK,
 	STICKY_PISTON,
 	STONE,
+	STONE_AXE,
 	STONE_BRICK_STAIRS,
 	STONE_BRICKS,
 	STONE_BRICKS_SLAB,
 	STONE_BUTTON,
+	STONE_HOE,
+	STONE_PICKAXE,
 	STONE_PRESSURE_PLATE,
+	STONE_SHOVEL,
 	STONE_SLAB,
+	STONE_SWORD,
+	STRAD_DISC,
+	STRING,
+	SUGAR,
 	SUGAR_CANE,
+	SUGAR_CANES,
 	SUNFLOWER,
+	THIRTEEN_DISC,
 	TNT,
 	TORCH,
 	TRAPDOOR,
@@ -288,8 +481,11 @@ public enum Material {
 	TRIPWIRE,
 	TRIPWIRE_HOOK,
 	VINES,
+	WAIT_DISC,
 	WALL_SIGN,
+	WARD_DISC,
 	WATER,
+	WATER_BUCKET,
 	WEIGHTED_PRESSURE_PLATE_HEAVY,
 	WEIGHTED_PRESSURE_PLATE_LIGHT,
 	WHEAT,
@@ -298,11 +494,17 @@ public enum Material {
 	WHITE_STAINED_GLASS_PANE,
 	WHITE_TULIP,
 	WITHER_SKELETON_SKULL,
+	WOODEN_AXE,
 	WOODEN_BUTTON,
 	WOODEN_DOOR,
+	WOODEN_HOE,
+	WOODEN_PICKAXE,
 	WOODEN_PRESSURE_PLATE,
+	WOODEN_SHOVEL,
 	WOODEN_SLAB,
+	WOODEN_SWORD,
 	WOOL,
+	WRITTEN_BOOK,
 	YELLOW_CARPET,
 	YELLOW_STAINED_CLAY,
 	YELLOW_STAINED_GLASS,
@@ -700,6 +902,7 @@ public enum Material {
 			case POTATO_ITEM:
 				return POTATO;
 			case SKULL:
+			case SKULL_ITEM:
 				switch (duckBukkit) { // Bukkit deprecated a method with no alternative, brilliant!
 					case 0:
 						return SKELETON_SKULL;
@@ -866,6 +1069,265 @@ public enum Material {
 					case 1:
 						return DARK_OAK_LEAVES;
 				}
+			case IRON_SPADE:
+				return IRON_SHOVEL;
+			case WOOD_SWORD:
+				return WOODEN_SWORD;
+			case WOOD_SPADE:
+				return WOODEN_SHOVEL;
+			case COAL:
+				switch (duckBukkit) { // Bukkit deprecated a method with no alternative, brilliant!
+					case 0:
+						return COAL;
+					case 1:
+						return CHARCOAL;
+				}
+			case WOOD_PICKAXE:
+				return WOODEN_PICKAXE;
+			case WOOD_AXE:
+				return WOODEN_AXE;
+			case STONE_SPADE:
+				return STONE_SHOVEL;
+			case MUSHROOM_SOUP:
+				return MUSHROOM_STEW;
+			case GOLD_SWORD:
+				return GOLDEN_SWORD;
+			case GOLD_SPADE:
+				return GOLDEN_SHOVEL;
+			case GOLD_PICKAXE:
+				return GOLDEN_PICKAXE;
+			case GOLD_AXE:
+				return GOLDEN_AXE;
+			case SULPHUR:
+				return GUNPOWDER;
+			case WOOD_HOE:
+				return WOODEN_HOE;
+			case GOLD_HOE:
+				return GOLDEN_HOE;
+			case LEATHER_HELMET:
+				return LEATHER_CAP;
+			case LEATHER_CHESTPLATE:
+				return LEATHER_TUNIC;
+			case LEATHER_LEGGINGS:
+				return LEATHER_PANTS;
+			case CHAINMAIL_HELMET:
+				return CHAIN_HELMET;
+			case CHAINMAIL_CHESTPLATE:
+				return CHAIN_CHESTPLATE;
+			case CHAINMAIL_LEGGINGS:
+				return CHAIN_LEGGINGS;
+			case CHAINMAIL_BOOTS:
+				return CHAIN_BOOTS;
+			case GOLD_HELMET:
+				return GOLDEN_HELMET;
+			case GOLD_CHESTPLATE:
+				return GOLDEN_CHESTPLATE;
+			case GOLD_LEGGINGS:
+				return GOLDEN_LEGGINGS;
+			case GOLD_BOOTS:
+				return GOLDEN_BOOTS;
+			case PORK:
+				return RAW_PORKCHOP;
+			case GRILLED_PORK:
+				return COOKED_PORKCHOP;
+			case GOLDEN_APPLE:
+				switch (duckBukkit) { // Bukkit deprecated a method with no alternative, brilliant!
+					case 0:
+						return GOLDEN_APPLE;
+					case 1:
+						return ENCHANTED_GOLDEN_APPLE;
+				}
+			case CLAY:
+				return CLAY_BLOCK;
+			case CLAY_BALL:
+				return CLAY;
+			case SNOW_BALL:
+				return SNOWBALL;
+			case MILK_BUCKET:
+				return MILK;
+			case CLAY_BRICK:
+				return BRICK;
+			case SLIME_BALL:
+				return SLIMEBALL;
+			case STORAGE_MINECART:
+				return MINECART_WITH_CHEST;
+			case POWERED_MINECART:
+				return MINECART_WITH_FURNACE;
+			case WATCH:
+				return CLOCK;
+			case RAW_FISH:
+				switch (duckBukkit) { // Bukkit deprecated a method with no alternative, brilliant!
+					case 0:
+						return RAW_FISH;
+					case 1:
+						return RAW_SALMON;
+					case 2:
+						return CLOWNFISH;
+					case 3:
+						return PUFFERFISH;
+				}
+			case COOKED_FISH:
+				switch (duckBukkit) { // Bukkit deprecated a method with no alternative, brilliant!
+					case 0:
+						return COOKED_FISH;
+					case 1:
+						return COOKED_SALMON;
+				}
+			case INK_SACK:
+				switch (duckBukkit) { // Bukkit deprecated a method with no alternative, brilliant!
+					case 0:
+						return INK_SAC;
+					case 1:
+						return ROSE_RED;
+					case 2:
+						return CACTUS_GREEN;
+					case 3:
+						return COCOA_BEANS;
+					case 4:
+						return LAPIS_LAZULI;
+					case 5:
+						return PURPLE_DYE;
+					case 6:
+						return CYAN_DYE;
+					case 7:
+						return LIGHT_GRAY_DYE;
+					case 8:
+						return GRAY_DYE;
+					case 9:
+						return PINK_DYE;
+					case 10:
+						return LIME_DYE;
+					case 11:
+						return DANDELION_YELLOW;
+					case 12:
+						return LIGHT_BLUE_DYE;
+					case 13:
+						return MAGENTA_DYE;
+					case 14:
+						return ORANGE_DYE;
+					case 15:
+						return BONE_MEAL;
+				}
+			case EMPTY_MAP:
+				return MAP;
+			case COOKED_BEEF:
+				return STEAK;
+			case NETHER_STALK:
+			case NETHER_WARTS:
+				return NETHER_WART;
+			case POTION: // TODO: Track the different types of potions.
+				return POTION;
+			case BREWING_STAND_ITEM:
+				return BREWING_STAND;
+			case CAULDRON_ITEM:
+				return CAULDRON;
+			case SPECKLED_MELON:
+				return GLISTERING_MELON;
+			case MONSTER_EGG:
+				switch (duckBukkit) { // Bukkit deprecated a method with no alternative, brilliant!
+					case 50:
+						return SPAWN_CREEPER;
+					case 51:
+						return SPAWN_SKELETON;
+					case 52:
+						return SPAWN_SPIDER;
+					case 54:
+						return SPAWN_ZOMBIE;
+					case 55:
+						return SPAWN_SLIME;
+					case 56:
+						return SPAWN_GHAST;
+					case 57:
+						return SPAWN_ZOMBIE_PIGMAN;
+					case 58:
+						return SPAWN_ENDERMAN;
+					case 59:
+						return SPAWN_CAVE_SPIDER;
+					case 60:
+						return SPAWN_SILVERFISH;
+					case 61:
+						return SPAWN_BLAZE;
+					case 62:
+						return SPAWN_MAGMA_CUBE;
+					case 66:
+						return SPAWN_WITCH;
+					case 65:
+						return SPAWN_BAT;
+					case 90:
+						return SPAWN_PIG;
+					case 91:
+						return SPAWN_SHEEP;
+					case 92:
+						return SPAWN_COW;
+					case 93:
+						return SPAWN_CHICKEN;
+					case 94:
+						return SPAWN_SQUID;
+					case 95:
+						return SPAWN_WOLF;
+					case 96:
+						return SPAWN_MOOSHROOM;
+					case 98:
+						return SPAWN_OCELOT;
+					case 100:
+						return SPAWN_HORSE;
+					case 120:
+						return SPAWN_VILLAGER;
+				}
+			case EXP_BOTTLE:
+				return BOTTLE_O_ENCHANTING;
+			case FIREBALL:
+				return FIRE_CHARGE;
+			case FLOWER_POT_ITEM:
+				return FLOWER_POT;
+			case CARROT_STICK:
+				return CARROT_ON_A_STICK;
+			case FIREWORK:
+				return FIREWORK_ROCKET;
+			case FIREWORK_CHARGE:
+				return FIREWORK_STAR;
+			case NETHER_BRICK:
+				return NETHER_BRICKS;
+			case NETHER_BRICK_ITEM:
+				return NETHER_BRICK;
+			case QUARTZ:
+				return NETHER_QUARTZ;
+			case EXPLOSIVE_MINECART:
+				return MINECART_WITH_TNT;
+			case HOPPER_MINECART:
+				return MINECART_WITH_HOPPER;
+			case IRON_BARDING:
+				return IRON_HORSE_ARMOR;
+			case GOLD_BARDING:
+				return GOLD_HORSE_ARMOR;
+			case DIAMOND_BARDING:
+				return DIAMOND_HORSE_ARMOR;
+			case LEASH:
+				return LEAD;
+			case GOLD_RECORD:
+				return THIRTEEN_DISC;
+			case GREEN_RECORD:
+				return CAT_DISC;
+			case RECORD_3:
+				return BLOCKS_DISC;
+			case RECORD_4:
+				return CHIRP_DISC;
+			case RECORD_5:
+				return FAR_DISC;
+			case RECORD_6:
+				return MALL_DISC;
+			case RECORD_7:
+				return MELLOHI_DISC;
+			case RECORD_8:
+				return STAL_DISC;
+			case RECORD_9:
+				return STRAD_DISC;
+			case RECORD_10:
+				return WARD_DISC;
+			case RECORD_11:
+				return ELEVEN_DISC;
+			case RECORD_12:
+				return WAIT_DISC;
 			default:
 				try {
 					return Material.valueOf(type.toString());
