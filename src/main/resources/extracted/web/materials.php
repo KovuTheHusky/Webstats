@@ -6,7 +6,7 @@ $res = $mysqli->query("SELECT material_time FROM ws_materials ORDER BY material_
 
 // Make sure we have at least one row
 if (!$res->num_rows)
-	exit('no data'); //ws_error(101);
+	ws_error(102);
 
 $first = new DateTime($res->fetch_row()[0]);
 $res = $mysqli->query("SELECT material_time FROM ws_materials ORDER BY material_time DESC LIMIT 1");

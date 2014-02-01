@@ -1,13 +1,15 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
 $material = strtolower($_GET['material']);
+if (!$mysqli->query("SELECT COUNT(0) FROM ws_material_types WHERE type_name = '{$material}' LIMIT 1")->fetch_row()[0])
+	ws_error(101);
 
 // Get the first and last rows
 $res = $mysqli->query("SELECT material_time FROM ws_materials JOIN ws_material_types ON material_type = type_id WHERE type_name = '{$material}' ORDER BY material_time ASC LIMIT 1");
 
 // Make sure we have at least one row
 if (!$res->num_rows)
-	echo $material . ' is not a type.'; //ws_error(101);
+	ws_error(102);
 
 $first = new DateTime($res->fetch_row()[0]);
 $res = $mysqli->query("SELECT material_time FROM ws_materials JOIN ws_material_types ON material_type = type_id WHERE type_name = '{$material}' ORDER BY material_time DESC LIMIT 1");
