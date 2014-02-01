@@ -131,7 +131,8 @@ $line = array_values($line);
 			options: {
 					title: 'Materials, Total',
 					legend: { position: 'right', alignment: 'center' },
-					pieHole: 0.5
+					pieHole: 0.5,
+					sliceVisibilityThreshold: 1 / 180
 			},
 			chart: null
 	};
