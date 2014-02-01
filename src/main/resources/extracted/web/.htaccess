@@ -6,8 +6,12 @@ RewriteRule ^damages/?$ damages.php
 RewriteRule ^distances/?$ distances.php
 RewriteRule ^distances/(day|week|month|year|all)/?$ distances.php?time=$1
 RewriteRule ^distances/(day|week|month|year|all)/(event|player|type)/?$ distances.php?time=$1&by=$2
-RewriteRule ^error/(.+)/?$ error.php?error=$1
+RewriteRule ^error/([0-9]+)/?$ error.php?error=$1
 RewriteRule ^materials/?$ materials.php
-RewriteRule ^material/(.+)/?$ material.php?material=$1
+RewriteRule ^materials/(day|week|month|year|all)/?$ materials.php?time=$1
+RewriteRule ^materials/(day|week|month|year|all)/(event|player|type)/?$ materials.php?time=$1&by=$2
+RewriteRule ^material/([A-Za-z0-9_]+)/?$ material.php?material=$1
+RewriteRule ^material/([A-Za-z0-9_]+)/(day|week|month|year|all)/?$ material.php?material=$1&time=$2
+RewriteRule ^material/([A-Za-z0-9_]+)/(day|week|month|year|all)/(event|player)/?$ material.php?material=$1&time=$2&by=$3
 RewriteRule ^players/?$ players.php
 RewriteRule ^player/(.+)/?$ player.php?player=$1

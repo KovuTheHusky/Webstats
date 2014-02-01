@@ -173,6 +173,11 @@ article>div.material {
 	line-height: 150px;
 }
 
+article>div.material.full {
+	display: block;
+	margin: 10px auto;
+}
+
 article>div.material a {
 	display: block;
 	width: 100%;
@@ -268,23 +273,21 @@ img.offline:hover {
 	margin: 4px 0;
 }
 
-.material {
-	height: 150px;
-	line-height: 150px;
-}
-
-.material img {
-	max-height: 150px;
-	vertical-align: middle;
-}
-
 .face {
 	height: 128px;
 }
 
 .chart {
-	width: 100%;
+	display: block;
+	float: left;
+	width: 50%;
 	height: 500px;
 	overflow: hidden;
-	padding: -100px 0;
+	margin: 10px 0;
+	padding: 0;
+	border: none;
+}
+
+.chart.linked text[fill='#222222'] {
+	cursor: pointer;
 }
