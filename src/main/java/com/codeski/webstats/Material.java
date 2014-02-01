@@ -470,7 +470,6 @@ public enum Material {
 	STRAD_DISC,
 	STRING,
 	SUGAR,
-	SUGAR_CANE,
 	SUGAR_CANES,
 	SUNFLOWER,
 	THIRTEEN_DISC,
@@ -793,7 +792,7 @@ public enum Material {
 				return REDSTONE_TORCH;
 			case SUGAR_CANE:
 			case SUGAR_CANE_BLOCK:
-				return SUGAR_CANE;
+				return SUGAR_CANES;
 			case CAKE:
 			case CAKE_BLOCK:
 				return CAKE;
