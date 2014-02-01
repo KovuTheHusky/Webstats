@@ -125,41 +125,67 @@ $line = array_values($line);
 <title><?php echo ucwords(strtolower(str_replace('_', ' ', $material))); ?> | Material | Webstats</title>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
+	var donut = {
+			data: null,
+			options: {
+					title: 'Material, Total',
+					legend: { position: 'right', alignment: 'center' },
+					pieHole: 0.5
+			},
+			chart: null
+	};
 	google.load("visualization", "1", {packages:["corechart"]});
-	google.setOnLoadCallback(drawChart);
-	function drawChart() {
-		var data = google.visualization.arrayToDataTable([
+	google.setOnLoadCallback(prepareDonut);
+	function prepareDonut() {
+		donut.data = google.visualization.arrayToDataTable([
 				['Event', 'Count']
 <?php for ($i = 0; $i < count($donut); ++$i) { ?>
 				,['<?php echo $by == 'player' ? $donut[$i][0] : ws_enum_decode($donut[$i][0]); ?>', <?php echo $donut[$i][1]; ?>]
 <?php } ?>
 		]);
-		var options = {
-				title: 'Material, Total',
-				legend: { position: 'bottom', alignment: 'center' },
-				pieHole: 0.5
-		};
-		var chart = new google.visualization.PieChart(document.getElementById('donut'));
-		chart.draw(data, options);
+		donut.chart = new google.visualization.PieChart(document.getElementById('donut'));
+		drawDonut();
+	}
+	function drawDonut() {
+		donut.chart.draw(donut.data, donut.options);
 	}
 </script>
 <script type="text/javascript">
+	var line = {
+			data: null,
+			options: {
+					title: 'Material By Time',
+					legend: { position: 'bottom', alignment: 'center' }
+			},
+			chart: null
+	};
 	google.load("visualization", "1", {packages:["corechart"]});
-	google.setOnLoadCallback(drawChart);
-	function drawChart() {
-		var data = google.visualization.arrayToDataTable([
+	google.setOnLoadCallback(prepareLine);
+	function prepareLine() {
+		line.data = google.visualization.arrayToDataTable([
 				['Time'<?php for ($i = 0; $i < count($donut); ++$i) { ?>, '<?php echo $by == 'player' ? $donut[$i][0] : ws_enum_decode($donut[$i][0]); ?>'<?php } ?>]
 <?php for ($i = 0; $i < count($line); ++$i) { ?>
 				,[new Date('<?php echo $line[$i]['time']->format($time_format); ?>')<?php for ($j = 0; $j < count($donut); ++$j) { ?>, <?php echo $line[$i][$donut[$j][0]]; ?><?php } ?>]
 <?php } ?>
         ]);
-		var options = {
-				title: 'Material By Time',
-				legend: { position: 'bottom', alignment: 'center' }
-		};
-		var chart = new google.visualization.LineChart(document.getElementById('line'));
-		chart.draw(data, options);
+		line.chart = new google.visualization.LineChart(document.getElementById('line'));
+		drawLine();
 	}
+	function drawLine() {
+		line.chart.draw(line.data, line.options);
+	}
+</script>
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript">
+	var w = $(window).width();
+	$(window).resize(function() {
+		var nw = $(window).width();
+		if (nw != w) {
+			drawDonut();
+			drawLine();
+		}
+		w = nw;
+	});
 </script>
 </head>
 <body>
