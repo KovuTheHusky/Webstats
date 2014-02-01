@@ -20,11 +20,16 @@ events:
     place: true
     redstone: false
     brew: false
-    craft: true
     furnace: false
     decay: true
     notes: false
     signs: false
+  item:
+    break: true
+    craft: true
+    drop: true
+    pickup: true
+    use: true
 advanced:
   enabled: false
   driver: 'com.mysql.jdbc.Driver'

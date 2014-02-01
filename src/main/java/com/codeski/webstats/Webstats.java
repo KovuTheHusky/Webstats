@@ -38,6 +38,10 @@ import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerItemBreakEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -98,6 +102,7 @@ public class Webstats extends JavaPlugin {
 		// Start listening for events
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvents(new PlayerListener(database), this);
+		// Block events
 		if (configuration.getBoolean("events.block.break"))
 			pm.registerEvents(new Listener() {
 				@EventHandler
@@ -234,39 +239,6 @@ public class Webstats extends JavaPlugin {
 					database.addMaterial(null, Material.Event.BREW + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
 				}
 			}, this);
-		if (configuration.getBoolean("events.block.craft"))
-			pm.registerEvents(new Listener() {
-				@EventHandler
-				public void onCraftItem(CraftItemEvent event) {
-					if (event.isCancelled())
-						return;
-					ItemStack crafted = event.getCurrentItem();
-					int per = crafted.getAmount();
-					int amt = per;
-					if (event.isShiftClick()) {
-						int min = new ItemStack(org.bukkit.Material.STONE).getMaxStackSize();
-						for (int i = 1; i < event.getInventory().getSize(); ++i) {
-							ItemStack temp = event.getInventory().getItem(i);
-							if (temp == null)
-								continue;
-							int size = temp.getAmount();
-							if (size < min)
-								min = size;
-						}
-						amt = per * min;
-						ItemStack[] inv = event.getWhoClicked().getInventory().getContents();
-						int spaceFor = 0;
-						for (ItemStack element : inv)
-							if (element == null)
-								spaceFor += crafted.getMaxStackSize();
-							else if (element.getType() == crafted.getType()) // TODO: Make sure this works for subtypes of types like different wood types.
-								spaceFor += crafted.getMaxStackSize() - element.getAmount();
-						if (spaceFor < amt)
-							amt = spaceFor;
-					}
-					database.addMaterial(event.getWhoClicked().getName(), Material.Event.ITEM_CRAFT + "", Material.getMaterial(crafted) + "", amt + "", event.getWhoClicked().getWorld().getName(), event.getWhoClicked().getLocation().getBlockX() + "", event.getWhoClicked().getLocation().getBlockY() + "", event.getWhoClicked().getLocation().getBlockZ() + "");
-				}
-			}, this);
 		if (configuration.getBoolean("events.block.furnace"))
 			pm.registerEvents(new Listener() {
 				@EventHandler
@@ -308,6 +280,74 @@ public class Webstats extends JavaPlugin {
 					if (event.isCancelled())
 						return;
 					database.addMaterial(event.getPlayer().getName(), Material.Event.SIGN_CHANGE + "", Material.getMaterial(event.getBlock()) + "", "1", event.getBlock().getWorld().getName(), event.getBlock().getX() + "", event.getBlock().getY() + "", event.getBlock().getZ() + "");
+				}
+			}, this);
+		// Item events
+		if (configuration.getBoolean("events.item.break"))
+			pm.registerEvents(new Listener() {
+				@EventHandler
+				public void onPlayerItemBreak(PlayerItemBreakEvent event) {
+					database.addMaterial(event.getPlayer().getName(), Material.Event.ITEM_BREAK + "", Material.getMaterial(event.getBrokenItem()) + "", "1", event.getPlayer().getWorld().getName(), event.getPlayer().getLocation().getBlockX() + "", event.getPlayer().getLocation().getBlockY() + "", event.getPlayer().getLocation().getBlockZ() + "");
+				}
+			}, this);
+		if (configuration.getBoolean("events.item.craft"))
+			pm.registerEvents(new Listener() {
+				@EventHandler
+				public void onCraftItem(CraftItemEvent event) {
+					if (event.isCancelled())
+						return;
+					ItemStack crafted = event.getCurrentItem();
+					int per = crafted.getAmount();
+					int amt = per;
+					if (event.isShiftClick()) {
+						int min = new ItemStack(org.bukkit.Material.STONE).getMaxStackSize();
+						for (int i = 1; i < event.getInventory().getSize(); ++i) {
+							ItemStack temp = event.getInventory().getItem(i);
+							if (temp == null)
+								continue;
+							int size = temp.getAmount();
+							if (size < min)
+								min = size;
+						}
+						amt = per * min;
+						ItemStack[] inv = event.getWhoClicked().getInventory().getContents();
+						int spaceFor = 0;
+						for (ItemStack element : inv)
+							if (element == null)
+								spaceFor += crafted.getMaxStackSize();
+							else if (element.getType() == crafted.getType()) // TODO: Make sure this works for subtypes of types like different wood types.
+								spaceFor += crafted.getMaxStackSize() - element.getAmount();
+						if (spaceFor < amt)
+							amt = spaceFor;
+					}
+					database.addMaterial(event.getWhoClicked().getName(), Material.Event.ITEM_CRAFT + "", Material.getMaterial(crafted) + "", amt + "", event.getWhoClicked().getWorld().getName(), event.getWhoClicked().getLocation().getBlockX() + "", event.getWhoClicked().getLocation().getBlockY() + "", event.getWhoClicked().getLocation().getBlockZ() + "");
+				}
+			}, this);
+		if (configuration.getBoolean("events.item.drop"))
+			pm.registerEvents(new Listener() {
+				@EventHandler
+				public void onPlayerDropItem(PlayerDropItemEvent event) {
+					if (event.isCancelled())
+						return;
+					database.addMaterial(event.getPlayer().getName(), Material.Event.ITEM_DROP + "", Material.getMaterial(event.getItemDrop()) + "", event.getItemDrop().getItemStack().getAmount() + "", event.getPlayer().getWorld().getName(), event.getPlayer().getLocation().getBlockX() + "", event.getPlayer().getLocation().getBlockY() + "", event.getPlayer().getLocation().getBlockZ() + "");
+				}
+			}, this);
+		if (configuration.getBoolean("events.item.pickup"))
+			pm.registerEvents(new Listener() {
+				@EventHandler
+				public void onPlayerPickupItem(PlayerPickupItemEvent event) {
+					if (event.isCancelled())
+						return;
+					database.addMaterial(event.getPlayer().getName(), Material.Event.ITEM_PICK_UP + "", Material.getMaterial(event.getItem()) + "", event.getItem().getItemStack().getAmount() + "", event.getPlayer().getWorld().getName(), event.getPlayer().getLocation().getBlockX() + "", event.getPlayer().getLocation().getBlockY() + "", event.getPlayer().getLocation().getBlockZ() + "");
+				}
+			}, this);
+		if (configuration.getBoolean("events.item.use"))
+			pm.registerEvents(new Listener() {
+				@EventHandler
+				public void onPlayerItemConsume(PlayerItemConsumeEvent event) {
+					if (event.isCancelled())
+						return;
+					database.addMaterial(event.getPlayer().getName(), Material.Event.ITEM_USE + "", Material.getMaterial(event.getItem()) + "", "1", event.getPlayer().getWorld().getName(), event.getPlayer().getLocation().getBlockX() + "", event.getPlayer().getLocation().getBlockY() + "", event.getPlayer().getLocation().getBlockZ() + "");
 				}
 			}, this);
 	}

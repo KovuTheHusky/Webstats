@@ -20,25 +20,13 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerAnimationEvent;
-import org.bukkit.event.player.PlayerBedEnterEvent;
-import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerChannelEvent;
-import org.bukkit.event.player.PlayerChatTabCompleteEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
-import org.bukkit.event.player.PlayerItemBreakEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.codeski.webstats.databases.Database;
@@ -50,10 +38,6 @@ public class PlayerListener implements Listener {
 
 	public PlayerListener(Database database) {
 		this.database = database;
-	}
-
-	@EventHandler
-	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
 	}
 
 	@EventHandler
@@ -100,20 +84,6 @@ public class PlayerListener implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerAnimation(PlayerAnimationEvent event) {
-	}
-
-	@EventHandler
-	public void onPlayerBedEnterEvent(PlayerBedEnterEvent event) {
-		Webstats.debug(event.getPlayer() + "");
-	}
-
-	@EventHandler
-	public void onPlayerBedLeaveEvent(PlayerBedLeaveEvent event) {
-		Webstats.debug(event.getPlayer() + "");
-	}
-
-	@EventHandler
 	public void onPlayerBucketEmptyEvent(PlayerBucketEmptyEvent event) {
 		Webstats.debug("PlayerBucketEmptyEvent: " + event.getPlayer().getName() + " " + event.getBucket() + " " + event.getBlockClicked().getX() + "," + event.getBlockClicked().getY() + "," + event.getBlockClicked().getZ());
 	}
@@ -121,22 +91,6 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerBucketFillEvent(PlayerBucketFillEvent event) {
 		Webstats.debug("PlayerBucketFillEvent: " + event.getPlayer().getName() + " " + event.getBlockClicked().getType() + " " + event.getBlockClicked().getX() + "," + event.getBlockClicked().getY() + "," + event.getBlockClicked().getZ());
-	}
-
-	@EventHandler
-	public void onPlayerChangedWorldEvent(PlayerChangedWorldEvent event) {
-	}
-
-	@EventHandler
-	public void onPlayerChannelEvent(PlayerChannelEvent event) {
-	}
-
-	@EventHandler
-	public void onPlayerChatTabCompleteEvent(PlayerChatTabCompleteEvent event) {
-	}
-
-	@EventHandler
-	public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event) {
 	}
 
 	@EventHandler
@@ -174,11 +128,6 @@ public class PlayerListener implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerDropItem(PlayerDropItemEvent event) {
-		Webstats.debug(event.getPlayer() + " " + event.getItemDrop().getType() + " " + event.getItemDrop().getItemStack().getAmount());
-	}
-
-	@EventHandler
 	public void onPlayerEggThrow(PlayerEggThrowEvent event) {
 		Webstats.debug(event.getPlayer() + " " + event.getNumHatches());
 	}
@@ -189,16 +138,6 @@ public class PlayerListener implements Listener {
 			Webstats.debug(event.getPlayer() + " " + false);
 		else if (event.getState() == State.CAUGHT_FISH)
 			Webstats.debug(event.getPlayer() + " " + true);
-	}
-
-	@EventHandler
-	public void onPlayerItemBreak(PlayerItemBreakEvent event) {
-		Webstats.debug(event.getPlayer() + " " + event.getBrokenItem().getType());
-	}
-
-	@EventHandler
-	public void onPlayerItemConsume(PlayerItemConsumeEvent event) {
-		Webstats.debug(event.getPlayer() + " " + event.getItem().getType());
 	}
 
 	@EventHandler
@@ -267,11 +206,6 @@ public class PlayerListener implements Listener {
 			database.addDistance(name, Distance.CLIMBED + "", y + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
 		else
 			database.addDistance(name, Distance.WALKED + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
-	}
-
-	@EventHandler
-	public void onPlayerPickupItem(PlayerPickupItemEvent event) {
-		Webstats.debug(event.getPlayer() + " " + event.getItem().getType() + " " + event.getItem().getItemStack().getAmount());
 	}
 
 	@EventHandler
