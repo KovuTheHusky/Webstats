@@ -41,7 +41,15 @@ function ws_enum_encode($str) {
 }
 
 function ws_enum_decode($str) {
-	return ucwords(strtolower(str_replace('_', ' ', $str)));
+	switch ($str) {
+		case 'BOTTLE_O_ENCHANTING':
+			return 'Bottle o\\\' Enchanting';
+		case 'JACK_O_LANTERN':
+			return 'Jack o\\\'Lantern';
+		case 'TNT':
+			return 'TNT';
+	}
+	return str_replace(' And ', ' and ', str_replace(' Of ', ' of ', ucwords(strtolower(str_replace('_', ' ', $str)))));
 }
 
 ?>
