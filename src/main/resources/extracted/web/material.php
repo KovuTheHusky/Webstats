@@ -122,7 +122,7 @@ $line = array_values($line);
 <meta charset="utf-8">
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="stylesheet" href="/assets/styles/global.css" type="text/css" />
-<title><?php echo ucwords(strtolower(str_replace('_', ' ', $material))); ?> | Material | Webstats</title>
+<title><?php echo ws_enum_decode($material); ?> | Material | Webstats</title>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
 	var donut = {

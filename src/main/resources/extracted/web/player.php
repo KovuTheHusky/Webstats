@@ -12,7 +12,7 @@ if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $player . '.png') || 
 $res = $mysqli->query("SELECT type_name AS e, SUM(distance_count) AS c FROM ws_distances JOIN ws_distance_types ON type_id = distance_type JOIN ws_players ON player_id = distance_player WHERE player_name = '{$player}' GROUP BY distance_type ORDER BY c DESC");
 while ($row = $res->fetch_assoc()) {
 	$event_raw[] = $row['e'];
-	$event[] = ucwords(strtolower(str_replace('_', ' ', $row['e'])));
+	$event[] = ws_enum_decode($row['e']);
 	$count[] = (int)$row['c'];
 }
 if (!empty($event_raw)) {
