@@ -15,4 +15,7 @@ if (!$uploads_writable)
 // Find out if the server is online
 $online = $mysqli->query('SELECT COUNT(0) FROM ws_uptimes WHERE uptime_expired = 0 LIMIT 1')->fetch_row()[0];
 
+// If server is online, get online players
+$online_players = array_map('array_shift', $mysqli->query("SELECT player_name FROM ws_sessions JOIN ws_players ON player_id = session_player WHERE session_expired = 0")->fetch_all());
+
 ?>

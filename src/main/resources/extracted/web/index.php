@@ -24,7 +24,7 @@ while ($row = $res->fetch_assoc()) {
     <div class="face_roll">
       <ul>
 <?php foreach ($player as $p) { ?>
-        <li><a href="/player/<?php echo strtolower($p); ?>"><img src="/uploads/<?php echo strtolower($p); ?>.png" alt="<?php echo $p; ?>" class="" /></a></li>
+        <li><a href="/player/<?php echo strtolower($p); ?>"><img src="/uploads/<?php echo strtolower($p); ?>.png" alt="<?php echo $p; ?>" <?php if (!in_array($p, $online_players)) { echo 'class="offline"'; } ?> /></a></li>
 <?php } ?>
       </ul>
     </div>
