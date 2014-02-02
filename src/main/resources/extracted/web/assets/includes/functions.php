@@ -1,6 +1,9 @@
 <?php
 
 function playerHead($name) {
+	global $uploads_writable;
+	if (!$uploads_writable)
+		return;
 	$source = imagecreatefrompng('http://s3.amazonaws.com/MinecraftSkins/' . $name . '.png');
 	if (!$source) {
 		copy($_SERVER['DOCUMENT_ROOT'] . '/assets/images/head.png', $_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $name . '.png');

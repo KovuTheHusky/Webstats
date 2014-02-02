@@ -2,16 +2,31 @@ Options +Indexes +SymLinksIfOwnerMatch -MultiViews
 
 RewriteEngine on
 RewriteBase /
+
+# Damages
 RewriteRule ^damages/?$ damages.php
+
+# Distances
 RewriteRule ^distances/?$ distances.php
 RewriteRule ^distances/(day|week|month|year|all)/?$ distances.php?time=$1
 RewriteRule ^distances/(day|week|month|year|all)/(event|player|type)/?$ distances.php?time=$1&by=$2
+
+# Error
 RewriteRule ^error/([0-9]+)/?$ error.php?error=$1
+
+# Materials
 RewriteRule ^materials/?$ materials.php
+RewriteRule ^materials/index?$ materials_index.php
 RewriteRule ^materials/(day|week|month|year|all)/?$ materials.php?time=$1
 RewriteRule ^materials/(day|week|month|year|all)/(event|player|type)/?$ materials.php?time=$1&by=$2
+
+# Material
 RewriteRule ^material/([A-Za-z0-9_]+)/?$ material.php?material=$1
 RewriteRule ^material/([A-Za-z0-9_]+)/(day|week|month|year|all)/?$ material.php?material=$1&time=$2
 RewriteRule ^material/([A-Za-z0-9_]+)/(day|week|month|year|all)/(event|player)/?$ material.php?material=$1&time=$2&by=$3
+
+# Players
 RewriteRule ^players/?$ players.php
+
+# Player
 RewriteRule ^player/(.+)/?$ player.php?player=$1
