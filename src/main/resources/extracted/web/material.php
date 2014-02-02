@@ -131,7 +131,7 @@ $line = array_values($line);
 					title: 'Material, Total',
 					legend: { position: 'right', alignment: 'center' },
 					pieHole: 0.5,
-					sliceVisibilityThreshold: 1 / 180
+					sliceVisibilityThreshold: 0
 			},
 			chart: null
 	};
@@ -149,6 +149,18 @@ $line = array_values($line);
 	}
 	function drawDonut() {
 		donut.chart.draw(donut.data, donut.options);
+		google.visualization.events.addListener(donut.chart, 'select', function() {
+			var sel = donut.chart.getSelection();
+			if (sel.length < 1) {
+				line.chart.setSelection([]);
+				// table.chart.setSelection([]);
+			} else {
+				// table.chart.setSelection(sel);
+				sel[0].column = sel[0].row + 1;
+				sel[0].row = null;
+				line.chart.setSelection(sel);
+			}
+		});
 	}
 </script>
 <script type="text/javascript">
@@ -174,6 +186,18 @@ $line = array_values($line);
 	}
 	function drawLine() {
 		line.chart.draw(line.data, line.options);
+		google.visualization.events.addListener(line.chart, 'select', function() {
+			var sel = line.chart.getSelection();
+			if (sel.length < 1) {
+				donut.chart.setSelection([]);
+				// table.chart.setSelection([]);
+			} else {
+				sel[0].row = sel[0].column - 1;
+				sel[0].column = null;
+				donut.chart.setSelection(sel);
+				// table.chart.setSelection(sel);
+			}
+		});
 	}
 </script>
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>

@@ -130,9 +130,9 @@ $line = array_values($line);
 			data: null,
 			options: {
 					title: 'Materials, Total',
-					legend: { position: 'right', alignment: 'center' },
+					legend: { position: 'none' },
 					pieHole: 0.5,
-					sliceVisibilityThreshold: 1 / 180
+					sliceVisibilityThreshold: 0
 			},
 			chart: null
 	};
@@ -150,8 +150,17 @@ $line = array_values($line);
 	}
 	function drawDonut() {
 		donut.chart.draw(donut.data, donut.options);
-		$("text", "#donut").click(function() {
-			window.location.href = '<?php echo 'http' . (!empty($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT']; ?>/material/' + $(this).text().toLowerCase().replace(/ /g, '_');
+		google.visualization.events.addListener(donut.chart, 'select', function() {
+			var sel = donut.chart.getSelection();
+			if (sel.length < 1) {
+				line.chart.setSelection([]);
+				table.chart.setSelection([]);
+			} else {
+				table.chart.setSelection(sel);
+				sel[0].column = sel[0].row + 1;
+				sel[0].row = null;
+				line.chart.setSelection(sel);
+			}
 		});
 	}
 </script>
@@ -160,7 +169,7 @@ $line = array_values($line);
 			data: null,
 			options: {
 					title: 'Materials By Time',
-					legend: { position: 'bottom', alignment: 'center' }
+					legend: { position: 'none' }
 			},
 			chart: null
 	};
@@ -178,8 +187,62 @@ $line = array_values($line);
 	}
 	function drawLine() {
 		line.chart.draw(line.data, line.options);
-		$("text", "#line").click(function() {
-			window.location.href = '<?php echo 'http' . (!empty($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT']; ?>/material/' + $(this).text().toLowerCase().replace(/ /g, '_');
+		google.visualization.events.addListener(line.chart, 'select', function() {
+			var sel = line.chart.getSelection();
+			if (sel.length < 1) {
+				donut.chart.setSelection([]);
+				table.chart.setSelection([]);
+			} else {
+				sel[0].row = sel[0].column - 1;
+				sel[0].column = null;
+				donut.chart.setSelection(sel);
+				table.chart.setSelection(sel);
+			}
+		});
+	}
+</script>
+<script type="text/javascript">
+	var table = {
+			data: null,
+			options: {
+					showRowNumber: true,
+					allowHtml: true
+			},
+			chart: null
+	};
+	google.load("visualization", "1", {packages:["table"]});
+	google.setOnLoadCallback(prepareTable);
+	function prepareTable() {
+		table.data = new google.visualization.DataTable();
+		table.data.addColumn('string', '<?php echo ucwords($by); ?>');
+		table.data.addColumn('number', 'Count');
+		table.data.addRows([
+<?php for ($i = 0; $i < count($donut); ++$i) { ?>
+<?php if ($by == 'event') { ?>
+				<?php if ($i != 0) echo ','; ?>['<?php echo $by == 'player' ? $donut[$i][0] : ws_enum_decode($donut[$i][0]); ?>', <?php echo $donut[$i][1]; ?>]
+<?php } else if ($by == 'player') { ?>
+				<?php if ($i != 0) echo ','; ?>['<a href="<?php echo '/player/' . strtolower($donut[$i][0]); ?>" style="height: 24px; padding: 0; display: inline-block;"><img src="/uploads/<?php echo strtolower($donut[$i][0]); ?>.png" style="vertical-align: middle; height: 24px; padding: 0; margin-right: 2px;" /><span style="padding: 1px 0 0 0; display: inline-block; height: 24px; line-height: 24px;"><?php echo $by == 'player' ? $donut[$i][0] : ws_enum_decode($donut[$i][0]); ?></span></a>', <?php echo $donut[$i][1]; ?>]
+<?php } else if ($by == 'type') { ?>
+				<?php if ($i != 0) echo ','; ?>['<a href="<?php echo '/material/' . strtolower($donut[$i][0]); ?>" style="height: 24px; padding: 0; display: inline-block;"><img src="/assets/images/materials/<?php echo strtolower($donut[$i][0]); ?>.png" style="vertical-align: middle; height: 24px; padding: 0; margin-right: 2px;" /><span style="padding: 1px 0 0 0; display: inline-block; height: 24px; line-height: 24px;"><?php echo $by == 'player' ? $donut[$i][0] : ws_enum_decode($donut[$i][0]); ?></span></a>', <?php echo $donut[$i][1]; ?>]
+<?php } ?>
+<?php } ?>
+		]);
+		table.chart = new google.visualization.Table(document.getElementById('table'));
+		drawTable();
+	}
+	function drawTable() {
+		table.chart.draw(table.data, table.options);
+		google.visualization.events.addListener(table.chart, 'select', function() {
+			var sel = table.chart.getSelection();
+			if (sel.length < 1) {
+				donut.chart.setSelection([]);
+				line.chart.setSelection([]);
+			} else {
+				donut.chart.setSelection(sel);
+				sel[0].column = sel[0].row + 1;
+				sel[0].row = null;
+				line.chart.setSelection(sel);
+			}
 		});
 	}
 </script>
@@ -191,6 +254,7 @@ $line = array_values($line);
 		if (nw != w) {
 			drawDonut();
 			drawLine();
+			drawTable();
 		}
 		w = nw;
 	});
@@ -228,8 +292,9 @@ $line = array_values($line);
         <li class="text"><a href="#">&#x2717;</a></li>
       </ul>
     </div>
-    <div id="donut" class="linked chart"></div>
-    <div id="line" class="linked chart"></div>
+    <div id="donut" class="chart"></div>
+    <div id="line" class="chart"></div>
+    <div id="table" class="table"></div>
   </article>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/page_footer.php'; ?>
 </body>
