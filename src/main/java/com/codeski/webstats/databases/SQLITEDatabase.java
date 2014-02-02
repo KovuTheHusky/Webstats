@@ -13,12 +13,10 @@ public class SQLITEDatabase extends Database {
 
 	@Override
 	public void addDistance(String player, String type, String count, String world, String fromX, String fromY, String fromZ, String toX, String toY, String toZ) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void addMaterial(String player, String event, String type, String count, String world, String x, String y, String z) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -51,11 +49,9 @@ public class SQLITEDatabase extends Database {
 
 	@Override
 	public void playerJoined(String player, String uuid) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void playerQuit(String player) {
-		// TODO Auto-generated method stub
 	}
 }
