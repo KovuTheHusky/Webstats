@@ -8,18 +8,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
@@ -41,42 +32,6 @@ public class PlayerListener implements Listener {
 	}
 
 	@EventHandler
-	public void onEntityDeath(EntityDeathEvent event) {
-		if (event.getEntityType() == EntityType.PLAYER)
-			return;
-		EntityDamageEvent damage = event.getEntity().getLastDamageCause();
-		if (!(damage instanceof EntityDamageByEntityEvent))
-			Webstats.debug(damage.getCause() + " " + event.getEntityType());
-		else
-		{
-			Entity damager = ((EntityDamageByEntityEvent) damage).getDamager();
-			Projectile projectile = null;
-			if (damager instanceof Projectile) {
-				projectile = (Projectile) damager;
-				damager = (Entity) projectile.getShooter();
-			}
-			Material hand = null;
-			if (damager instanceof Player && damage.getCause() == DamageCause.ENTITY_ATTACK)
-				hand = ((Player) damager).getItemInHand().getType();
-			else if (damage.getCause() == DamageCause.ENTITY_ATTACK)
-				hand = ((LivingEntity) damager).getEquipment().getItemInHand().getType();
-			// Insert data at this point...
-			if (damager instanceof Player && projectile != null)
-				Webstats.debug(damage.getCause() + " " + event.getEntityType() + " " + damager + " " + projectile);
-			else if (damager instanceof Player && hand != null)
-				Webstats.debug(damage.getCause() + " " + event.getEntityType() + " " + damager + " " + hand);
-			else if (damager instanceof Player)
-				Webstats.debug(damage.getCause() + " " + event.getEntityType() + " " + damager);
-			else if (projectile != null)
-				Webstats.debug(damage.getCause() + " " + event.getEntityType() + " " + damager.getType() + " " + projectile);
-			else if (hand != null)
-				Webstats.debug(damage.getCause() + " " + event.getEntityType() + " " + damager.getType() + " " + hand);
-			else
-				Webstats.debug(damage.getCause() + " " + event.getEntityType() + " " + damager.getType());
-		}
-	}
-
-	@EventHandler
 	public void onEntityShootBow(EntityShootBowEvent event) {
 		if (event.isCancelled())
 			return;
@@ -91,40 +46,6 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerBucketFillEvent(PlayerBucketFillEvent event) {
 		Webstats.debug("PlayerBucketFillEvent: " + event.getPlayer().getName() + " " + event.getBlockClicked().getType() + " " + event.getBlockClicked().getX() + "," + event.getBlockClicked().getY() + "," + event.getBlockClicked().getZ());
-	}
-
-	@EventHandler
-	public void onPlayerDeath(PlayerDeathEvent event) {
-		EntityDamageEvent damage = event.getEntity().getLastDamageCause();
-		if (!(damage instanceof EntityDamageByEntityEvent))
-			Webstats.debug(damage.getCause() + " " + event.getEntity());
-		else
-		{
-			Entity damager = ((EntityDamageByEntityEvent) damage).getDamager();
-			Projectile projectile = null;
-			if (damager instanceof Projectile) {
-				projectile = (Projectile) damager;
-				damager = (Entity) projectile.getShooter();
-			}
-			Material hand = null;
-			if (damager instanceof Player && damage.getCause() == DamageCause.ENTITY_ATTACK)
-				hand = ((Player) damager).getItemInHand().getType();
-			else if (damage.getCause() == DamageCause.ENTITY_ATTACK)
-				hand = ((LivingEntity) damager).getEquipment().getItemInHand().getType();
-			// Insert data at this point...
-			if (damager instanceof Player && projectile != null)
-				Webstats.debug(damage.getCause() + " " + event.getEntity() + " " + damager + " " + projectile);
-			else if (damager instanceof Player && hand != null)
-				Webstats.debug(damage.getCause() + " " + event.getEntity() + " " + damager + " " + hand);
-			else if (damager instanceof Player)
-				Webstats.debug(damage.getCause() + " " + event.getEntity() + " " + damager);
-			else if (projectile != null)
-				Webstats.debug(damage.getCause() + " " + event.getEntity() + " " + damager.getType() + " " + projectile);
-			else if (hand != null)
-				Webstats.debug(damage.getCause() + " " + event.getEntity() + " " + damager.getType() + " " + hand);
-			else
-				Webstats.debug(damage.getCause() + " " + event.getEntity() + " " + damager.getType());
-		}
 	}
 
 	@EventHandler

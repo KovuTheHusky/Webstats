@@ -13,7 +13,11 @@ import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -33,6 +37,10 @@ import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.block.NotePlayEvent;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
@@ -345,6 +353,48 @@ public class Webstats extends JavaPlugin {
 					database.addMaterial(event.getPlayer().getName(), Material.Event.USED + "", Material.getMaterial(event.getItem()) + "", "1", event.getPlayer().getWorld().getName(), event.getPlayer().getLocation().getBlockX() + "", event.getPlayer().getLocation().getBlockY() + "", event.getPlayer().getLocation().getBlockZ() + "");
 				}
 			}, this);
+		// Damage events
+		pm.registerEvents(new Listener() {
+			@EventHandler
+			public void onEntityDamage(EntityDamageEvent event) {
+				if (event.isCancelled())
+					return;
+				if (!(event.getEntity() instanceof LivingEntity)) {
+					Bukkit.broadcastMessage("Entity is a " + event.getEntityType() + ".");
+					return;
+				}
+				DamageCause cause = event.getCause();
+				double amount = event.getDamage();
+				// Figure out who got hurt
+				LivingEntity damaged = (LivingEntity) event.getEntity();
+				if (damaged.isDead())
+					return;
+				if (damaged.getNoDamageTicks() > damaged.getMaximumNoDamageTicks() / 2.0F)
+					if (amount > damaged.getLastDamage())
+						amount = amount - damaged.getLastDamage();
+					else
+						return;
+				String damagedPlayer = null;
+				if (damaged instanceof Player)
+					damagedPlayer = ((Player) damaged).getName();
+				boolean died = amount >= damaged.getHealth();
+				if (event instanceof EntityDamageByBlockEvent)
+					Bukkit.broadcastMessage("By block:");
+				else if (event instanceof EntityDamageByEntityEvent) {
+					Bukkit.broadcastMessage("By entity: " + ((EntityDamageByEntityEvent) event).getDamager());
+					EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) event;
+					if (edbee.getDamager() instanceof TNTPrimed) {
+						Player litBy = (Player) ((TNTPrimed) edbee.getDamager()).getSource();
+						Bukkit.broadcastMessage("TNT lit by " + litBy.getName() + ".");
+					}
+				} else
+					Bukkit.broadcastMessage("Generic:");
+				if (damaged instanceof Player)
+					Bukkit.broadcastMessage(damagedPlayer + " hurt by " + cause + " for " + amount + (died ? " and died." : "."));
+				else
+					Bukkit.broadcastMessage(damaged + " hurt by " + cause + " for " + amount + (died ? " and died." : "."));
+			}
+		}, this);
 	}
 
 	private void extractResources() {
