@@ -24,6 +24,8 @@ events:
     decay: true
     notes: false
     signs: false
+  damage: true
+  distance: true
   item:
     break: true
     craft: true

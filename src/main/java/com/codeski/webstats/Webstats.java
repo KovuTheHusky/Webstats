@@ -9,12 +9,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -48,7 +53,10 @@ import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -77,6 +85,9 @@ public class Webstats extends JavaPlugin {
 	public static void warning(String msg) {
 		logger.warning(msg);
 	}
+
+	private final HashMap<String, Double> fallen = new HashMap<String, Double>();
+	private final HashMap<String, Boolean> jumping = new HashMap<String, Boolean>();
 
 	@Override
 	public void onDisable() {
@@ -108,7 +119,17 @@ public class Webstats extends JavaPlugin {
 			return;
 		// Start listening for events
 		PluginManager pm = this.getServer().getPluginManager();
-		pm.registerEvents(new PlayerListener(database), this);
+		pm.registerEvents(new Listener() {
+			@EventHandler
+			public void onPlayerJoin(PlayerJoinEvent event) {
+				database.playerJoined(event.getPlayer().getName(), event.getPlayer().getUniqueId() + "");
+			}
+
+			@EventHandler
+			public void onPlayerQuit(PlayerQuitEvent event) {
+				database.playerQuit(event.getPlayer().getName());
+			}
+		}, this);
 		// Block events
 		if (configuration.getBoolean("events.block.break"))
 			pm.registerEvents(new Listener() {
@@ -354,47 +375,114 @@ public class Webstats extends JavaPlugin {
 				}
 			}, this);
 		// Damage events
-		pm.registerEvents(new Listener() {
-			@EventHandler
-			public void onEntityDamage(EntityDamageEvent event) {
-				if (event.isCancelled())
-					return;
-				if (!(event.getEntity() instanceof LivingEntity)) {
-					Bukkit.broadcastMessage("Entity is a " + event.getEntityType() + ".");
-					return;
-				}
-				DamageCause cause = event.getCause();
-				double amount = event.getDamage();
-				// Figure out who got hurt
-				LivingEntity damaged = (LivingEntity) event.getEntity();
-				if (damaged.isDead())
-					return;
-				if (damaged.getNoDamageTicks() > damaged.getMaximumNoDamageTicks() / 2.0F)
-					if (amount > damaged.getLastDamage())
-						amount = amount - damaged.getLastDamage();
-					else
+		if (configuration.getBoolean("events.damage"))
+			pm.registerEvents(new Listener() {
+				@EventHandler
+				public void onEntityDamage(EntityDamageEvent event) {
+					if (event.isCancelled())
 						return;
-				String damagedPlayer = null;
-				if (damaged instanceof Player)
-					damagedPlayer = ((Player) damaged).getName();
-				boolean died = amount >= damaged.getHealth();
-				if (event instanceof EntityDamageByBlockEvent)
-					Bukkit.broadcastMessage("By block:");
-				else if (event instanceof EntityDamageByEntityEvent) {
-					Bukkit.broadcastMessage("By entity: " + ((EntityDamageByEntityEvent) event).getDamager());
-					EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) event;
-					if (edbee.getDamager() instanceof TNTPrimed) {
-						Player litBy = (Player) ((TNTPrimed) edbee.getDamager()).getSource();
-						Bukkit.broadcastMessage("TNT lit by " + litBy.getName() + ".");
+					if (!(event.getEntity() instanceof LivingEntity)) {
+						Bukkit.broadcastMessage("Entity is a " + event.getEntityType() + ".");
+						return;
 					}
-				} else
-					Bukkit.broadcastMessage("Generic:");
-				if (damaged instanceof Player)
-					Bukkit.broadcastMessage(damagedPlayer + " hurt by " + cause + " for " + amount + (died ? " and died." : "."));
-				else
-					Bukkit.broadcastMessage(damaged + " hurt by " + cause + " for " + amount + (died ? " and died." : "."));
-			}
-		}, this);
+					DamageCause cause = event.getCause();
+					double amount = event.getDamage();
+					// Figure out who got hurt
+					LivingEntity damaged = (LivingEntity) event.getEntity();
+					if (damaged.isDead())
+						return;
+					if (damaged.getNoDamageTicks() > damaged.getMaximumNoDamageTicks() / 2.0F)
+						if (amount > damaged.getLastDamage())
+							amount = amount - damaged.getLastDamage();
+						else
+							return;
+					String damagedPlayer = null;
+					if (damaged instanceof Player)
+						damagedPlayer = ((Player) damaged).getName();
+					boolean died = amount >= damaged.getHealth();
+					if (event instanceof EntityDamageByBlockEvent)
+						Bukkit.broadcastMessage("By block:");
+					else if (event instanceof EntityDamageByEntityEvent) {
+						Bukkit.broadcastMessage("By entity: " + ((EntityDamageByEntityEvent) event).getDamager());
+						EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) event;
+						if (edbee.getDamager() instanceof TNTPrimed) {
+							Player litBy = (Player) ((TNTPrimed) edbee.getDamager()).getSource();
+							Bukkit.broadcastMessage("TNT lit by " + litBy.getName() + ".");
+						}
+					} else
+						Bukkit.broadcastMessage("Generic:");
+					if (damaged instanceof Player)
+						Bukkit.broadcastMessage(damagedPlayer + " hurt by " + cause + " for " + amount + (died ? " and died." : "."));
+					else
+						Bukkit.broadcastMessage(damaged + " hurt by " + cause + " for " + amount + (died ? " and died." : "."));
+				}
+			}, this);
+		// Distance events
+		if (configuration.getBoolean("events.distance"))
+			pm.registerEvents(new Listener() {
+				@EventHandler
+				public void onPlayerMove(PlayerMoveEvent event) {
+					if (event.isCancelled())
+						return;
+					Location from = event.getFrom();
+					Location to = event.getTo();
+					double xyz = Math.sqrt(Math.pow(to.getX() - from.getX(), 2) + Math.pow(to.getY() - from.getY(), 2) + Math.pow(to.getZ() - from.getZ(), 2));
+					if (xyz == 0.0)
+						return;
+					// double xz = Math.sqrt(Math.pow(to.getX() - from.getX(), 2) + Math.pow(to.getZ() - from.getZ(), 2));
+					double sy = to.getY() - from.getY();
+					double y = Math.abs(sy);
+					double fall = event.getPlayer().getFallDistance();
+					String name = event.getPlayer().getName();
+					Block block = event.getPlayer().getLocation().getBlock();
+					Block below = block.getRelative(BlockFace.DOWN);
+					Entity vehicle = event.getPlayer().getVehicle();
+					if (vehicle != null)
+						fall += vehicle.getFallDistance();
+					if (fallen.get(name) == null)
+						fallen.put(name, 0.0);
+					if (jumping.get(name) == null)
+						jumping.put(name, false);
+					// Check for jump
+					if (!jumping.get(name) && sy > 0 && !block.isLiquid() && !below.getType().isSolid() && !below.isLiquid() && below.getType() != org.bukkit.Material.LADDER && below.getType() != org.bukkit.Material.VINE)
+						jumping.put(name, true);
+					else if (jumping.get(name) && sy <= 0)
+						jumping.put(name, false);
+					// Distance fallen
+					if (fall >= 2.0 && fall > fallen.get(name))
+						fallen.put(name, fall);
+					else if (fall == 0.0 && fallen.get(name) > 0.0)
+						database.addDistance(name, Distance.FALLEN + "", fallen.put(name, 0.0) + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+					// Other distances
+					if (event.getPlayer().isInsideVehicle())
+						switch (vehicle.getType()) {
+							case MINECART:
+								database.addDistance(name, Distance.BY_MINECART + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+								break;
+							case BOAT:
+								database.addDistance(name, Distance.BY_BOAT + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+								break;
+							case PIG:
+								database.addDistance(name, Distance.BY_PIG + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+								break;
+							case HORSE:
+								database.addDistance(name, Distance.BY_HORSE + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+								break;
+							default:
+								Bukkit.getLogger().warning(vehicle.getType() + " is currently unsupported. Do you have the latest version of Webstats?");
+						}
+					else if (event.getPlayer().isFlying())
+						database.addDistance(name, Distance.FLOWN + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+					else if (block.isLiquid() && !block.getRelative(BlockFace.UP).isLiquid())
+						database.addDistance(name, Distance.SWAM + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+					else if (block.isLiquid())
+						database.addDistance(name, Distance.DOVE + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+					else if (block.getType() == org.bukkit.Material.LADDER || block.getType() == org.bukkit.Material.VINE)
+						database.addDistance(name, Distance.CLIMBED + "", y + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+					else
+						database.addDistance(name, Distance.WALKED + "", xyz + "", event.getFrom().getWorld().getName(), event.getFrom().getBlockX() + "", event.getFrom().getBlockY() + "", event.getFrom().getBlockZ() + "", event.getTo().getBlockX() + "", event.getTo().getBlockY() + "", event.getTo().getBlockZ() + "");
+				}
+			}, this);
 	}
 
 	private void extractResources() {
