@@ -128,8 +128,7 @@ $line = array_values($line);
 	var donut = {
 			data: null,
 			options: {
-					title: 'Material, Total',
-					legend: { position: 'right', alignment: 'center' },
+					legend: 'none',
 					pieHole: 0.5,
 					sliceVisibilityThreshold: 0
 			},
@@ -167,8 +166,7 @@ $line = array_values($line);
 	var line = {
 			data: null,
 			options: {
-					title: 'Material By Time',
-					legend: { position: 'bottom', alignment: 'center' }
+					legend: 'none'
 			},
 			chart: null
 	};
