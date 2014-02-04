@@ -3,6 +3,8 @@ Webstats
 
 Bukkit plugin for collecting and showing statistics.
 
+![Example](http://codeski.com/assets/images/webstats/img1.png)
+
 License
 --------------------
 
