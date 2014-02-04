@@ -48,6 +48,8 @@ public class MYSQLDatabase extends Database {
 
 	@Override
 	public void addMaterial(String player, String event, String type, String count, String world, String x, String y, String z) {
+		if (type == null)
+			return;
 		this.update("INSERT INTO ws_materials VALUES (DEFAULT, " + (player != null ? "(SELECT player_id FROM ws_players WHERE player_name = '" + player + "')" : "NULL") + ", (SELECT event_id FROM ws_material_events WHERE event_name = '" + event + "'), (SELECT type_id FROM ws_material_types WHERE type_name = '" + type + "'), " + count + ", DEFAULT, (SELECT world_id FROM ws_worlds WHERE world_name = '" + world + "'), " + x + ", " + y + ", " + z + ")");
 	}
 

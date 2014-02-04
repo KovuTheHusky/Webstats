@@ -1,6 +1,5 @@
 package com.codeski.webstats;
 
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Item;
@@ -1397,7 +1396,7 @@ public enum Material {
 				try {
 					return Material.valueOf(type.toString());
 				} catch (IllegalArgumentException e) {
-					Bukkit.broadcastMessage("Material " + type + " with data " + duckBukkit + " is not supported.");
+					Webstats.severe("Material " + type + " with data " + duckBukkit + " is not supported.");
 					return null;
 				}
 		}
