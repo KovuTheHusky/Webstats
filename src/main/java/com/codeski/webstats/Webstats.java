@@ -15,6 +15,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -22,6 +23,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -381,13 +383,16 @@ public class Webstats extends JavaPlugin {
 				public void onEntityDamage(EntityDamageEvent event) {
 					if (event.isCancelled())
 						return;
+					// Temporary values for debugging
+					StringBuilder out = new StringBuilder();
+					// If the entity isn't a living entity we don't care
 					if (!(event.getEntity() instanceof LivingEntity)) {
 						Bukkit.broadcastMessage("Entity is a " + event.getEntityType() + ".");
 						return;
 					}
 					DamageCause cause = event.getCause();
 					double amount = event.getDamage();
-					// Figure out who got hurt
+					// Figure out who, if anybody, got hurt
 					LivingEntity damaged = (LivingEntity) event.getEntity();
 					if (damaged.isDead())
 						return;
@@ -396,25 +401,39 @@ public class Webstats extends JavaPlugin {
 							amount = amount - damaged.getLastDamage();
 						else
 							return;
+					// If it was a player get their name
 					String damagedPlayer = null;
 					if (damaged instanceof Player)
 						damagedPlayer = ((Player) damaged).getName();
+					// Did they died
 					boolean died = amount >= damaged.getHealth();
 					if (event instanceof EntityDamageByBlockEvent)
-						Bukkit.broadcastMessage("By block:");
+						out.append("by block");
 					else if (event instanceof EntityDamageByEntityEvent) {
-						Bukkit.broadcastMessage("By entity: " + ((EntityDamageByEntityEvent) event).getDamager());
-						EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) event;
-						if (edbee.getDamager() instanceof TNTPrimed) {
-							Player litBy = (Player) ((TNTPrimed) edbee.getDamager()).getSource();
-							Bukkit.broadcastMessage("TNT lit by " + litBy.getName() + ".");
+						out.append("by entity " + ((EntityDamageByEntityEvent) event).getDamager());
+						EntityDamageByEntityEvent eventByEntity = (EntityDamageByEntityEvent) event;
+						if (!(eventByEntity.getDamager() instanceof LivingEntity)) {
+							Entity causedBy = null;
+							switch (eventByEntity.getDamager().getType())
+							{
+								case PRIMED_TNT:
+									causedBy = ((TNTPrimed) eventByEntity.getDamager()).getSource();
+									break;
+								case ENDER_PEARL:
+								case SPLASH_POTION:
+								case ARROW:
+									causedBy = (Entity) ((Projectile) eventByEntity.getDamager()).getShooter();
+									break;
+								default:
+									causedBy = null;
+							}
+							out.append(" caused by " + causedBy);
 						}
-					} else
-						Bukkit.broadcastMessage("Generic:");
+					}
 					if (damaged instanceof Player)
-						Bukkit.broadcastMessage(damagedPlayer + " hurt by " + cause + " for " + amount + (died ? " and died." : "."));
+						Bukkit.broadcastMessage(ChatColor.RED + "Damage: " + ChatColor.RESET + damagedPlayer + " hurt " + out.toString() + " from " + cause + " for " + amount + (died ? " and died." : "."));
 					else
-						Bukkit.broadcastMessage(damaged + " hurt by " + cause + " for " + amount + (died ? " and died." : "."));
+						Bukkit.broadcastMessage(ChatColor.RED + "Damage: " + ChatColor.RESET + damaged + " hurt " + out.toString() + " from " + cause + " for " + amount + (died ? " and died." : "."));
 				}
 			}, this);
 		// Distance events
