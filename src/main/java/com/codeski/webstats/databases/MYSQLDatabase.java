@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldType;
@@ -40,6 +41,12 @@ public class MYSQLDatabase extends Database {
 			"CREATE TABLE IF NOT EXISTS ws_world_environments (environment_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, environment_name VARCHAR(255) UNIQUE NOT NULL)",
 			"CREATE TABLE IF NOT EXISTS ws_world_types (type_id SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, type_name VARCHAR(255) UNIQUE NOT NULL)"
 	};
+
+	@Override
+	public void addDamage(String damager, String damagerPlayer, String damagerMaterial, String damagerProjectile, String damaged, String damagedPlayer, String damagedDeath, String type, String amount, String world, String x, String y, String z) {
+		Bukkit.broadcastMessage(ChatColor.GREEN + "SQL: " + ChatColor.RESET + "INSERT INTO ws_damages VALUES (DEFAULT, " + (damager != null ? "(SELECT type_id FROM ws_entity_types WHERE type_name = '" + damager + "')" : "NULL") + ", " + (damagerPlayer != null ? "(SELECT player_id FROM ws_players WHERE player_name = '" + damagerPlayer + "')" : "NULL") + ", " + (damagerMaterial != null ? "(SELECT type_id FROM ws_material_types WHERE type_name = '" + damagerMaterial + "')" : "NULL") + ", " + (damagerProjectile != null ? "(SELECT type_id FROM ws_entity_types WHERE type_name = '" + damagerProjectile + "')" : "NULL") + ", (SELECT type_id FROM ws_entity_types WHERE type_name = '" + damaged + "'), " + (damagedPlayer != null ? "(SELECT player_id FROM ws_players WHERE player_name = '" + damagedPlayer + "')" : "NULL") + ", " + damagedDeath + ", " + type + ", " + amount + ", DEFAULT, (SELECT world_id FROM ws_worlds WHERE world_name = '" + world + "'), " + x + ", " + y + ", " + z + ")");
+		this.update("INSERT INTO ws_damages VALUES (DEFAULT, " + (damager != null ? "(SELECT type_id FROM ws_entity_types WHERE type_name = '" + damager + "')" : "NULL") + ", " + (damagerPlayer != null ? "(SELECT player_id FROM ws_players WHERE player_name = '" + damagerPlayer + "')" : "NULL") + ", " + (damagerMaterial != null ? "(SELECT type_id FROM ws_material_types WHERE type_name = '" + damagerMaterial + "')" : "NULL") + ", " + (damagerProjectile != null ? "(SELECT type_id FROM ws_entity_types WHERE type_name = '" + damagerProjectile + "')" : "NULL") + ", (SELECT type_id FROM ws_entity_types WHERE type_name = '" + damaged + "'), " + (damagedPlayer != null ? "(SELECT player_id FROM ws_players WHERE player_name = '" + damagedPlayer + "')" : "NULL") + ", " + damagedDeath + ", (SELECT type_id FROM ws_damage_types WHERE type_name = '" + type + "'), " + amount + ", DEFAULT, (SELECT world_id FROM ws_worlds WHERE world_name = '" + world + "'), " + x + ", " + y + ", " + z + ")");
+	}
 
 	@Override
 	public void addDistance(String player, String type, String count, String world, String fromX, String fromY, String fromZ, String toX, String toY, String toZ) {

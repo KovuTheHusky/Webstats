@@ -15,12 +15,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -44,7 +44,6 @@ import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.block.NotePlayEvent;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -383,17 +382,15 @@ public class Webstats extends JavaPlugin {
 				public void onEntityDamage(EntityDamageEvent event) {
 					if (event.isCancelled())
 						return;
-					// Temporary values for debugging
-					StringBuilder out = new StringBuilder();
 					// If the entity isn't a living entity we don't care
-					if (!(event.getEntity() instanceof LivingEntity)) {
-						Bukkit.broadcastMessage("Entity is a " + event.getEntityType() + ".");
+					if (!(event.getEntity() instanceof LivingEntity))
 						return;
-					}
-					DamageCause cause = event.getCause();
+					// Get the values that always exist
+					DamageCause type = event.getCause();
 					double amount = event.getDamage();
-					// Figure out who, if anybody, got hurt
+					Location loc = event.getEntity().getLocation();
 					LivingEntity damaged = (LivingEntity) event.getEntity();
+					// Figure out who, if anybody, got hurt
 					if (damaged.isDead())
 						return;
 					if (damaged.getNoDamageTicks() > damaged.getMaximumNoDamageTicks() / 2.0F)
@@ -401,39 +398,35 @@ public class Webstats extends JavaPlugin {
 							amount = amount - damaged.getLastDamage();
 						else
 							return;
-					// If it was a player get their name
-					String damagedPlayer = null;
-					if (damaged instanceof Player)
-						damagedPlayer = ((Player) damaged).getName();
 					// Did they died
-					boolean died = amount >= damaged.getHealth();
-					if (event instanceof EntityDamageByBlockEvent)
-						out.append("by block");
-					else if (event instanceof EntityDamageByEntityEvent) {
-						out.append("by entity " + ((EntityDamageByEntityEvent) event).getDamager());
+					boolean death = amount >= damaged.getHealth();
+					// Who hurt them
+					if (event instanceof EntityDamageByEntityEvent) {
+						Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
 						EntityDamageByEntityEvent eventByEntity = (EntityDamageByEntityEvent) event;
+						if (eventByEntity.getCause() == DamageCause.ENTITY_ATTACK && damager.getType() == EntityType.PLAYER)
+							database.addDamage(damager.getType() + "", ((Player) damager).getName(), Material.getMaterial(((Player) damager).getItemInHand()) + "", null, damaged.getType() + "", damaged.getType() == EntityType.PLAYER ? ((Player) damaged).getName() : null, death + "", type + "", amount + "", loc.getWorld().getName(), loc.getBlockX() + "", loc.getBlockY() + "", loc.getBlockZ() + "");
 						if (!(eventByEntity.getDamager() instanceof LivingEntity)) {
-							Entity causedBy = null;
+							Projectile projectile = null;
 							switch (eventByEntity.getDamager().getType())
 							{
 								case PRIMED_TNT:
-									causedBy = ((TNTPrimed) eventByEntity.getDamager()).getSource();
+									damager = ((TNTPrimed) eventByEntity.getDamager()).getSource();
+									database.addDamage(damager.getType() + "", ((Player) damager).getName(), null, null, damaged.getType() + "", damaged.getType() == EntityType.PLAYER ? ((Player) damaged).getName() : null, death + "", type + "", amount + "", loc.getWorld().getName(), loc.getBlockX() + "", loc.getBlockY() + "", loc.getBlockZ() + "");
 									break;
 								case ENDER_PEARL:
 								case SPLASH_POTION:
 								case ARROW:
-									causedBy = (Entity) ((Projectile) eventByEntity.getDamager()).getShooter();
+									projectile = (Projectile) damager;
+									damager = (Entity) ((Projectile) eventByEntity.getDamager()).getShooter();
+									database.addDamage(damager.getType() + "", ((Player) damager).getName(), null, projectile + "", damaged.getType() + "", damaged.getType() == EntityType.PLAYER ? ((Player) damaged).getName() : null, death + "", type + "", amount + "", loc.getWorld().getName(), loc.getBlockX() + "", loc.getBlockY() + "", loc.getBlockZ() + "");
 									break;
 								default:
-									causedBy = null;
+									database.addDamage(damager.getType() + "", ((Player) damager).getName(), null, null, damaged + "", damaged.getType() == EntityType.PLAYER ? ((Player) damaged).getName() : null, death + "", type + "", amount + "", loc.getWorld().getName(), loc.getBlockX() + "", loc.getBlockY() + "", loc.getBlockZ() + "");
 							}
-							out.append(" caused by " + causedBy);
 						}
-					}
-					if (damaged instanceof Player)
-						Bukkit.broadcastMessage(ChatColor.RED + "Damage: " + ChatColor.RESET + damagedPlayer + " hurt " + out.toString() + " from " + cause + " for " + amount + (died ? " and died." : "."));
-					else
-						Bukkit.broadcastMessage(ChatColor.RED + "Damage: " + ChatColor.RESET + damaged + " hurt " + out.toString() + " from " + cause + " for " + amount + (died ? " and died." : "."));
+					} else
+						database.addDamage(null, null, null, null, damaged.getType() + "", damaged.getType() == EntityType.PLAYER ? ((Player) damaged).getName() : null, death + "", type + "", amount + "", loc.getWorld().getName(), loc.getBlockX() + "", loc.getBlockY() + "", loc.getBlockZ() + "");
 				}
 			}, this);
 		// Distance events

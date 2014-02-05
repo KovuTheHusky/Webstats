@@ -12,6 +12,10 @@ public class PGSQLDatabase extends Database {
 	private final String[] tables = {};
 
 	@Override
+	public void addDamage(String damager, String damagerPlayer, String damagerMaterial, String damagerProjectile, String damaged, String damagedPlayer, String damagedDeath, String type, String amount, String world, String x, String y, String z) {
+	}
+
+	@Override
 	public void addDistance(String player, String type, String count, String world, String fromX, String fromY, String fromZ, String toX, String toY, String toZ) {
 	}
 
