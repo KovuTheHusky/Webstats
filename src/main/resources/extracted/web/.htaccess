@@ -5,6 +5,8 @@ RewriteBase /
 
 # Damages
 RewriteRule ^damages/?$ damages.php
+RewriteRule ^damages/(day|week|month|year|all)/?$ damages.php?time=$1
+RewriteRule ^damages/(day|week|month|year|all)/(event|player|type)/?$ damages.php?time=$1&by=$2
 
 # Distances
 RewriteRule ^distances/?$ distances.php

@@ -1,8 +1,8 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/overall_header.php';
 
-$error = (int)$_GET['error'];
-switch ($error) {
+$num = (int)$_GET['error'];
+switch ($num) {
 	case 100:
 		$str = 'That player does not exist.';
 		break;
@@ -27,7 +27,7 @@ switch ($error) {
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/navigation.php'; ?>
   <article>
     <span style="font-size: 32px;">
-      <?php echo $error; ?>: <?php echo $str; ?>
+      <?php echo $num; ?>: <?php echo $str; ?>
     </span>
   </article>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/assets/includes/page_footer.php'; ?>

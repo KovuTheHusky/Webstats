@@ -278,7 +278,6 @@ $line = array_values($line);
       <ul>
         <li>Limit to players:</li>
         <li><a href="#"><img src="/uploads/kovuthehusky.png" /></a></li>
-        <li><a href="#"><img src="/uploads/kuperfox.png" /></a></li>
         <li class="text"><a href="#"><span style="display: block; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); height: 30px;">&#x2718;</span></a></li>
         <li class="text"><a href="#">&#x2717;</a></li>
       </ul>
