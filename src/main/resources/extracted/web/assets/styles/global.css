@@ -235,41 +235,26 @@ img.offline:hover {
 	background-color: #FFFF00;
 }
 
-.justified {
+.home {
 	font-size: 0.1px;
-	text-align: justify;
+	text-align: center;
 }
 
-.justified div {
+.home div {
 	display: inline-block;
 	min-height: 100px;
 	font-size: 14px;
 	vertical-align: top;
+	text-align: left;
+	width: 200px;
+	border: 1px solid #c5c5c5;
+	border-radius: 1px;
+	margin: 0 5px 10px 5px;
+	padding: 4px;
 }
 
-.justified.one div {
-	width: 728px;
-}
 
-.justified.two div {
-	width: 348px;
-}
-
-.justified.three div {
-	width: 221px;
-}
-
-.justified.four div {
-	width: 158px;
-}
-
-.justified:after {
-	content: '';
-	width: 100%;
-	display: inline-block;
-}
-
-.justified div ul li {
+.home div ul li {
 	margin: 4px 0;
 }
 

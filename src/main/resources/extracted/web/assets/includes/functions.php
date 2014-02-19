@@ -52,4 +52,8 @@ function ws_enum_decode($str) {
 	return str_replace(' And ', ' and ', str_replace(' Of ', ' of ', ucwords(strtolower(str_replace('_', ' ', $str)))));
 }
 
+function ws_format_distance($num) {
+	return $num < 100 ? number_format($num, 0) . 'm' : number_format($num / 1000, 2) . 'km';
+}
+
 ?>
