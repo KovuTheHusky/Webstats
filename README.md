@@ -1,7 +1,7 @@
 Webstats
 ====================
 
-Bukkit plugin for collecting and showing statistics.
+A plugin for Bukkit servers that collects statistics about players and blocks and shows them on the web.
 
 ![Example](http://codeski.com/assets/images/webstats/img1.png)
 
