@@ -557,7 +557,9 @@ public class Webstats extends JavaPlugin {
 				}
 			}
 			zf.close();
-		} catch (IOException | URISyntaxException e) {
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 	}
