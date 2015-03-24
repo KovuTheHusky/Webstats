@@ -3,7 +3,7 @@ Webstats
 
 A plugin for Bukkit servers that collects statistics about players and blocks and shows them on the web.
 
-![Example](http://codeski.com/assets/images/webstats/img1.png)
+![Example](http://codeski.com/img/webstats_preview.png)
 
 License
 --------------------
